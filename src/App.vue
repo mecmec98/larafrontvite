@@ -1,7 +1,8 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+//import HelloWorld from './components/HelloWorld.vue'
 import TheHeader from './components/TheHeader.vue'
 import TheSidebar from './components/TheSidebar.vue'
+import TheUserCreation from './components/TheUserCreation.vue'
 const title = 'Hello this is test'
 
 
@@ -11,8 +12,9 @@ const title = 'Hello this is test'
 
   <TheHeader />
   <TheSidebar />
-  <!--HelloWorld :msg ="title" / -->
-  <!-- h1 class="text-teal-500">Teal if Tailwind works</h1-->
+  <TheUserCreation />
+ 
 
+  
 </template>
 
