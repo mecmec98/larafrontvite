@@ -1,8 +1,17 @@
 <script setup>
-//import { ref } from 'vue'
+import { ref } from 'vue'
 
     const fornav = 'flex items-center p-2 text-white rounded-lg hover:bg-white hover:text-blue-600 group'
     const foricon = 'w-5 h-5 text-white transition duration-75 group-hover:text-blue-600'
+    const fordropmenu = 'flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-white hover:text-blue-600'
+ 
+    const dropbol = ref(false)
+    
+    function drophider(){ 
+        //console.log(dropbol)
+        dropbol.value = !dropbol.value
+    
+    }
 
 </script>
 
@@ -31,15 +40,32 @@
               </a>
            </li>
 
-           <li>
-            <a href="#" :class="fornav">
-                <svg :class="foricon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+    
+         <li>
+         <button type="button" :class="fornav" class="w-full" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example" @click="drophider">
+            <svg :class="foricon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                   </svg>
-               <span class="ms-3">Users</span>
-            </a>
+                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Users</span>
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+            </button>
+            <ul id="dropdown-example" class="py-2 space-y-2 px-3" v-show="dropbol">
+                  <li>
+                     <a href="#" :class="fordropmenu">Create</a>
+                  </li>
+                  <li>
+                     <a href="#" :class="fordropmenu">List</a>
+                  </li>
+                  <li>
+                     <a href="#" :class="fordropmenu">Attendance</a>
+                  </li>
+            </ul>
          </li>
-           
+         
+         
+
         </ul>
      </div>
   </aside>

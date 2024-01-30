@@ -6,7 +6,7 @@ import { ref } from 'vue'
     const menubol = ref(false)
 
     function menuhider(){ 
-        console.log(menubol)
+        //console.log(menubol)
         menubol.value = !menubol.value
     
     }
