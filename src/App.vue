@@ -2,8 +2,9 @@
 //import HelloWorld from './components/HelloWorld.vue'
 import TheHeader from './components/TheHeader.vue'
 import TheSidebar from './components/TheSidebar.vue'
-import TheUserCreation from './components/TheUserCreation.vue'
-const title = 'Hello this is test'
+//import TheUserCreation from './components/TheUserCreation.vue'
+import TheUserTable from './components/TheUserTable.vue'
+
 
 
 </script>
@@ -12,7 +13,8 @@ const title = 'Hello this is test'
 
   <TheHeader />
   <TheSidebar />
-  <TheUserCreation />
+  <!-- TheUserCreation /-->
+  <TheUserTable />
  
 
   
