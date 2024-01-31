@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { defineProps } from 'vue'
 
     const fornav = 'flex items-center p-2 text-white rounded-lg hover:bg-white hover:text-blue-600 group'
     const foricon = 'w-5 h-5 text-white group-hover:text-blue-600'
@@ -7,12 +8,16 @@ import { ref } from 'vue'
     const fordropmenu = 'flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-white hover:text-blue-600'
  
     const dropbol = ref(false)
-   
+
+   const props = defineProps({
+      toside: Boolean
+   })
     
     function drophider(){ 
         //console.log(dropbol)
 
         dropbol.value = !dropbol.value
+        console.log(props.toside)
     }
 
    
@@ -22,7 +27,8 @@ import { ref } from 'vue'
 
 <template>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-blue-600 border-r border-blue-400 sm:translate-x-0" aria-label="Sidebar">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-blue-600 border-r border-blue-400" :class="{'visible sm:visible':props.toside,'invisible sm:visible':!props.toside}">
+
      <div class="h-full px-3 pb-4 overflow-y-auto bg-blue-600">
         <ul class="space-y-2 font-medium">
            <li>
@@ -76,6 +82,7 @@ import { ref } from 'vue'
 
         </ul>
      </div>
-  </aside>
   
+  </aside>
+
 </template>
