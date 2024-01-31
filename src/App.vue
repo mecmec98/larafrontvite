@@ -1,9 +1,9 @@
 <script setup>
-//import HelloWorld from './components/HelloWorld.vue'
+
 import TheHeader from './components/TheHeader.vue'
 import TheSidebar from './components/TheSidebar.vue'
-//import TheUserCreation from './components/TheUserCreation.vue'
-import TheUserTable from './components/TheUserTable.vue'
+// import TheUserCreation from './components/TheUserCreation.vue'
+// import TheUserTable from './components/TheUserTable.vue'
 
 
 
@@ -13,10 +13,10 @@ import TheUserTable from './components/TheUserTable.vue'
 
   <TheHeader />
   <TheSidebar />
-  <!-- TheUserCreation /-->
+  <!-- <TheUserCreation />
   <TheUserTable />
- 
-
+  -->
+  <router-view/>
   
 </template>
 
