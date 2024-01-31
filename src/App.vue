@@ -17,7 +17,7 @@ function sidehider(){
 <template>
 
   <TheHeader @sideclick="sidehider" />
-  <TheSidebar :toside="sidebol"/>
+  <TheSidebar @sideclick="sidehider" :toside="sidebol"/>
   <!-- <TheUserCreation />
   <TheUserTable />
   -->
