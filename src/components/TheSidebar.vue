@@ -35,7 +35,7 @@ import { ref } from 'vue'
 
 <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-blue-600 border-r border-blue-400" :class="{'visible sm:visible':props.toside,'invisible sm:visible':!props.toside}">
 
-     <div class="h-full px-3 pb-4 overflow-y-auto bg-blue-600">
+     <div class="h-full px-3 pb-4 overflow-y-auto bg-gradient-to-b from-blue-600 to-cyan-500">
         <ul class="space-y-2 font-medium">
            <li>
               <router-link to="/" :class = "fornav" @click="sideclicker">
