@@ -18,9 +18,7 @@ function sidehider(){
 
   <TheHeader @sideclick="sidehider" />
   <TheSidebar @sideclick="sidehider" :toside="sidebol"/>
-  <!-- <TheUserCreation />
-  <TheUserTable />
-  -->
+  
   <router-view/>
   
 </template>
