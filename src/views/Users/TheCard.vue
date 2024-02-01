@@ -35,8 +35,11 @@ const listoffiles = ref([
 
 <template>
 <div class = "p-4 sm:ml-64">
-<div class="p-4 border-2 border-blue-500 border-double rounded-md mt-14 bg-blue-50">
-    
+<div class="p-4 border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg">
+    <div class="grid grid-cols-2 justify-items-stretch">
+        <router-link to="/UserList" class="justify-self-start pt-1 pb-1 rounded-md bg-blue-500 text-white ps-5 pe-5 hover:bg-blue-600">Edit</router-link>
+        <router-link to="/UserList" class="justify-self-end pt-1 pb-1 rounded-md bg-blue-500 text-white ps-5 pe-5 hover:bg-blue-600">Back</router-link>
+    </div>
     <div class="grid grid-row-2 place-items-center mb-3">
     <img class="w-20 h-20 mb-1 rounded-full border border-blue-500" src="" alt="user photo"/>
     <p class="text-xs text-gray-400">{{ route.params.id }}</p>
@@ -130,9 +133,7 @@ const listoffiles = ref([
     </table>
     </div>
 
-    <div class="flex justify-end mt-6">
-        <router-link to="/UserList" class="border-2 border-blue-600 p-1 rounded-md text-blue-600 ps-5 pe-5 hover:bg-blue-600 hover:text-white hover:border-white">Back</router-link>
-    </div>
+    
 </div>
 </div>
 

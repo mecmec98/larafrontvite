@@ -5,7 +5,7 @@ const forinput = 'bg-blue-20 border border-blue-400 text-gray-900 text-sm rounde
 </script>
 <template>
 <div class = "p-4 sm:ml-64">
-    <div class="p-4 border-2 border-blue-500 border-double rounded-md mt-14">
+    <div class="p-4 border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg">
   <form>
     <div class = "flex justify-center">
     <img class="w-20 h-20 mb-3 rounded-full border border-blue-500" src="./src/assets/fileupload.png" alt="Upload photo"/>

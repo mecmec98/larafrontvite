@@ -23,14 +23,56 @@ import { ref } from 'vue'
         id: "2024-00-03",
         position:"Plubmber",
         status:"In-Active"
+    },
+    {
+        name:"Sample Sample3",
+        id: "2024-00-03",
+        position:"Plubmber",
+        status:"In-Active"
+    },
+    {
+        name:"Sample Sample3",
+        id: "2024-00-03",
+        position:"Plubmber",
+        status:"In-Active"
+    },
+    {
+        name:"Sample Sample3",
+        id: "2024-00-03",
+        position:"Plubmber",
+        status:"In-Active"
+    },
+    {
+        name:"Sample Sample3",
+        id: "2024-00-03",
+        position:"Plubmber",
+        status:"In-Active"
+    },
+    {
+        name:"Sample Sample3",
+        id: "2024-00-03",
+        position:"Plubmber",
+        status:"In-Active"
+    },
+    {
+        name:"Sample Sample3",
+        id: "2024-00-03",
+        position:"Plubmber",
+        status:"In-Active"
+    },
+    {
+        name:"Sample Sample3",
+        id: "2024-00-03",
+        position:"Plubmber",
+        status:"In-Active"
     }
 ])
 
 </script>
 
 <template>
-<div class = "p-4 sm:ml-64 mt-14 shadow-lg">
-
+<div class = "p-2 sm:ml-64 mt-5">
+    <div class="border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg">
 
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-md">
@@ -92,7 +134,7 @@ import { ref } from 'vue'
         </tbody>
     </table>
 </div>
-
+</div>
 </div>
 
 </template>
