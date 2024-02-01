@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home from "../views/Home.vue"
+import The404 from "../views/The404.vue"
 import TheUserCreation from "../views/Users/TheCreation.vue"
 import TheUserTable from "../views/Users/TheTable.vue"
 import TheUserCard from "../views/Users/TheCard.vue"
@@ -25,6 +26,12 @@ const routes = [
     path:'/UserList/:id',
     name:'UserListCard',
     component: TheUserCard
+},
+//404 catcher
+{
+    path:'/:catchAll(.*)',
+    name: '404',
+    component: The404
 }
 ]
 
