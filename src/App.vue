@@ -18,8 +18,7 @@ function sidehider(){
 
   <TheHeader @sideclick="sidehider" />
   <TheSidebar @sideclick="sidehider" :toside="sidebol"/>
-  <div class="bg-gradient-to-b from-blue-100 to-cyan-100">  
   <router-view/>
-</div>
+
 </template>
 

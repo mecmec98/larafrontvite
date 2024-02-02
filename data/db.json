@@ -1,0 +1,28 @@
+{
+    "users":[
+        {
+            "name":"Sample Sample1",
+            "id": "2024-00-01",
+            "position":"Admin",
+            "status":"Active"
+        },
+        {
+            "name":"Sample Sample2",
+            "id": "2024-00-02",
+            "position":"HR",
+            "status":"Active"
+        },
+        {
+            "name":"Sample Sample3",
+            "id": "2024-00-03",
+            "position":"Plubmber",
+            "status":"In-Active"
+        },
+        {
+            "name":"Sample Sample4",
+            "id": "2024-00-04",
+            "position":"Plubmber",
+            "status":"Active"
+        }
+    ]
+}

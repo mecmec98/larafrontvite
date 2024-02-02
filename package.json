@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "json-server": "^1.0.0-alpha.23",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
   },
