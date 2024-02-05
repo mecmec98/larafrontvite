@@ -1,28 +1,96 @@
 {
+  
     "users":[
         {
-            "name":"Sample Sample1",
-            "id": "2024-00-01",
-            "position":"Admin",
-            "status":"Active"
+            "id":"1",
+            "firstname":"FirstSample",
+            "lastname":"LastSample",
+            "middlename":"MiddleSample",
+            "birthday":"mm/dd/yyyy",
+            "gender":"male",
+            "position":"PositionSample",
+            "pay":"123123",
+            "phone":"123123123123",
+            "address":"something adress something something",
+            "username":"sampleuser",
+            "password":"samplepass",
+            "datecreated":"mm/dd/yyyy"
+
         },
         {
-            "name":"Sample Sample2",
-            "id": "2024-00-02",
-            "position":"HR",
-            "status":"Active"
+            "id":"2",
+            "firstname":"FirstSample1",
+            "lastname":"LastSample1",
+            "middlename":"MiddleSample2",
+            "birthday":"mm/dd/yyyy",
+            "gender":"male",
+            "position":"PositionSample1",
+            "pay":"123123",
+            "phone":"123123123123",
+            "address":"something adress something something",
+            "username":"sampleuser1",
+            "password":"samplepass1",
+            "datecreated":"mm/dd/yyyy"
+
         },
         {
-            "name":"Sample Sample3",
-            "id": "2024-00-03",
-            "position":"Plubmber",
-            "status":"In-Active"
+            "id":"3",
+            "firstname":"FirstSample2",
+            "lastname":"LastSample2",
+            "middlename":"MiddleSample2",
+            "birthday":"mm/dd/yyyy",
+            "gender":"female",
+            "position":"PositionSample2",
+            "pay":"123123",
+            "phone":"123123123123",
+            "address":"something adress something something",
+            "username":"sampleuser2",
+            "password":"samplepass2",
+            "datecreated":"mm/dd/yyyy"
+
         },
         {
-            "name":"Sample Sample4",
-            "id": "2024-00-04",
-            "position":"Plubmber",
-            "status":"Active"
+            "id":"4",
+            "firstname":"FirstSample3",
+            "lastname":"LastSample3",
+            "middlename":"MiddleSample3",
+            "birthday":"mm/dd/yyyy",
+            "gender":"male",
+            "position":"PositionSample3",
+            "pay":"123123",
+            "phone":"123123123123",
+            "address":"something adress something something",
+            "username":"sampleuser3",
+            "password":"samplepass3",
+            "datecreated":"mm/dd/yyyy"
+
+        }
+    ],
+
+    "files":[
+        {
+            "id":"1",
+            "userid":"1",
+            "filename":"File1",
+            "src":"/somethingpath",
+            "note":"For Something1",
+            "datecreated":"mm/dd/yyyy"
+        },
+        {
+            "id":"2",
+            "userid":"1",
+            "filename":"File2",
+            "src":"/somethingpath",
+            "note":"For Something2",
+            "datecreated":"mm/dd/yyyy"
+        },
+        {
+            "id":"3",
+            "userid":"1",
+            "filename":"File2",
+            "src":"/somethingpath",
+            "note":"For Something3",
+            "datecreated":"mm/dd/yyyy"
         }
     ]
 }

@@ -10,7 +10,7 @@ import getUser from '/composables/getUser'
 
  //data
  const {listofusers, loaduser} = getUser()
- console.log((listofusers).length)
+ 
  loaduser()
  
 
@@ -60,9 +60,6 @@ import getUser from '/composables/getUser'
                     Position
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Status
-                </th>
-                <th scope="col" class="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -71,16 +68,13 @@ import getUser from '/composables/getUser'
             <tr :class="forrow" v-for="(listofuser) in listofusers">
                
                 <th scope="row" :class="forrowtext">
-                    {{listofuser.name}}
+                    {{listofuser.firstname}} {{ listofuser.lastname }}
                 </th>
                 <td class="px-6 py-4">
                     {{listofuser.id}}
                 </td>
                 <td class="px-6 py-4">
                     {{listofuser.position}}
-                </td>
-                <td class="px-6 py-4">
-                    {{listofuser.status}}
                 </td>
                 <td class="px-6 py-4">
                     <router-link :to="{ name: 'UserListCard', params:{ id: listofuser.id }}" class="text-blue-500 hover:underline">Edit </router-link>

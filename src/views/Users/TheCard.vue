@@ -1,76 +1,85 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+import getUserFiles from '/composables/getUserFiles'
+import getUserDetails from '/composables/getUserDetails'
 const route = useRoute()
 const forrowtext = 'px-6 py-4 font-medium text-gray-700 whitespace-nowrap'
 const forrow = 'bg-white border-b hover:bg-blue-100'
 
-function routecheck(){
-    console.log(route.params.id)
-}
+// loaduser()
+const {userdetail, loaduser} = getUserDetails(route.params.id)
+const {userfiles, loadfile} = getUserFiles(route.params.id)
 
-const listoffiles = ref([
-    {
-        name:"File Name",
-        id: "01",
-        upldate:"mm/dd/yy",
-        note:"For Certification"
-    },
-    {
-        name:"File Name2",
-        id: "02",
-        upldate:"mm/dd/yy",
-        note:"For Employment"
-    },
-    {
-        name:"File Name3",
-        id: "03",
-        upldate:"mm/dd/yy",
-        note:"For Certification"
-    }
-])
+loaduser()
+loadfile()
 
+
+const checkthis = userdetail
+console.log(checkthis)
 
 </script>
 
 <template>
-<div class = "p-4 sm:ml-64">
-<div class="p-4 border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg">
-    <div class="grid grid-cols-2 justify-items-stretch">
-        <router-link to="/UserList" class="justify-self-start pt-1 pb-1 rounded-md bg-blue-500 text-white ps-5 pe-5 hover:bg-blue-600">Edit</router-link>
-        <router-link to="/UserList" class="justify-self-end pt-1 pb-1 rounded-md bg-blue-500 text-white ps-5 pe-5 hover:bg-blue-600">Back</router-link>
+
+<!-- <div v-if="userdetail.length">
+<h1 class ="p-4 sm:ml-64 mt-14 text-lg text-gray-400">Loading ...</h1>
+</div> -->
+
+<div class = "p-4 sm:ml-64 mt-14">
+
+    <div class="grid grid-cols-8 mt-1 mb-4">
+        <div class="pt-2 ps-1">
+        <img class="w-20 h-20 mb-1 rounded-full border border-white bg-white shadow-md" src="" alt="user photo"/>
+        </div>
+        <div class="justify-self-start col-span-4 bg-white pt-2 ps-3 pe-8 rounded-md shadow-md">
+        <p class="text-xs text-gray-400">ID: {{ route.params.id }}</p>
+        <h2 class="text-2xl">{{ userdetail.firstname }} {{ userdetail.lastname }}</h2>
+        <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
+        </div>
+        
+        <div class="grid grid-rows-2 justify-self-end col-end-9">
+            <router-link to="/UserList" class="pt-1 h-8 w-15 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 shadow-md">Back</router-link>
+            <router-link to="/UserList" class="pt-1 h-8 w-18 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md">Edit</router-link>
+        </div>
     </div>
-    <div class="grid grid-row-2 place-items-center mb-3">
-    <img class="w-20 h-20 mb-1 rounded-full border border-blue-500" src="" alt="user photo"/>
-    <p class="text-xs text-gray-400">{{ route.params.id }}</p>
-    <h2 class="text-2xl">Jon Doe</h2>
-    <h2 class="text-sm text-blue-500">Position</h2>
-    </div> 
+<div class="rounded-md  bg-white shadow-md pt-1 pb-2">
     
-    <hr class="text-grey-600">
-    <div class ="grid gap-5 mb-6 md:grid-cols-2 mt-4 place-items-center">
+    
+     
+    
+    <div class ="grid gap-5 mb-6 md:grid-cols-2 mt-3 place-items-center">
         <div>
-        <h1 class="flex justify-center mt-2 text-xs text-gray-400">Date of Birth</h1>
-        <h2 class="flex justify-center text-xl ">mm/dd/yy</h2>
+        <h1 class="flex justify-center mt-2 text-xs text-gray-400">Pay Rate</h1>
+        <h2 class="flex justify-center text-xl ">{{ userdetail.pay }}/day</h2>
         </div>
         <div>
         <h1 class="flex justify-center mt-2 text-xs text-gray-400">Phone Number</h1>
-        <h2 class="flex justify-center text-xl ">+639123456789</h2>
+        <h2 class="flex justify-center text-xl ">{{ userdetail.phone }}</h2>
+        </div>
+        <div>
+        <h1 class="flex justify-center mt-2 text-xs text-gray-400">Gender</h1>
+        <h2 class="flex justify-center text-xl ">{{ userdetail.gender }}</h2>
+        </div>
+        <div>
+        <h1 class="flex justify-center mt-2 text-xs text-gray-400">Birthday</h1>
+        <h2 class="flex justify-center text-xl ">{{ userdetail.birthday }}</h2>
         </div>
         
+        
+        
     </div>
-    <div class="">
+    <div class="mb-6">
         <h1 class="flex justify-center mt-4 text-xs text-gray-400">Address</h1>
-        <h2 class="flex justify-center text-xl ">Something St., Something City, Something Region</h2>
+        <h2 class="flex justify-center text-xl ">{{ userdetail.address }}</h2>
     </div>
 
-    <div class="flex justify-center h-15 ms-20 me-20 mt-6 border-2 border-blue-500 border-dashed rounded-md">
-        <h1 class="text-2xl p-3 text-blue-500">300/day</h1>
-    </div>
+ 
     
 
+</div>
 
-    <div class="relative overflow-x-auto shadow-sm rounded-md mt-10">
+<div class="relative overflow-x-auto shadow-md rounded-md mt-5">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-3 bg-blue-500">
         <div>
             <button id="uploadbutton" class="inline-flex items-center text-gray-700 bg-white border border-gray-600 focus:outline-none hover:bg-blue-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md text-sm px-3 py-1.5 mt-3 ms-3" type="button">
@@ -90,37 +99,37 @@ const listoffiles = ref([
         <thead class="text-xs text-gray-700 uppercase bg-blue-200 ">
             <tr>
                
-                <th scope="col" class="px-6 py-3">
+                <th class="px-6 py-3">
                     ID
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th class="px-6 py-3">
                     Filename
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th class="px-6 py-3">
                     Upload Date
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th  class="px-6 py-3">
                     Note
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th class="px-6 py-3">
                     Action
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr :class="forrow" v-for="listoffile in listoffiles">
+            <tr :class="forrow" v-for="userfile in userfiles">
                
                 <th scope="row" :class="forrowtext">
-                    {{listoffile.id}}
+                    {{userfile.id}}
                 </th>
                 <td class="px-6 py-4">
-                    {{listoffile.name}}
+                    {{userfile.filename}}
                 </td>
                 <td class="px-6 py-4">
-                    {{listoffile.upldate}}
+                    {{userfile.datecreated}}
                 </td>
                 <td class="px-6 py-4">
-                    {{listoffile.note}}
+                    {{userfile.note}}
                 </td>
             
                 <td class="px-6 py-4">
@@ -132,9 +141,6 @@ const listoffiles = ref([
         </tbody>
     </table>
     </div>
-
-    
-</div>
 </div>
 
 </template>

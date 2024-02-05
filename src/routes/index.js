@@ -25,7 +25,8 @@ const routes = [
 {
     path:'/UserList/:id',
     name:'UserListCard',
-    component: TheUserCard
+    component: TheUserCard,
+    props: true
 },
 //404 catcher
 {
