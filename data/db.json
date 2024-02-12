@@ -74,6 +74,21 @@
       "username": "thefive",
       "password": "12345",
       "datecreated": 1707715800106
+    },
+    {
+      "id": "6",
+      "firstname": "Sixer",
+      "lastname": "Six",
+      "middlename": "Sixx",
+      "birthday": "666666",
+      "gender": "Male",
+      "position": "Position6",
+      "pay": "666666",
+      "phone": "+666666666",
+      "address": "6 Address 6 Address",
+      "username": "thesix",
+      "password": "123456",
+      "datecreated": 1707726949207
     }
   ],
   "files": [

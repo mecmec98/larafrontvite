@@ -64,7 +64,7 @@ function check(){
         </div> 
     
     </div>
-    <div class="grid gap 6 mb-6 md:grid-cols-3 gap-6">
+    <div class="grid mb-6 md:grid-cols-3 gap-6">
         <div class="md:col-span-2">
             <label for="birthday" :class="forlabels" >Birthday</label>
             <input type="text" id="birthday" :class="forinput" placeholder="Look for Datepicker" v-model="birthday" required>
