@@ -1,18 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onUpdated } from 'vue'
 import getUser from '/composables/getUser'
 
  const forrow = 'bg-white border-b hover:bg-blue-100'
  const forrowalt = 'bg-gray-100 border-b hover:bg-blue-100'
  const forrowtext = 'px-5 py-4 font-medium text-gray-700 whitespace-nowrap'
  const forcheckbox ='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:border-blue-500 focus:border-3 focus:outline-none focus:ring-2 focus:ring-blue-500'
-
+ const userCounter = ref()
 
  //data
  const {listofusers, loaduser} = getUser()
- 
  loaduser()
- 
+ onUpdated(() => {
+   userCounter.value = listofusers.value.length
+})
+
+
 
 
 </script>
@@ -23,7 +26,7 @@ import getUser from '/composables/getUser'
     <div class="grid grid-cols-4 mb-1 span-6 mt-2">
             <div class="grid grid-cols-2 bg-white rounded-lg m-2 mt-5 ps-3 pt-2 shadow-lg h-20  border border-blue-500 col-end-5">
                  <div class="text-xs mt-1 text-gray-700">Number of Employees:</div>
-                 <div class="text-5xl mt-1 justify-self-end me-3 text-blue-600">{{  }}</div>
+                 <div class="text-5xl mt-1 justify-self-end me-3 text-blue-600">{{ userCounter }}</div>
             </div>
             <!-- <div class="bg-white  rounded-lg m-2 mt-5 p-3 shadow-lg h-20  border border-blue-500">
 

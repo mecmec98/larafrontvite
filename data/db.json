@@ -59,6 +59,21 @@
       "username": "sampleuser3",
       "password": "samplepass3",
       "datecreated": "mm/dd/yyyy"
+    },
+    {
+      "id": "5",
+      "firstname": "fiver",
+      "lastname": "five",
+      "middlename": "fivest",
+      "birthday": "birthtest",
+      "gender": "Female",
+      "position": "Position5",
+      "pay": "55555555",
+      "phone": "55555555555",
+      "address": "5address5address",
+      "username": "thefive",
+      "password": "12345",
+      "datecreated": 1707715800106
     }
   ],
   "files": [

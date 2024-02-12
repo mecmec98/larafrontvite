@@ -22,11 +22,16 @@ const repassword = ref()
 const datecreated = Date.now()
 
 function submitdata(){
-    console.log("Send Data")
-    const sendthis = postUserDetails(
-        id,firstname,lastname,middlename,birthday,gender,position,pay,phone,address,username,password,datecreated
-    )
-    sendthis()
+   
+    const sendthis = postUserDetails
+    (id.value,firstname.value,lastname.value,middlename.value,birthday.value,gender.value,position.value,pay.value,phone.value,address.value,username.value,password.value,datecreated)
+       
+        if (!id.value,!username.value,!password.value){
+            console.log('Important Fields Empty ')
+        }else{
+            console.log("Sending Data ")
+        sendthis()
+        }
 }
 
 
