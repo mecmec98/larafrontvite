@@ -30,11 +30,11 @@ console.log(checkthis)
 
     <div class="grid grid-cols-8 mt-1 mb-4">
         <div class="pt-2 ps-1">
-        <img class="w-20 h-20 mb-1 rounded-full border border-white bg-white shadow-md" src="" alt="user photo"/>
+        <img class="w-20 h-20 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1" src="" alt="user photo"/>
         </div>
-        <div class="justify-self-start col-span-4 bg-white pt-2 ps-3 pe-8 rounded-md shadow-md">
+        <div class="justify-self-start col-span-4 bg-white pt-2 ps-3 pe-8 rounded-md shadow-md col-start-3 lg:col-start-2">
         <p class="text-xs text-gray-400">ID: {{ route.params.id }}</p>
-        <h2 class="text-2xl">{{ userdetail.firstname }} {{ userdetail.lastname }}</h2>
+        <h2 class="md:text-2xl text-lg">{{ userdetail.firstname }} {{ userdetail.lastname }}</h2>
         <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
         </div>
         
