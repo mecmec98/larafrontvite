@@ -1,8 +1,9 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
 import getUserFiles from '/composables/getUserFiles'
 import getUserDetails from '/composables/getUserDetails'
+
 const route = useRoute()
 const forlabels ='block mb-2 text-sm font-medium text-blue-600'
 const forinput = 'bg-gray-50 border-2 border-blue-500 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 block w-full p-2.5 shadom-sm'
@@ -11,19 +12,43 @@ const forrowtext = 'px-6 py-4 font-medium text-gray-700 whitespace-nowrap'
 const forrow = 'bg-white border-b hover:bg-blue-100'
 
 const modalviewer = ref(false)
+
 function modaltoggle(){
     modalviewer.value = !modalviewer.value
 
+    if (modalviewer.value === true){
+ 
+        console.log("this is should be true ", modalviewer.value)
+    }else{
+        
+        console.log("this is should be false ", modalviewer.value)
+    }
+
 }
+
 // load user data
 const {userdetail, loaduser} = getUserDetails(route.params.id)
 const {userfiles, loadfile} = getUserFiles(route.params.id)
 
-loaduser()
-loadfile()
+onBeforeMount(() => {
+        });
+        
+
+onMounted(() => {
+    loaduser()
+    loadfile()     
+        });
+      
+
+onUpdated(() => {
+    console.log("I'm being updated")
+    console.log(tryupfirstname)
+        });
 
 
 
+
+//add uservalue for update on an unchangeble constant
 
 //userdetail update
 const upfirstname = ref()
@@ -34,8 +59,12 @@ const upgender = ref()
 const upposition = ref()
 const uppay = ref()
 const upphone = ref()
+const upaddress = ref()
+const upusername = ref()
+const uppassword = ref()
+const uprepassword = ref()
 
-
+const tryupfirstname = ref([{firstname:upfirstname.value}])
 </script>
 
 <template>
@@ -164,11 +193,12 @@ const upphone = ref()
 
 
     </div> 
-    <div v-show="modalviewer"  class = " bg-white absolute top-10 h-auto w-5/6 lg:ml-16 ml-6 rounded-md shadow-md p-5 "> 
-      <div class="ps-1 text-gray-500" @click="modaltoggle">
+    <div v-show="modalviewer"  class = " bg-white absolute top-8 h-auto w-5/6 lg:ml-16 ml-6 mb-3 rounded-md shadow-md p-5 "> 
+    <form>
+        <div class="ps-1 text-gray-500">
         ID: {{ userdetail.id }}
       </div>
-        <div class = "grid lg:grid-cols-3 justify-items-center mt-3 mb-5">
+        <div class = "grid lg:grid-cols-3 justify-items-center mt-3 mb-5 gap-6 me-3 ms-3">
         <div>
             <label for="first_name" :class="forlabels">First name</label>
             <input type="text" id="first_name" :class="forinput" :placeholder="userdetail.firstname" v-model="upfirstname" required>
@@ -214,7 +244,34 @@ const upphone = ref()
             <input type="text" id="phonenumber" :class="forinput" :placeholder="userdetail.phone" v-model="upphone" required>
         </div>
 
+        <div class="mb-6 pl-3 pe-3">
+            <label for="address" :class="forlabels">Address</label>
+            <input type="text" id="address" :class="forinput" :placeholder="userdetail.address" v-model="upaddress" required>
+        </div>    
         
+    <hr class="text-grey-600 mb-6 mt-8">
+
+        
+        <div class="mb-6 pl-3 pe-3">
+            <label for="username" :class="forlabels">Username</label>
+            <input type="text" id="username" :class="forinput" :placeholder="userdetail.username" v-model="upusername" required>
+        </div>
+        
+        <div class="mb-6 pl-3 pe-3">
+            <label for="password" :class="forlabels">New Password</label>
+            <input type="password" id="password" :class="forinput" placeholder="•••••••••" v-model="uppassword" required>
+        </div>
+        <div class="mb-6 pl-3 pe-3">
+            <label for="repassword" :class="forlabels">Re-Enter New Password</label>
+            <input type="password" id="repassword" :class="forinput" placeholder="•••••••••" v-model="uprepassword" required>
+        </div>
+        <div class ="grid grid-cols-2 gap-6">
+            <button type="submit" class="justify-self-start pt-1 pb-1 h-8 w-18 ms-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md">Save</button>
+            <button class="justify-self-end pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md" @click = "modaltoggle">Cancel</button>
+
+        </div>
+
+    </form>
 
        
     </div>   
