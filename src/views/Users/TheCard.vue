@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
 import getUserFiles from '/composables/getUserFiles'
 import getUserDetails from '/composables/getUserDetails'
+import patchUserDetails from '../../../composables/patchUserDetails'
 
 const route = useRoute()
 const forlabels ='block mb-2 text-sm font-medium text-blue-600'
@@ -16,34 +17,35 @@ const modalviewer = ref(false)
 function modaltoggle(){
     modalviewer.value = !modalviewer.value
 
-    if (modalviewer.value === true){
+    // if (modalviewer.value === true){
  
-        console.log("this is should be true ", modalviewer.value)
-    }else{
+    //     console.log("this is should be true ", modalviewer.value)
+    // }else{
         
-        console.log("this is should be false ", modalviewer.value)
-    }
+    //     console.log("this is should be false ", modalviewer.value)
+    // }
 
 }
 
 // load user data
 const {userdetail, loaduser} = getUserDetails(route.params.id)
 const {userfiles, loadfile} = getUserFiles(route.params.id)
+loaduser()
+loadfile()  
 
 onBeforeMount(() => {
         });
         
-
+   
 onMounted(() => {
-    loaduser()
-    loadfile()     
+       
         });
-      
+
 
 onUpdated(() => {
-    console.log("I'm being updated")
- 
-        });
+   
+});
+
 
 
 
@@ -51,18 +53,24 @@ onUpdated(() => {
 //add uservalue for update on an unchangeble constant
 
 //userdetail update
-const upfirstname = ref()
-const uplastname = ref()
-const upmiddlename = ref()
-const upbirthday = ref()
-const upgender = ref()
-const upposition = ref()
-const uppay = ref()
-const upphone = ref()
-const upaddress = ref()
-const upusername = ref()
-const uppassword = ref()
+
 const uprepassword = ref()
+
+function updatedata(){
+    
+
+
+   const updatethis = patchUserDetails
+   (route.params.id,userdetail.value.firstname,userdetail.value.lastname,userdetail.value.middlename,userdetail.value.birthday,userdetail.value.gender,userdetail.value.position,userdetail.value.pay,userdetail.value.phone,userdetail.value.address,userdetail.value.username,userdetail.value.password)
+   //)
+      
+     
+    console.log("Updating Data", userdetail.value.firstname)
+  
+       updatethis()
+       
+}
+
 
 </script>
 
@@ -82,7 +90,7 @@ const uprepassword = ref()
                 </div>
                 <div class="justify-self-start col-span-4 bg-white pt-3 ps-3 pe-8 pb-2 rounded-md shadow-md col-start-3 lg:col-start-2">
                 <p class="text-xs text-gray-400">ID: {{ route.params.id }}</p>
-                <h2 class="md:text-2xl text-lg">{{ userdetail.firstname }} {{ userdetail.middlename }} {{ userdetail.lastname }}</h2>
+                <h2 class="md:text-xl text-lg">{{ userdetail.firstname }} {{ userdetail.middlename }} {{ userdetail.lastname }}</h2>
                 <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
                 </div>
                 
@@ -193,33 +201,37 @@ const uprepassword = ref()
 
     </div> 
     <div v-show="modalviewer"  class = " bg-white absolute top-8 h-auto w-5/6 lg:ml-16 ml-6 mb-3 rounded-md shadow-md p-5 "> 
-    <form>
-        <div class="ps-1 text-gray-500">
+        <div class="flex justify-end">
+        <button class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md" @click = "modaltoggle">Cancel</button>
+        </div>
+        <div class="ps-1 text-gray-500" @click="updatedata">
         ID: {{ userdetail.id }}
       </div>
+        <form>
+      
         <div class = "grid lg:grid-cols-3 justify-items-center mt-3 mb-5 gap-6 me-3 ms-3">
         <div>
             <label for="first_name" :class="forlabels">First name</label>
-            <input type="text" id="first_name" :class="forinput" :placeholder="userdetail.firstname" v-model="upfirstname" required>
+            <input type="text" id="first_name" :class="forinput"  v-model="userdetail.firstname" >
         </div>
         <div>
             <label for="last_name" :class="forlabels">Last name</label>
-            <input type="text" id="last_name" :class="forinput" :placeholder="userdetail.lastname" v-model="uplastname" required>
+            <input type="text" id="last_name" :class="forinput" v-model="userdetail.lastname" >
         </div>
         <div>
             <label for="middlename" :class="forlabels">Middle Name</label>
-            <input type="text" id="middlename" :class="forinput" :placeholder="userdetail.middlename" v-model="upmiddlename" required>
+            <input type="text" id="middlename" :class="forinput" v-model="userdetail.middlename" >
         </div>
         </div>
 
         <div class="grid lg:grid-cols-3 gap-6 pl-3 pe-3">
             <div class="md:col-span-2">
             <label for="birthday" :class="forlabels" >Birthday</label>
-            <input type="text" id="birthday" :class="forinput"  :placeholder="userdetail.birthday" v-model="upbirthday" required>
+            <input type="text" id="birthday" :class="forinput"  v-model="userdetail.birthday" >
             </div>
             <div>
             <label for="gender" :class="forlabels">Gender</label>
-            <select id="gender" :class="forinput" class="bg-gray-50 pe-1" v-model="upgender" :placeholder="userdetail.gender">
+            <select id="gender" :class="forinput" class="bg-gray-50 pe-1" v-model="userdetail.gender">
                 <option>Male</option>
                 <option>Female</option>
                 <option>Others</option>
@@ -230,22 +242,22 @@ const uprepassword = ref()
         <div class="grid gap-6 mb-5 md:grid-cols-2 pl-3 pe-3 mt-5">    
             <div>
             <label for="position" :class="forlabels">Position</label>
-            <input type="text" id="position" :class="forinput" :placeholder="userdetail.position" v-model="upposition" required>
+            <input type="text" id="position" :class="forinput" v-model="userdetail.position">
             </div>  
             <div>
             <label for="pay" :class="forlabels">Pay</label>
-            <input type="text" id="pay" :class="forinput" :placeholder="userdetail.pay" v-model="uppay" required>
+            <input type="text" id="pay" :class="forinput" v-model="userdetail.pay" >
             </div>
         </div>
 
         <div class="mb-6 pl-3 pe-3">
             <label for="phonenumber" :class="forlabels">Phone Number</label>
-            <input type="text" id="phonenumber" :class="forinput" :placeholder="userdetail.phone" v-model="upphone" required>
+            <input type="text" id="phonenumber" :class="forinput" v-model="userdetail.phone">
         </div>
 
         <div class="mb-6 pl-3 pe-3">
             <label for="address" :class="forlabels">Address</label>
-            <input type="text" id="address" :class="forinput" :placeholder="userdetail.address" v-model="upaddress" required>
+            <input type="text" id="address" :class="forinput" v-model="userdetail.address">
         </div>    
         
     <hr class="text-grey-600 mb-6 mt-8">
@@ -253,25 +265,26 @@ const uprepassword = ref()
         
         <div class="mb-6 pl-3 pe-3">
             <label for="username" :class="forlabels">Username</label>
-            <input type="text" id="username" :class="forinput" :placeholder="userdetail.username" v-model="upusername" required>
+            <input type="text" id="username" :class="forinput" v-model="userdetail.username">
         </div>
         
         <div class="mb-6 pl-3 pe-3">
             <label for="password" :class="forlabels">New Password</label>
-            <input type="password" id="password" :class="forinput" placeholder="•••••••••" v-model="uppassword" required>
+            <input type="password" id="password" :class="forinput" placeholder="•••••••••" v-model="userdetail.password">
         </div>
         <div class="mb-6 pl-3 pe-3">
             <label for="repassword" :class="forlabels">Re-Enter New Password</label>
-            <input type="password" id="repassword" :class="forinput" placeholder="•••••••••" v-model="uprepassword" required>
+            <input type="password" id="repassword" :class="forinput" placeholder="•••••••••" v-model="uprepassword">
         </div>
-        <div class ="grid grid-cols-2 gap-6">
-            <button type="submit" class="justify-self-start pt-1 pb-1 h-8 w-18 ms-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md">Save</button>
-            <button class="justify-self-end pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md" @click = "modaltoggle">Cancel</button>
+            <div class="flex justify-end">
+            <button type="submit" class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md" @click="updatedata">Save</button>
+            </div>
+            
 
-        </div>
+        
 
     </form>
-
+    
        
     </div>   
 </div>
