@@ -42,7 +42,7 @@ onMounted(() => {
 
 onUpdated(() => {
     console.log("I'm being updated")
-    console.log(tryupfirstname)
+ 
         });
 
 
@@ -64,7 +64,6 @@ const upusername = ref()
 const uppassword = ref()
 const uprepassword = ref()
 
-const tryupfirstname = ref([{firstname:upfirstname.value}])
 </script>
 
 <template>
