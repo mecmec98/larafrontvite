@@ -13,7 +13,7 @@ const loginbol = ref(true)
 
 function loginact(){
   loginbol.value = !loginbol.value
-  console.log(loginbol.value)
+  //console.log(loginbol.value)
 }
 
 </script>

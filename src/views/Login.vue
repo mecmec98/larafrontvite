@@ -8,7 +8,7 @@ const emit = defineEmits(['loginclick'])
 </script>
 
 <template>
-    <div class = "flex justify-center mt-40 ">
+    <div class = "flex justify-center mt-20 ">
         <div class = "bg-gradient-to-b from-blue-600 to-cyan-500 p-7 w-96 h-96 rounded-md shadow-lg ">
             <div class="flex justify-center">
             <img class="w-20 h-20 mb-5 rounded-full border border-white bg-white shadow-md" src="" alt="company logo"/>

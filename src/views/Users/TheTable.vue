@@ -23,10 +23,10 @@ import getUser from '/composables/getUser'
 <template>
 <div class = "p-2 sm:ml-64 mt-10">
 
-    <div class="grid grid-cols-4 mb-1 span-6 mt-2">
-            <div class="grid grid-cols-2 bg-white rounded-lg m-2 mt-5 ps-3 pt-2 shadow-lg h-20  border border-blue-500 col-end-5">
-                 <div class="text-xs mt-1 text-gray-700">Number of Employees:</div>
-                 <div class="text-5xl mt-1 justify-self-end me-3 text-blue-600">{{ userCounter }}</div>
+    <div class="flex justify-end mb-1 mt-2">
+            <div class="grid grid-cols-3 bg-white rounded-lg m-2 mt-5 ps-3 pt-2 shadow-lg h-20  w-40">
+                 <div class="text-xs mt-1 text-gray-700">Number of Users:</div>
+                 <div class="col-span-2 text-4xl mt-3 justify-self-end me-4 text-blue-600">{{ userCounter }}</div>
             </div>
             <!-- <div class="bg-white  rounded-lg m-2 mt-5 p-3 shadow-lg h-20  border border-blue-500">
 
@@ -34,9 +34,9 @@ import getUser from '/composables/getUser'
 
         </div>
 
-<div class="border-1 border-blue-500 rounded-md bg-white shadow-lg m-2">
+<div class="rounded-md bg-white shadow-lg m-2">
         
-<div class="relative overflow-x-auto shadow-md rounded-lg border border-blue-500">
+<div class="relative overflow-x-auto shadow-md rounded-lg">
     <div class="p-4 bg-blue-600">
         <label for="table-search" class="sr-only">Search</label>
         <div class="relative mt-1">
