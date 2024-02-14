@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onUpdated } from 'vue'
+import { ref, onUpdated, reactive, computed } from 'vue'
 import getUser from '/composables/getUser'
 
  const forrow = 'bg-white border-b hover:bg-blue-100'
@@ -11,6 +11,18 @@ import getUser from '/composables/getUser'
  //data
  const {listofusers, loaduser} = getUser()
  loaduser()
+
+const forsearch = ref()
+const fordata = reactive(listofusers)
+
+const searchResult = computed(() => {
+  return fordata.listofusers.filter((item) =>
+    item.firstname.toLowerCase().includes(forsearch.value.toLowerCase())
+  )
+})
+
+console.log(fordata)
+
  onUpdated(() => {
    userCounter.value = listofusers.value.length
 })
@@ -45,7 +57,7 @@ import getUser from '/composables/getUser'
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                 </svg>
             </div>
-            <input type="text" id="table-search" 
+            <input type="text" id="table-search" v-model="forsearch"
             class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:outline-none focus:border-blue-700 focus:border-3 focus:ring-3 focus:ring-blue-700"   placeholder="Search for Users">
         </div>
     </div>
@@ -68,7 +80,7 @@ import getUser from '/composables/getUser'
             </tr>
         </thead>
         <tbody>
-            <tr :class="forrow" v-for="(listofuser) in listofusers">
+            <tr :class="forrow" v-for="(listofuser) in searchResult">
                
                 <th scope="row" :class="forrowtext">
                     {{listofuser.firstname}} {{ listofuser.lastname }}

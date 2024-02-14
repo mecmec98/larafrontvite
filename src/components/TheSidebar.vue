@@ -79,7 +79,7 @@ import { ref } from 'vue'
                      <router-link to="/UserList" :class="fordropmenu" @click="sideclicker">List</router-link>
                   </li>
                   <li>
-                     <a href="#" :class="fordropmenu">Attendance</a>
+                     <router-link to="/Attendance" :class="fordropmenu">Attendance</router-link>
                   </li>
             </ul>
          </li>

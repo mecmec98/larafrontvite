@@ -89,6 +89,21 @@
       "username": "thesix",
       "password": "123456",
       "datecreated": 1707726949207
+    },
+    {
+      "id": "0297",
+      "firstname": "Stradat",
+      "lastname": "Stradat",
+      "middlename": "Stradat",
+      "birthday": "02/14/1997",
+      "gender": "Male",
+      "position": "IT",
+      "pay": "600",
+      "phone": "09123455789",
+      "address": "Somewhere Over the Rainbow",
+      "username": "staradat",
+      "password": "stradat",
+      "datecreated": "2024/1/14"
     }
   ],
   "files": [

@@ -5,6 +5,7 @@ import The404 from "../views/The404.vue"
 import TheUserCreation from "../views/Users/TheCreation.vue"
 import TheUserTable from "../views/Users/TheTable.vue"
 import TheUserCard from "../views/Users/TheCard.vue"
+import TheAttendance from "../views/Users/TheAttendance.vue"
 
 
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
     name:'UserListCard',
     component: TheUserCard,
     props: true
+},
+{
+    path: '/Attendance',
+    name:'Attendance',
+    component: TheAttendance
 },
 //404 catcher
 {

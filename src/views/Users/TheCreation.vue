@@ -19,7 +19,13 @@ const username = ref()
 const email = ref()
 const password = ref()
 const repassword = ref()
-const datecreated = Date.now()
+
+//for date
+const today = new Date()
+const date = today.getFullYear()+'/'+today.getMonth()+'/'+today.getDate()
+console.log(date)
+const datecreated = date
+
 
 function submitdata(){
    
