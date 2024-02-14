@@ -71,6 +71,10 @@ function updatedata(){
        
 }
 
+function testlog(){
+    console.log("testing logs")
+}
+
 
 </script>
 
@@ -84,7 +88,7 @@ function updatedata(){
 
     <div :class = "{'blur':modalviewer,'':modalviewer}">
 
-            <div class="grid grid-cols-8 mt-1 mb-4">
+            <div class="grid grid-cols-8 mt-1 mb-5">
                 <div class="pt-2 ps-1">
                 <img class="w-20 h-20 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1" src="" alt="user photo"/>
                 </div>
@@ -106,7 +110,7 @@ function updatedata(){
             
             <div class ="grid gap-5 mb-6 md:grid-cols-2 mt-3 place-items-center">
                 <div>
-                <h1 class="flex justify-center mt-2 text-xs text-gray-400">Pay Rate</h1>
+                <h1 class="flex justify-center mt-2 text-xs text-gray-400" @click="testlog">Pay Rate</h1>
                 <h2 class="flex justify-center text-xl ">{{ userdetail.pay }}/day</h2>
                 </div>
                 <div>
@@ -209,7 +213,7 @@ function updatedata(){
       </div>
         <form>
       
-        <div class = "grid lg:grid-cols-3 justify-items-center mt-3 mb-5 gap-6 me-3 ms-3">
+        <div class = "grid lg:grid-cols-3 mt-3 mb-5 gap-6 me-3 ms-3">
         <div>
             <label for="first_name" :class="forlabels">First name</label>
             <input type="text" id="first_name" :class="forinput"  v-model="userdetail.firstname" >

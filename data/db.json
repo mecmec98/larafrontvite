@@ -2,14 +2,14 @@
   "users": [
     {
       "id": "1",
-      "firstname": "FirstSample",
+      "firstname": "TheFirstname",
       "lastname": "LastSample",
       "middlename": "MiddleSample",
       "birthday": "mm/dd/yyyy",
       "gender": "male",
-      "position": "PositionSample",
-      "pay": "123123",
-      "phone": "123123123123",
+      "position": "ThePosition",
+      "pay": "600",
+      "phone": "09123456789",
       "address": "something adress something something",
       "username": "sampleuser",
       "password": "samplepass",

@@ -9,14 +9,26 @@ function sidehider(){
   //console.log(sidebol)
 }
 
+const loginbol = ref(true)
+
+function loginact(){
+  loginbol.value = !loginbol.value
+  console.log(loginbol.value)
+}
 
 </script>
 
 <template>
 
-  <TheHeader @sideclick="sidehider" />
-  <TheSidebar @sideclick="sidehider" :toside="sidebol"/>
-  <router-view/>
+
+
+  
+<div v-if="loginbol">
+<TheHeader @sideclick="sidehider" @loginclick="loginact" />
+<TheSidebar @sideclick="sidehider" :toside="sidebol"/>
+</div>
+  
+<router-view @loginclick="loginact" />
 
 </template>
 

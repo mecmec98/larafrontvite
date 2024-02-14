@@ -1,14 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount, onMounted } from 'vue'
 
    
     const fordropdown = 'block px-4 py-2 text-sm text-blue-500 hover:bg-blue-600 hover:text-white'
     const formenuhider = 'z-50 absolute top-7 right-10 sm:right-5 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow'
     const menubol = ref(false)
-    
-    const emit = defineEmits(['sideclick'])
+
+
+    const emit = defineEmits(['loginclick'],['sideclick'])
     function sideclicker(){
       emit('sideclick')
+    }
+
+    function loginclick(){
+      emit('loginclick')
     }
     function menuhider(){ 
         //console.log(menubol)
@@ -67,7 +72,7 @@ import { ref } from 'vue'
                     <a href="#" :class="fordropdown" role="menuitem">Earnings</a>
                   </li>
                   <li>
-                    <a href="#" :class="fordropdown" role="menuitem">Sign out</a>
+                    <router-link to="/Login" @click="loginclick" :class="fordropdown" role="menuitem">Sign out</router-link>
                   </li>
                 </ul>
               </div>

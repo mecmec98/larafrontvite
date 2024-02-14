@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home from "../views/Home.vue"
+import Login from "../views/Login.vue"
 import The404 from "../views/The404.vue"
 import TheUserCreation from "../views/Users/TheCreation.vue"
 import TheUserTable from "../views/Users/TheTable.vue"
@@ -11,6 +12,12 @@ const routes = [
     path:'/',
     name:'Home',
     component: Home
+},
+{
+    path:'/Login',
+    name:'Login',
+    component: Login,
+    props: true
 },
 {
     path:'/CreateUser',
