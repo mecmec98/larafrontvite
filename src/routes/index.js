@@ -6,6 +6,7 @@ import TheUserCreation from "../views/Users/TheCreation.vue"
 import TheUserTable from "../views/Users/TheTable.vue"
 import TheUserCard from "../views/Users/TheCard.vue"
 import TheAttendance from "../views/Users/TheAttendance.vue"
+import Inventory from "../views/Inventory/TheInventory.vue"
 
 
 const routes = [
@@ -40,6 +41,11 @@ const routes = [
     path: '/Attendance',
     name:'Attendance',
     component: TheAttendance
+},
+{
+    path: '/Inventory',
+    name:'Inventory',
+    component: Inventory
 },
 //404 catcher
 {
