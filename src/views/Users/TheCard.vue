@@ -136,27 +136,34 @@ function testlog(){
             <!-- notes on user -->
         <div>
         <div  class="grid grid-cols-2 mb-3 p-1 rounded-md shadow-md bg-white">
+        <div>
         <text class = "ms-1 text-md" >Notes </text>
+        <text class="text-gray-500">(1)</text>
+        </div>
+        
         <div class="justify-self-end">
-        <text class = "me-2 text-lg text-gray-400 cursor-pointer" > + </text>
+        <text class = "me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-green-500      " > + </text>
         </div>
         </div>
-        <div class="rounded-md bg-white shadow-md p-2 overflow-y-scroll h-52 text-sm">
-            <div class="grid grid-cols-2">
+        <div class="rounded-md bg-white shadow-md p-2 px-3 overflow-y-scroll h-52 text-sm">
+            <!-- noteblock -->
+            <div class="hover:bg-blue-50 rounded-sm p-1">
+            <div class="grid grid-cols-2 ">
             <div>
             <text class="text-lg">Title     </text>
-            <text class="p-1 bg-green-500 text-xs rounded-md text-white"> Badge </text>
+            <text class="p-1 me-1 bg-green-500 text-xs rounded-md text-white"> Badge </text>
+            <text class="p-1 me-1 bg-red-500 text-xs rounded-md text-white"> Urgent </text>
+            <text class="p-1 me-1 bg-purple-500 text-xs rounded-md text-white"> Misc. </text>
             </div>
 
-            <div class="text-end">
-                <text class="text-red-500 me-2 cursor-pointer">Delete</text>
+            <div class="text-end mt-1">
+                <text class="text-red-500 me-2 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Delete</text>
             </div>
             </div>
             <hr class="text-gray-400 w-16 m-1">
-            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ipsam optio excepturi libero dolores perspiciatis at. Consectetur dolore ratione sed nobis, consequuntur deserunt? Eum ipsa perferendis accusamus ea ratione ipsam ducimus amet cumque necessitatibus sed officia quasi laboriosam aut, suscipit, reiciendis cum earum in. Consequuntur sint sunt ea officiis ipsa consectetur incidunt ex consequatur. Enim facilis fuga pariatur, voluptatibus velit cupiditate aliquam, vitae ratione, earum labore eligendi dolor! Adipisci, perspiciatis! Unde aspernatur sed veritatis, obcaecati iusto impedit autem earum magnam harum consectetur omnis sunt. Natus nostrum quos accusantium commodi exercitationem placeat ad, ut cum similique aut totam neque adipisci ducimus. </p>
+            <p class="text-justify"> (Note Contents) </p>
             <hr class = "text-gray-800 m-1 shadow-sm">
-            <h1>Title</h1>
-            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ipsam optio excepturi libero dolores perspiciatis at. Consectetur dolore ratione sed nobis, consequuntur deserunt? Eum ipsa perferendis accusamus ea ratione ipsam ducimus amet cumque necessitatibus sed officia quasi laboriosam aut, suscipit, reiciendis cum earum in. Consequuntur sint sunt ea officiis ipsa consectetur incidunt ex consequatur. Enim facilis fuga pariatur, voluptatibus velit cupiditate aliquam, vitae ratione, earum labore eligendi dolor! Adipisci, perspiciatis! Unde aspernatur sed veritatis, obcaecati iusto impedit autem earum magnam harum consectetur omnis sunt. Natus nostrum quos accusantium commodi exercitationem placeat ad, ut cum similique aut totam neque adipisci ducimus. </p>
+            </div>
             </div>
         </div>
 
