@@ -16,3 +16,9 @@ then to start your own live server with vite.
 ```
 npm run dev
 ```
+
+Also added a json-server for data testing.
+
+```
+npx json-server --watch data/db.json
+```
