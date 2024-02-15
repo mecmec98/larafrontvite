@@ -84,13 +84,14 @@ function testlog(){
 <h1 class ="p-4 sm:ml-64 mt-14 text-lg text-gray-400">Loading ...</h1>
 </div> -->
 
-<div class = "p-4 sm:ml-64 mt-14 relative">
 
-    <div :class = "{'blur':modalviewer,'':modalviewer}">
+<div class = "p-4 sm:ml-64 mt-14 relative">  <!-- container for body -->
 
+    <div :class = "{'blur':modalviewer,'':modalviewer}">     <!-- blur effect when opening edit card -->
+        <!-- first row -->
             <div class="grid grid-cols-8 mt-1 mb-5">
                 <div class="pt-2 ps-1">
-                <img class="w-20 h-20 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1" src="" alt="user photo"/>
+                <img class="w-24 h-24 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1" src="" alt="user photo"/>
                 </div>
                 <div class="justify-self-start col-span-4 bg-white pt-3 ps-3 pe-8 pb-2 rounded-md shadow-md col-start-3 lg:col-start-2">
                 <p class="text-xs text-gray-400">ID: {{ route.params.id }}</p>
@@ -103,12 +104,11 @@ function testlog(){
                     <button class="pt-1 pb-1 h-8 w-18 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md" @click = "modaltoggle">Edit</button>
                 </div>
             </div>
-        <div class="rounded-md  bg-white shadow-md pt-1 pb-2">
-            
-            
-            
-            
-            <div class ="grid gap-5 mb-6 md:grid-cols-2 mt-3 place-items-center">
+        <!-- second row -->
+        <div class = "grid grid-cols-2 gap-4">
+            <!-- first row for user details -->
+        <div class="rounded-md bg-white shadow-md pt-1 pb-2 px-2">
+            <div class ="grid gap-5 mb-4 md:grid-cols-2 mt-3 place-items-center">
                 <div>
                 <h1 class="flex justify-center mt-2 text-xs text-gray-400" @click="testlog">Pay Rate</h1>
                 <h2 class="flex justify-center text-xl ">{{ userdetail.pay }}/day</h2>
@@ -125,20 +125,45 @@ function testlog(){
                 <h1 class="flex justify-center mt-2 text-xs text-gray-400">Birthday</h1>
                 <h2 class="flex justify-center text-xl ">{{ userdetail.birthday }}</h2>
                 </div>
-                
-                
-                
+                            
             </div>
-            <div class="mb-6">
-                <h1 class="flex justify-center mt-4 text-xs text-gray-400">Address</h1>
-                <h2 class="flex justify-center text-xl ">{{ userdetail.address }}</h2>
+            <div class="mb-5">
+                <h1 class="flex justify-center mt-1 text-xs text-gray-400">Address</h1>
+                <h2 class="flex justify-center text-xl mx-2 ">{{ userdetail.address }}</h2>
+               
+            </div>
+        </div>
+            <!-- notes on user -->
+        <div>
+        <div  class="grid grid-cols-2 mb-3 p-1 rounded-md shadow-md bg-white">
+        <text class = "ms-1 text-md" >Notes </text>
+        <div class="justify-self-end">
+        <text class = "me-2 text-lg text-gray-400 cursor-pointer" > + </text>
+        </div>
+        </div>
+        <div class="rounded-md bg-white shadow-md p-2 overflow-y-scroll h-52 text-sm">
+            <div class="grid grid-cols-2">
+            <div>
+            <text class="text-lg">Title     </text>
+            <text class="p-1 bg-green-500 text-xs rounded-md text-white"> Badge </text>
             </div>
 
-        
-            
+            <div class="text-end">
+                <text class="text-red-500 me-2 cursor-pointer">Delete</text>
+            </div>
+            </div>
+            <hr class="text-gray-400 w-16 m-1">
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ipsam optio excepturi libero dolores perspiciatis at. Consectetur dolore ratione sed nobis, consequuntur deserunt? Eum ipsa perferendis accusamus ea ratione ipsam ducimus amet cumque necessitatibus sed officia quasi laboriosam aut, suscipit, reiciendis cum earum in. Consequuntur sint sunt ea officiis ipsa consectetur incidunt ex consequatur. Enim facilis fuga pariatur, voluptatibus velit cupiditate aliquam, vitae ratione, earum labore eligendi dolor! Adipisci, perspiciatis! Unde aspernatur sed veritatis, obcaecati iusto impedit autem earum magnam harum consectetur omnis sunt. Natus nostrum quos accusantium commodi exercitationem placeat ad, ut cum similique aut totam neque adipisci ducimus. </p>
+            <hr class = "text-gray-800 m-1 shadow-sm">
+            <h1>Title</h1>
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ipsam optio excepturi libero dolores perspiciatis at. Consectetur dolore ratione sed nobis, consequuntur deserunt? Eum ipsa perferendis accusamus ea ratione ipsam ducimus amet cumque necessitatibus sed officia quasi laboriosam aut, suscipit, reiciendis cum earum in. Consequuntur sint sunt ea officiis ipsa consectetur incidunt ex consequatur. Enim facilis fuga pariatur, voluptatibus velit cupiditate aliquam, vitae ratione, earum labore eligendi dolor! Adipisci, perspiciatis! Unde aspernatur sed veritatis, obcaecati iusto impedit autem earum magnam harum consectetur omnis sunt. Natus nostrum quos accusantium commodi exercitationem placeat ad, ut cum similique aut totam neque adipisci ducimus. </p>
+            </div>
+        </div>
+
 
         </div>
 
+        <!-- row for table -->
         <div class="relative overflow-x-auto shadow-md rounded-md mt-5">
                 <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-3 bg-blue-500">
                 <div>
@@ -202,8 +227,10 @@ function testlog(){
             </table>
             </div>
 
-
+            <!-- end of table -->
     </div> 
+
+    <!-- edit card start -->
     <div v-show="modalviewer"  class = " bg-white absolute top-8 h-auto w-5/6 lg:ml-16 ml-6 mb-3 rounded-md shadow-md p-5 "> 
         <div class="flex justify-end">
         <button class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md" @click = "modaltoggle">Cancel</button>
@@ -287,10 +314,10 @@ function testlog(){
 
         
 
-    </form>
+        </form>     
+    </div> 
+    <!-- edit card end -->
     
-       
-    </div>   
 </div>
 
 </template>

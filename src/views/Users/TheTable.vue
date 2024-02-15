@@ -21,7 +21,7 @@ const searchResult = computed(() => {
   )
 })
 
-console.log(fordata)
+//console.log(fordata)
 
  onUpdated(() => {
    userCounter.value = listofusers.value.length
@@ -80,7 +80,7 @@ console.log(fordata)
             </tr>
         </thead>
         <tbody>
-            <tr :class="forrow" v-for="(listofuser) in searchResult">
+            <tr :class="forrow" v-for="(listofuser) in listofusers">
                
                 <th scope="row" :class="forrowtext">
                     {{listofuser.firstname}} {{ listofuser.lastname }}
