@@ -13,25 +13,22 @@ const forrowtext = 'px-6 py-4 font-medium text-gray-700 whitespace-nowrap'
 const forrow = 'bg-white border-b hover:bg-blue-100'
 
 const modalviewer = ref(false)
+//for date
+const today = new Date()
+const date = today.getFullYear()+'/'+today.getMonth()+'/'+today.getDate()
+console.log(date)
+const datenote = date
 
 function modaltoggle(){
     modalviewer.value = !modalviewer.value
-
-    // if (modalviewer.value === true){
- 
-    //     console.log("this is should be true ", modalviewer.value)
-    // }else{
-        
-    //     console.log("this is should be false ", modalviewer.value)
-    // }
-
 }
 
 // load user data
 const {userdetail, loaduser} = getUserDetails(route.params.id)
-const {userfiles, loadfile} = getUserFiles(route.params.id)
+const {userfiles, loadfile} = getUserFiles()
+loadfile() 
 loaduser()
-loadfile()  
+ 
 
 onBeforeMount(() => {
         });
@@ -45,35 +42,18 @@ onMounted(() => {
 onUpdated(() => {
    
 });
-
-
-
-
-
-//add uservalue for update on an unchangeble constant
-
 //userdetail update
 
 const uprepassword = ref()
 
 function updatedata(){
-    
-
-
    const updatethis = patchUserDetails
-   (route.params.id,userdetail.value.firstname,userdetail.value.lastname,userdetail.value.middlename,userdetail.value.birthday,userdetail.value.gender,userdetail.value.position,userdetail.value.pay,userdetail.value.phone,userdetail.value.address,userdetail.value.username,userdetail.value.password)
-   //)
-      
-     
+   (route.params.id,userdetail.value.firstname,userdetail.value.lastname,userdetail.value.middlename,userdetail.value.birthday,userdetail.value.gender,userdetail.value.position,userdetail.value.pay,userdetail.value.phone,userdetail.value.address,userdetail.value.username,userdetail.value.password) 
     console.log("Updating Data", userdetail.value.firstname)
-  
-       updatethis()
-       
+       updatethis()  
 }
 
-function testlog(){
-    console.log("testing logs")
-}
+
 
 
 </script>
@@ -145,13 +125,13 @@ function testlog(){
         <text class = "me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-green-500      " > + </text>
         </div>
         </div>
-        <div class="rounded-md bg-white shadow-md p-2 px-3 overflow-y-scroll h-52 text-sm">
+        <div class="rounded-md bg-white shadow-md pt-1 pb-2 px-3 overflow-y-scroll h-52 text-sm">
             <!-- noteblock -->
             <div class="hover:bg-blue-50 rounded-sm p-1">
             <div class="grid grid-cols-2 ">
-            <div>
-            <text class="text-lg">Title     </text>
-            <text class="p-1 me-1 bg-green-500 text-xs rounded-md text-white"> Badge </text>
+            <div class="mt-1">
+            <text class="text-lg font-bold">Title     </text>
+            <text class="p-1 me-1 bg-green-500 text-xs rounded-md text-white"> Required </text>
             <text class="p-1 me-1 bg-red-500 text-xs rounded-md text-white"> Urgent </text>
             <text class="p-1 me-1 bg-purple-500 text-xs rounded-md text-white"> Misc. </text>
             </div>
@@ -161,8 +141,9 @@ function testlog(){
             </div>
             </div>
             <hr class="text-gray-400 w-16 m-1">
-            <p class="text-justify"> (Note Contents) </p>
-            <hr class = "text-gray-800 m-1 shadow-sm">
+            <text class="text-xs text-gray-400">(yyyy/mm/dd)</text>
+            <p class="text-justify mt-2"> (Note Contents) </p>
+            <hr class = "text-gray-800 m-2 shadow-sm">
             </div>
             </div>
         </div>
@@ -187,6 +168,7 @@ function testlog(){
                     <input type="text" id="filesearch" class="mt-4 me-3 block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for files">
                 </div>
             </div>
+            <!-- table for files -->
             <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-blue-200 ">
                     <tr>

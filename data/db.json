@@ -124,7 +124,7 @@
   "files": [
     {
       "id": "1",
-      "userid": "1",
+      "user": "1",
       "filename": "File1",
       "src": "/somethingpath",
       "note": "For Something1",
@@ -132,7 +132,7 @@
     },
     {
       "id": "2",
-      "userid": "1",
+      "user": "1",
       "filename": "File2",
       "src": "/somethingpath",
       "note": "For Something2",
@@ -140,11 +140,18 @@
     },
     {
       "id": "3",
-      "userid": "1",
+      "user": "1",
       "filename": "File2",
       "src": "/somethingpath",
       "note": "For Something3",
       "datecreated": "mm/dd/yyyy"
     }
+  ],
+  "notes": [
+    {
+      
+    }
+
   ]
+  
 }
