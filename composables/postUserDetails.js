@@ -4,6 +4,7 @@ const postUserDetails = (id,firstname,lastname,middlename,birthday,gender,positi
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
+           
             id:id,
             firstname:firstname,
             lastname:lastname,

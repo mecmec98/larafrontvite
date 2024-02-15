@@ -104,6 +104,21 @@
       "username": "staradat",
       "password": "stradat",
       "datecreated": "2024/1/14"
+    },
+    {
+      "id": "3543",
+      "firstname": "John",
+      "lastname": "Doe",
+      "middlename": "Samson",
+      "birthday": "yyyy/mm/dd",
+      "gender": "Male",
+      "position": "ThePosition",
+      "pay": "600",
+      "phone": "091122334455",
+      "address": "100 Street St. Barangay City City, Province Province 1100",
+      "username": "john",
+      "password": "12345",
+      "datecreated": "2024/1/15"
     }
   ],
   "files": [

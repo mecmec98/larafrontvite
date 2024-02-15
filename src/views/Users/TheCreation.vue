@@ -48,9 +48,9 @@ function check(){
 </script>
 <template>
 <div class = "p-4 sm:ml-64">
-    <div class="p-4 border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg">
+    <div class="p-4 border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg" >
   <form>
-    <input type ="text" id="id" class="" placeholder="idgenerate" v-model="id">
+    <!-- <input type ="text" id="id" class="" placeholder="idgenerate" v-model="id"> -->
 
     <div class = "flex justify-center">
     <img class="w-20 h-20 mb-3 rounded-full bg-white border border-blue-500" src="./src/assets/fileupload.png" alt="Upload photo" @click="submitdata" />
