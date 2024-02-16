@@ -25,7 +25,7 @@ function modaltoggle(){
 
 // load user data
 const {userdetail, loaduser} = getUserDetails(route.params.id)
-const {userfiles, loadfile} = getUserFiles()
+const {userfiles, loadfile} = getUserFiles(route.params.id)
 loadfile() 
 loaduser()
  

@@ -1,12 +1,12 @@
 import {ref} from 'vue'
 
-const getUserFiles = () => {
+const getUserFiles = (userid) => {
 
     const userfiles = ref([])
     const loadfile = async () => {
         try {
             let filedata = 
-            await fetch('http://localhost:3000/files/')
+            await fetch('http://localhost:3000/files?user=' + userid)
             if(!filedata.ok){
                 throw Error('No Data')
             }
