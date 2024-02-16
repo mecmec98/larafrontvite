@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onUpdated, reactive, computed } from 'vue'
+import { ref, onUpdated, onMounted, reactive, computed } from 'vue'
 import getUser from '/composables/getUser'
 
  const forrow = 'bg-white border-b hover:bg-blue-100'
@@ -9,16 +9,19 @@ import getUser from '/composables/getUser'
  const userCounter = ref()
 
  //data
- const {listofusers, loaduser} = getUser()
- loaduser()
+const {listofusers, loaduser} = getUser()
+loaduser()
 
-const forsearch = ref()
-const fordata = reactive(listofusers)
+const forsearch = ref('')
 
-const searchResult = computed(() => {
-  return fordata.listofusers.filter((item) =>
-    item.firstname.toLowerCase().includes(forsearch.value.toLowerCase())
-  )
+const searchUsers = computed(() => {
+  return listofusers.value.filter(item => {
+    return item.firstname.toLowerCase().includes(forsearch.value.toLowerCase()) ||
+            item.lastname.toLowerCase().includes(forsearch.value.toLowerCase())
+  })
+})
+   
+onMounted(() => {
 })
 
 //console.log(fordata)
@@ -80,7 +83,7 @@ const searchResult = computed(() => {
             </tr>
         </thead>
         <tbody>
-            <tr :class="forrow" v-for="(listofuser) in listofusers">
+            <tr :class="forrow" v-for="(listofuser) in searchUsers" :key="listofuser.id">
                
                 <th scope="row" :class="forrowtext">
                     {{listofuser.firstname}} {{ listofuser.lastname }}
