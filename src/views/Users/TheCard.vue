@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
 import getUserFiles from '/composables/getUserFiles'
 import getUserDetails from '/composables/getUserDetails'
+import getUserNotes from '/composables/getUserNotes'
 import postUserNotes from '/composables/postUserNote'
 import patchUserDetails from '/composables/patchUserDetails'
 
@@ -43,9 +44,11 @@ const selectBadge = (event) => {
 // load user data
 const {userdetail, loaduser} = getUserDetails(route.params.id)
 const {userfiles, loadfile} = getUserFiles(route.params.id)
+const {usernotes, loadnote} = getUserNotes(route.params.id)
 loadfile() 
 loaduser()
- 
+loadnote()
+const notecounter = ref()
 
 onBeforeMount(() => {
         });
@@ -57,7 +60,8 @@ onMounted(() => {
 
 
 onUpdated(() => {
-   
+    loadnote()
+    notecounter.value = usernotes.value.length
 });
 //userdetail update
 
@@ -147,7 +151,7 @@ const submitnote =(()=>{
         <div  class="grid grid-cols-2 mb-3 p-1 rounded-md shadow-md bg-white">
         <div>
         <text class = "ms-1 text-md" >Notes </text>
-        <text class="text-gray-500">(1)</text>
+        <text class="text-gray-500">( {{ notecounter }} )</text>
         </div>
         
         <div class="justify-self-end">
@@ -202,24 +206,26 @@ const submitnote =(()=>{
 
 
             <!-- noteblock -->
-            <div class="hover:bg-blue-50 rounded-sm p-1">
-            <div class="grid grid-cols-2 ">
-            <div class="mt-1">
-            <text class="text-lg font-bold">Title     </text>
-            <text class="p-1 me-1 bg-green-500 text-xs rounded-md text-white"> Required </text>
-            <text class="p-1 me-1 bg-red-500 text-xs rounded-md text-white"> Urgent </text>
-            <text class="p-1 me-1 bg-purple-500 text-xs rounded-md text-white"> Misc. </text>
-            </div>
+            <div v-for="usernote in usernotes">
+                <div class="hover:bg-blue-50 rounded-sm p-1">
+                <div class="grid grid-cols-2 ">
+                <div class="mt-1">
+                <text class="text-lg font-bold pe-2">{{ usernote.title }} </text>
+                <span v-if ="usernote.badge === 'Required'" class="p-1 bg-green-500 text-xs rounded-md text-white">Required</span>
+                <span v-if ="usernote.badge === 'Urgent'" class="p-1 bg-red-500 text-xs rounded-md text-white">Urgent</span>
+                <span v-if ="usernote.badge === 'Misc'" class="p-1 bg-purple-500 text-xs rounded-md text-white">Misc.</span>
+                </div>
 
-            <div class="text-end mt-1">
-                <text class="text-red-500 me-2 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Delete</text>
-            </div>
-            </div>
-            <hr class="text-gray-400 w-16 m-1">
-            <text class="text-xs text-blue-400">(yyyy/mm/dd)</text>
-            <p class="text-justify mt-2"> (Note Contents) </p>
-            <hr class = "text-gray-800 m-2 shadow-sm">
-            </div>
+                <div class="text-end mt-1">
+                    <text class="text-red-500 me-2 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Delete</text>
+                </div>
+                </div>
+                <hr class="text-gray-400 w-16 m-1">
+                <text class="text-xs text-blue-400">{{usernote.date}}</text>
+                <p class="text-justify mt-2">{{usernote.body}}</p>
+                <hr class = "text-gray-800 m-2 shadow-sm">
+                </div>
+                </div>
             </div>
         </div>
 
