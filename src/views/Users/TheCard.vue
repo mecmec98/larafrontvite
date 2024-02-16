@@ -3,7 +3,8 @@ import { useRoute } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
 import getUserFiles from '/composables/getUserFiles'
 import getUserDetails from '/composables/getUserDetails'
-import patchUserDetails from '../../../composables/patchUserDetails'
+import postUserNotes from '/composables/postUserNote'
+import patchUserDetails from '/composables/patchUserDetails'
 
 const route = useRoute()
 const forlabels ='block mb-2 text-sm font-medium text-blue-600'
@@ -70,6 +71,18 @@ function updatedata(){
 }
 
 
+//post note
+const nid = ref()
+const nuser = ref(route.params.id)
+
+const ntitle = ref()
+const nbody = ref()
+
+const submitnote =(()=>{
+    const sendthisnote = postUserNotes(nid.value,nuser.value,ntitle.value,selectedBadge.value,nbody.value,date)
+    sendthisnote()
+    notecreate.value = false
+})
 
 
 </script>
@@ -149,7 +162,7 @@ function updatedata(){
             <div class=" rounded-sm p-1">
             <div class="grid grid-cols-2 ">
             <div class="mt-1">
-            <input type="text" class="p-1 text-lg focus:outline-none active:outline-none rounded-md border" placeholder="Note Title">
+            <input type="text" v-model="ntitle" class="p-1 text-lg focus:outline-none active:outline-none rounded-md border" placeholder="Note Title">
             <!-- note badge -->
            
             <div class="relative inline-block text-left mt-1">
@@ -176,13 +189,13 @@ function updatedata(){
 
             <div class="text-end mt-1">
                 <text @click="notecreatetoggle" class="text-red-500 me-1 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Cancel</text>|
-                <text class="text-green-500 me-1 cursor-pointer p-1 rounded-md hover:bg-green-500 hover:text-white">Save</text>
+                <text @click="submitnote" class="text-green-500 me-1 cursor-pointer p-1 rounded-md hover:bg-green-500 hover:text-white">Save</text>
             </div>
             </div>
             <hr class="text-gray-400 w-16 m-1">
             <text class="text-xs text-blue-400">{{datenote}}</text>
             <br>
-            <textarea maxlength="150" rows="3" class="p-1 text-justify mt-2 w-full focus:outline-none resize-none overflow-hidden rounded-md border" placeholder="Note Contents"></textarea>
+            <textarea v-model="nbody" maxlength="150" rows="3" class="p-1 text-justify mt-2 w-full focus:outline-none resize-none overflow-hidden rounded-md border" placeholder="Note Contents"></textarea>
             <hr class = "text-gray-800 m-2 shadow-sm">
             </div>
             </div>
