@@ -1,10 +1,11 @@
 
-const postUserNotes = (id,title,badge,body,datecreated) => {
+const postUserNotes = (id,user,title,badge,body,datecreated) => {
     
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
            id:id,
+           user:user,
            title:title,
            badge:badge,
            body:body,

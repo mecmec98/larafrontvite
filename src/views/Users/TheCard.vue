@@ -12,17 +12,33 @@ const forinput = 'bg-gray-50 border-2 border-blue-500 text-gray-900 text-sm roun
 const forrowtext = 'px-6 py-4 font-medium text-gray-700 whitespace-nowrap'
 const forrow = 'bg-white border-b hover:bg-blue-100'
 
-const modalviewer = ref(false)
+
 //for date
 const today = new Date()
 const date = today.getFullYear()+'/'+today.getMonth()+'/'+today.getDate()
 console.log(date)
 const datenote = date
 
+const modalviewer = ref(false)
 function modaltoggle(){
     modalviewer.value = !modalviewer.value
 }
 
+const notecreate = ref(false)
+function notecreatetoggle(){
+    notecreate.value = !notecreate.value
+}
+const notebadge = ref(false)
+function notebadgetoggle(){
+    notebadge.value = !notebadge.value
+}
+const selectedBadge = ref('Badge')
+const selectBadge = (event) => {
+    if (event.target.tagName === 'SPAN'){
+        selectedBadge.value = event.target.innerText
+        notebadge.value = false;
+    }
+}
 // load user data
 const {userdetail, loaduser} = getUserDetails(route.params.id)
 const {userfiles, loadfile} = getUserFiles(route.params.id)
@@ -122,10 +138,56 @@ function updatedata(){
         </div>
         
         <div class="justify-self-end">
-        <text class = "me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-green-500      " > + </text>
+        <text class = "me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-green-500      "  @click="notecreatetoggle" > + </text>
         </div>
         </div>
         <div class="rounded-md bg-white shadow-md pt-1 pb-2 px-3 overflow-y-scroll h-52 text-sm">
+            
+            
+            <!-- for note create -->
+            <div v-if="notecreate">
+            <div class=" rounded-sm p-1">
+            <div class="grid grid-cols-2 ">
+            <div class="mt-1">
+            <input type="text" class="p-1 text-lg focus:outline-none active:outline-none rounded-md border" placeholder="Note Title">
+            <!-- note badge -->
+           
+            <div class="relative inline-block text-left mt-1">
+            <text class="p-1 text-gray-700">{{selectedBadge}}</text>
+            <button type="button" @click="notebadgetoggle" class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-gray-600 focus:outline-none hover:text-blue-400">
+                <!-- Heroicon name: selector -->
+                <svg class="h-3 w-3 transform rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                </svg>
+            </button>
+
+            <!-- Dropdown menu -->
+            <div >
+            <ul v-if="notebadge" @click="selectBadge" class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                <!-- Dropdown items -->
+                <li><span class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Required</span></li>
+                <li><span class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Urgent</span></li>
+                <li><span class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Misc</span></li>
+            </ul>
+            </div>
+            </div>
+
+            </div>
+
+            <div class="text-end mt-1">
+                <text @click="notecreatetoggle" class="text-red-500 me-1 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Cancel</text>|
+                <text class="text-green-500 me-1 cursor-pointer p-1 rounded-md hover:bg-green-500 hover:text-white">Save</text>
+            </div>
+            </div>
+            <hr class="text-gray-400 w-16 m-1">
+            <text class="text-xs text-blue-400">{{datenote}}</text>
+            <br>
+            <textarea maxlength="150" rows="3" class="p-1 text-justify mt-2 w-full focus:outline-none resize-none overflow-hidden rounded-md border" placeholder="Note Contents"></textarea>
+            <hr class = "text-gray-800 m-2 shadow-sm">
+            </div>
+            </div>
+
+
             <!-- noteblock -->
             <div class="hover:bg-blue-50 rounded-sm p-1">
             <div class="grid grid-cols-2 ">
@@ -141,7 +203,7 @@ function updatedata(){
             </div>
             </div>
             <hr class="text-gray-400 w-16 m-1">
-            <text class="text-xs text-gray-400">(yyyy/mm/dd)</text>
+            <text class="text-xs text-blue-400">(yyyy/mm/dd)</text>
             <p class="text-justify mt-2"> (Note Contents) </p>
             <hr class = "text-gray-800 m-2 shadow-sm">
             </div>
