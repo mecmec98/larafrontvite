@@ -3,9 +3,7 @@ import { useRoute } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
 import getUserFiles from '/composables/Users/getUserFiles'
 import getUserDetails from '/composables/Users/getUserDetails'
-import postUserNotes from '/composables/Users/postUserNote'
 import patchUserDetails from '/composables/Users/patchUserDetails'
-
 import TheNotes from '/src/components/TheNotes.vue'
 
 const route = useRoute()
@@ -133,7 +131,7 @@ function updatedata() {
                 <!-- notes on user -->
 
                 <div>
-                    <TheNotes />
+                    <TheNotes :tonote="theuserid"/>
                 </div>
 
             </div>

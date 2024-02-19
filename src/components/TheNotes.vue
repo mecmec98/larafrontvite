@@ -1,10 +1,15 @@
 <script setup>
-import getUserNotes from '/composables/Users/getUserNotes'
-import postUserNotes from '/composables/Users/postUserNote'
+
+import { postUserNotes, getUserNotes, deleteUserNotes } from '/composables/Notes'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
 
 //define userid
-const useridnote = ref('')
+
+const props = defineProps({
+    tonote: String
+})
+
+const useridnote = ref(props.tonote)
 //date
 const today = new Date()
 const date = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate()
@@ -48,6 +53,47 @@ const submitnote = (() => {
     loadnote()
     notecounter.value = usernotes.value.length
 })
+
+//delete note
+
+const deletenote = async (noteId) => {
+  try {
+    await deleteUserNotes(noteId)
+  
+    return true; // Indicate successful deletion
+  } catch (error) {
+    throw new Error("An error occurred while deleting the note")
+  }
+}
+
+const confirmDelete = async (noteId) => {
+  const willDelete = await swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this Note",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+
+  if (willDelete) {
+    try {
+      await deletenote(noteId)
+     
+     
+      swal("Poof! Your Note has been deleted!", {
+        icon: "success",
+      })
+    } catch (error) {
+      swal({
+        title: "Error",
+        text: error.message,
+        icon: "error"
+      })
+    }
+  } else {
+    swal("Your Note is safe!")
+  }
+}
 
 </script>
 
@@ -129,7 +175,7 @@ const submitnote = (() => {
 
 
         <!-- noteblock -->
-        <div v-for="usernote in usernotes">
+        <div v-for="usernote in usernotes" :key = "usernote.id">
             <div class="hover:bg-blue-50 rounded-sm p-1">
                 <div class="grid grid-cols-2 ">
                     <div class="mt-1">
@@ -142,17 +188,19 @@ const submitnote = (() => {
                             class="p-1 bg-purple-500 text-xs rounded-md text-white">Misc.</span>
                     </div>
 
-                <div class="text-end mt-1">
-                    <text
-                        class="text-red-500 me-2 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Delete</text>
+                    <div class="text-end mt-1">
+                        <text
+                            @click = "confirmDelete(usernote.id)"
+                            class="text-red-500 me-2 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Delete</text>
+                    </div>
                 </div>
+
+                <hr class="text-gray-400 w-16 m-1">
+                <text class="text-xs text-blue-400">{{ usernote.date }}</text>
+                <p class="text-justify mt-2">{{ usernote.body }}</p>
+                <hr class="text-gray-800 m-2 shadow-sm">
+
             </div>
-
-            <hr class="text-gray-400 w-16 m-1">
-            <text class="text-xs text-blue-400">{{usernote.date}}</text>
-            <p class="text-justify mt-2">{{usernote.body}}</p>
-            <hr class="text-gray-800 m-2 shadow-sm">
-
         </div>
     </div>
-</div></template>
+</template>
