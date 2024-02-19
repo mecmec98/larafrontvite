@@ -1,11 +1,11 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
-import getUserFiles from '/composables/getUserFiles'
-import getUserDetails from '/composables/getUserDetails'
-import getUserNotes from '/composables/getUserNotes'
-import postUserNotes from '/composables/postUserNote'
-import patchUserDetails from '/composables/patchUserDetails'
+import getUserFiles from '/composables/Users/getUserFiles'
+import getUserDetails from '/composables/Users/getUserDetails'
+import getUserNotes from '/composables/Users/getUserNotes'
+import postUserNotes from '/composables/Users/postUserNote'
+import patchUserDetails from '/composables/Users/patchUserDetails'
 
 const route = useRoute()
 const forlabels ='block mb-2 text-sm font-medium text-blue-600'
@@ -124,25 +124,25 @@ const submitnote =(()=>{
             <div class ="grid gap-5 mb-4 md:grid-cols-2 mt-3 place-items-center">
                 <div>
                 <h1 class="flex justify-center mt-2 text-xs text-gray-400" @click="testlog">Pay Rate</h1>
-                <h2 class="flex justify-center text-xl ">{{ userdetail.pay }}/day</h2>
+                <h2 class="text-center  text-xl ">{{ userdetail.pay }}/day</h2>
                 </div>
                 <div>
                 <h1 class="flex justify-center mt-2 text-xs text-gray-400">Phone Number</h1>
-                <h2 class="flex justify-center text-xl ">{{ userdetail.phone }}</h2>
+                <h2 class="text-center  text-xl ">{{ userdetail.phone }}</h2>
                 </div>
                 <div>
                 <h1 class="flex justify-center mt-2 text-xs text-gray-400">Gender</h1>
-                <h2 class="flex justify-center text-xl ">{{ userdetail.gender }}</h2>
+                <h2 class="text-center  text-xl ">{{ userdetail.gender }}</h2>
                 </div>
                 <div>
                 <h1 class="flex justify-center mt-2 text-xs text-gray-400">Birthday</h1>
-                <h2 class="flex justify-center text-xl ">{{ userdetail.birthday }}</h2>
+                <h2 class="text-center  text-xl ">{{ userdetail.birthday }}</h2>
                 </div>
                             
             </div>
             <div class="mb-5">
                 <h1 class="flex justify-center mt-1 text-xs text-gray-400">Address</h1>
-                <h2 class="flex justify-center text-xl mx-2 ">{{ userdetail.address }}</h2>
+                <h2 class="text-center text-xl mx-2 ">{{ userdetail.address }}</h2>
                
             </div>
         </div>

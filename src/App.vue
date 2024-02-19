@@ -32,3 +32,14 @@ function loginact(){
 
 </template>
 
+<style>
+
+.swal-button {
+  padding: 7px 19px;
+  border: none;
+  background-color: #2563eb;
+  font-size: 14px;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+</style>

@@ -1,6 +1,7 @@
 <script setup>
-import {ref} from 'vue'
-import postUserDetails from '../../../composables/postUserDetails';
+import {ref} from 'vue';
+import swal from 'sweetalert';
+import postUserDetails from '../../../composables/Users/postUserDetails';
 const forlabels ='block mb-2 text-sm font-medium text-blue-600'
 const forinput = 'bg-gray-50 border-2 border-blue-500 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 block w-full p-2.5 shadom-sm'
 
@@ -23,7 +24,6 @@ const repassword = ref()
 //for date
 const today = new Date()
 const date = today.getFullYear()+'/'+today.getMonth()+'/'+today.getDate()
-console.log(date)
 const datecreated = date
 
 
@@ -45,15 +45,52 @@ function check(){
     console.log(firstname,lastname,middlename,birthday,gender,position,pay,phone,address,username,email,password,repassword)
    
 }
+
+const clickSuccess = (() => {
+    swal('User Created',{
+        icon: "success",
+      
+    })
+
+})
+const submitUser = (() => {
+    const sendthis = postUserDetails
+    (id.value,firstname.value,lastname.value,middlename.value,birthday.value,gender.value,position.value,pay.value,phone.value,address.value,username.value,password.value,datecreated)
+       
+        if (!id.value,!username.value,!password.value){
+            
+            console.log('Important Fields Empty ')
+        }else{
+           
+        sendthis()
+
+        id.value = ''
+        firstname.value = ''
+        lastname.value = ''
+        middlename.value = ''
+        birthday.value = ''
+        gender.value = ''
+        position.value = ''
+        pay.value = ''
+        phone.value = ''
+        address.value = ''
+        username.value = ''
+        email.value = ''
+        password.value = ''
+        repassword.value = ''
+
+        clickSuccess()
+        }
+})
 </script>
 <template>
 <div class = "p-4 sm:ml-64">
     <div class="p-4 border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg" >
-  <form>
+  <form @submit.prevent="submitUser">
     <!-- <input type ="text" id="id" class="" placeholder="idgenerate" v-model="id"> -->
 
     <div class = "flex justify-center">
-    <img class="w-20 h-20 mb-3 rounded-full bg-white border border-blue-500" src="./src/assets/fileupload.png" alt="Upload photo" @click="submitdata" />
+    <img class="w-20 h-20 mb-3 rounded-full bg-white border border-blue-500" src="./src/assets/fileupload.png" alt="Upload photo" />
         </div>
     <div class ="grid gap-6 mb-6 md:grid-cols-3">
         <div>
@@ -136,8 +173,12 @@ function check(){
         </div>
         <label for="remember" class="ms-2 text-sm font-medium text-gray-700">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
     </div>
-    <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" @click="submitdata">Submit</button>
+    <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
   </form>
 </div>
 </div>
 </template>
+
+<style>
+
+</style>
