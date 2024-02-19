@@ -30,24 +30,7 @@ const date = today.getFullYear()+'/'+today.getMonth()+'/'+today.getDate()
 const datecreated = date
 
 
-function submitdata(){
-   
-    const sendthis = postUserDetails
-    (id.value,firstname.value,lastname.value,middlename.value,birthday.value,gender.value,position.value,pay.value,phone.value,address.value,username.value,password.value,datecreated)
-       
-        if (!id.value,!username.value,!password.value){
-            console.log('Important Fields Empty ')
-        }else{
-            console.log("Sending Data ")
-        sendthis()
-        }
-}
 
-
-function check(){
-    console.log(firstname,lastname,middlename,birthday,gender,position,pay,phone,address,username,email,password,repassword)
-   
-}
 
 const clickSuccess = (() => {
     swal('User Created',{
