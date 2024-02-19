@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onUpdated, onMounted, reactive, computed } from 'vue'
-import getUser from '/composables/Users/getUser'
+import { getUser } from '../../../composables/Users'
 
  const forrow = 'bg-white border-b hover:bg-blue-100'
  const forrowalt = 'bg-gray-100 border-b hover:bg-blue-100'

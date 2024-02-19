@@ -1,7 +1,10 @@
 <script setup>
-import {ref} from 'vue';
-import swal from 'sweetalert';
-import postUserDetails from '../../../composables/Users/postUserDetails';
+import {ref} from 'vue'
+import swal from 'sweetalert'
+import { postUserDetails } from '../../../composables/Users'
+
+
+
 const forlabels ='block mb-2 text-sm font-medium text-blue-600'
 const forinput = 'bg-gray-50 border-2 border-blue-500 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 block w-full p-2.5 shadom-sm'
 

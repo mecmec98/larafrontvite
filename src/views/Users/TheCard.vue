@@ -1,9 +1,8 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
-import getUserFiles from '/composables/Users/getUserFiles'
-import getUserDetails from '/composables/Users/getUserDetails'
-import patchUserDetails from '/composables/Users/patchUserDetails'
+import { getUserFiles,getUserDetails,patchUserDetails } from '/composables/Users'
+
 import TheNotes from '/src/components/TheNotes.vue'
 
 const route = useRoute()
