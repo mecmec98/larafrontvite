@@ -196,7 +196,7 @@ const confirmDelete = async (noteId) => {
                 </div>
 
                 <hr class="text-gray-400 w-16 m-1">
-                <text class="text-xs text-blue-400">{{ usernote.date }}</text>
+                <text class="text-xs text-blue-400">{{ usernote.datecreated }}</text>
                 <p class="text-justify mt-2">{{ usernote.body }}</p>
                 <hr class="text-gray-800 m-2 shadow-sm">
 
