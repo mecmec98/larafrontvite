@@ -69,20 +69,20 @@ const deleteUserNotes = (noteid) => {
 
     const deletenote = async () => {
         try {
-            const response = await fetch('http://localhost:3000/notes/' + noteid, deleteoptions);
-            const isJson = response.headers.get('content-type')?.includes('application/json');
-            const data = isJson && await response.json();
+            const response = await fetch('http://localhost:3000/notes/' + noteid, deleteoptions)
+            const isJson = response.headers.get('content-type')?.includes('application/json')
+            const data = isJson && await response.json()
             if (!response.ok) {
                 const error = (data && data.message) || response.status;
-                return Promise.reject(error);
+                return Promise.reject(error)
             }
         } catch (error) {
-            console.error('there was an error ', error);
-            throw error; // Re-throw the error to be caught by the caller
+            console.error('there was an error ', error)
+            throw error
         }
     }
 
-    return deletenote(); // Call the async function and return the promise
+    return deletenote()
 }
 
 
