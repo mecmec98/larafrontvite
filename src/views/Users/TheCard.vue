@@ -1,11 +1,12 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
-import { getUserFiles,getUserDetails,patchUserDetails } from '/composables/Users'
+import { getUserFiles, getUserDetails, patchUserDetails, deletethisUser } from '/composables/Users'
 
 import TheNotes from '/src/components/TheNotes.vue'
 
 const route = useRoute()
+const router = useRouter()
 const forlabels = 'block mb-2 text-sm font-medium text-blue-600'
 const forinput = 'bg-gray-50 border-2 border-blue-500 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 block w-full p-2.5 shadom-sm'
 
@@ -44,19 +45,72 @@ onMounted(() => {
 
 
 onUpdated(() => {
- 
+
 });
 
 //userdetail update
+const msgUpdated = (() => {
+    swal('User Updated', {
+        icon: "success",
+
+    })
+
+})
+
 const uprepassword = ref()
 
-function updatedata() {
+const updatedata = (() => {
     const updatethis = patchUserDetails
         (theuserid.value, userdetail.value.firstname, userdetail.value.lastname, userdetail.value.middlename, userdetail.value.birthday, userdetail.value.gender, userdetail.value.position, userdetail.value.pay, userdetail.value.phone, userdetail.value.address, userdetail.value.username, userdetail.value.password)
     console.log("Updating Data", userdetail.value.firstname)
     updatethis()
+    msgUpdated()
+})
+
+//userdelete
+
+const deleteuser = async (userId) => {
+    try {
+        await deletethisUser(userId)
+        return true; // Indicate successful deletion
+    } catch (error) {
+        throw new Error("An error occurred while deleting the User")
+    }
 }
 
+const confirmDelete = async (userId) => {
+    if (!router) {
+        console.error("Router is not available");
+        return
+    }
+
+    const willDelete = await swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this User",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+
+    if (willDelete) {
+        try {
+            await deleteuser(userId)
+            await router.push('/UserList')
+
+            swal("Poof! The User has been deleted!", {
+                icon: "success",
+            })
+        } catch (error) {
+            swal({
+                title: "Error",
+                text: error.message,
+                icon: "error"
+            })
+        }
+    } else {
+        swal("Your User is safe!")
+    }
+}
 
 </script>
 
@@ -70,15 +124,15 @@ function updatedata() {
 
         <div :class="{ 'blur': modalviewer, '': modalviewer }"> <!-- blur effect when opening edit card -->
             <!-- first row -->
-            <div class="grid grid-cols-8 mt-1 mb-5">
+            <div class="grid sm:grid-cols-8 mt-1 mb-5 justify-items-stretch">
 
-                <div class="pt-2 ps-1">
-                    <img class="w-24 h-24 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1"
+                <div class="pt-2 ps-4 me-3">
+                    <img class="justify-self-center w-24 h-24 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1"
                         src="" alt="user photo" />
                 </div>
 
                 <div
-                    class="justify-self-start col-span-4 bg-white pt-3 ps-3 pe-8 pb-2 rounded-md shadow-md col-start-3 lg:col-start-2">
+                    class="justify-self-start col-span-4 bg-white pt-3 ps-3 pe-8 pb-2 me-4 rounded-md shadow-md col-start-3 lg:col-start-2">
                     <p class="text-xs text-gray-400">ID: {{ route.params.id }}</p>
                     <h2 class="md:text-xl text-lg">{{ userdetail.firstname }} {{ userdetail.middlename }} {{
                         userdetail.lastname }}</h2>
@@ -130,7 +184,7 @@ function updatedata() {
                 <!-- notes on user -->
 
                 <div>
-                    <TheNotes :tonote="theuserid"/>
+                    <TheNotes :tonote="theuserid" />
                 </div>
 
             </div>
@@ -219,17 +273,19 @@ function updatedata() {
         <!-- edit modal start -->
         <div v-show="modalviewer"
             class=" bg-white absolute top-8 h-auto w-5/6 lg:ml-16 ml-6 mb-3 rounded-md shadow-md p-5 ">
+
             <div class="flex justify-end">
                 <button
                     class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
                     @click="modaltoggle">Cancel</button>
             </div>
 
-            <div class="ps-1 text-gray-500" @click="updatedata">
+
+            <div class="ps-1 text-gray-500 ms-3">
                 ID: {{ userdetail.id }}
             </div>
 
-            <form>
+            <form @submit.prevent="updatedata">
                 <div class="grid lg:grid-cols-3 mt-3 mb-5 gap-6 me-3 ms-3">
                     <div>
                         <label for="first_name" :class="forlabels">First name</label>
@@ -301,22 +357,28 @@ function updatedata() {
 
                 <div class="mb-6 pl-3 pe-3">
                     <label for="repassword" :class="forlabels">Re-Enter New Password</label>
-                <input type="password" id="repassword" :class="forinput" placeholder="•••••••••" v-model="uprepassword">
-            </div>
+                    <input type="password" id="repassword" :class="forinput" placeholder="•••••••••" v-model="uprepassword">
+                </div>
 
-            <div class="flex justify-end">
-                <button type="submit"
-                    class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
-                    @click="updatedata">Save</button>
-            </div>
+                <div class="grid grid-cols-2 mb-3">
+                    <div class="flex justify-start">
+                        <text
+                            class="cursor-pointer pt-1 pb-1 h-8 w-18 ms-3 mt-1 rounded-md bg-white text-red-500 ps-6 pe-6 hover:bg-red-500 hover:text-white hover:shadow-md"
+                            @click="confirmDelete(theuserid)">Delete User!</text>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
+                            @click="updatedata">Save</button>
+                    </div>
+                </div>
 
 
 
+            </form>
 
-        </form>
+            <!-- edit card end -->
+        </div>
 
-        <!-- edit card end -->
     </div>
-
-</div>
 </template>

@@ -150,6 +150,32 @@ const patchUserDetails = (id,firstname,lastname,middlename,birthday,gender,posit
         return(updatethis)
 }
 
+const deletethisUser = (userid) => {
+    const deleteoptions = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }
+
+    const deleteuser = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/users/' + userid, deleteoptions)
+            const isJson = response.headers.get('content-type')?.includes('application/json')
+            const data = isJson && await response.json()
+            if (!response.ok) {
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error)
+            }
+        } catch (error) {
+            console.error('there was an error ', error)
+            throw error
+        }
+    }
+
+    return deleteuser()
+}
 
 
-export {getUser, getUserDetails, getUserFiles, patchUserDetails, postUserDetails}
+
+export {getUser, getUserDetails, getUserFiles, patchUserDetails, postUserDetails, deletethisUser}
