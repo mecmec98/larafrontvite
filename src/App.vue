@@ -29,7 +29,7 @@ function loginact() {
     <TheSidebar @sideclick="sidehider" :toside="sidebol" />
 
     <!-- Main Content Area -->
-    <main class="flex-1 overflow-y-auto p-4 sm:ml-64 mt-14">
+    <main class="flex-1 overflow-y-auto p-4 sm:ml-60 mt-14">
       <!-- Your router view content -->
       <router-view  />
     </main>

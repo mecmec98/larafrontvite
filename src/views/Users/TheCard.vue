@@ -124,21 +124,23 @@ const confirmDelete = async (userId) => {
 
         <div :class="{ 'blur': modalviewer, '': modalviewer }"> <!-- blur effect when opening edit card -->
             <!-- first row -->
-            <div class="grid sm:grid-cols-8 mt-1 mb-5 justify-items-stretch">
+            <div class="grid lg:grid-cols-8 mt-1 mb-5 justify-items-stretch">
 
-                <div class="pt-2 ps-4 me-3">
+                <div class="pt-2 ps-5 me-1">
                     <img class="justify-self-center w-24 h-24 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1"
                         src="" alt="user photo" />
                 </div>
 
-                <div
-                    class="justify-self-start col-span-4 bg-white pt-3 ps-3 pe-8 pb-2 me-4 rounded-md shadow-md col-start-3 lg:col-start-2">
-                    <p class="text-xs text-gray-400">ID: {{ route.params.id }}</p>
-                    <h2 class="md:text-xl text-lg">{{ userdetail.firstname }} {{ userdetail.middlename }} {{
-                        userdetail.lastname }}</h2>
+                <!-- container for user details -->
+                <div class="col-span-8 sm:col-span-4 bg-white pt-4 ps-3 pe-8 pb-2 me-4 rounded-md shadow-md">
+                    <p class="text-xs text-gray-400 pb-1">ID: {{ route.params.id }}</p>
+                    <h2 class="md:text-xl text-lg pb-1">
+                        {{ userdetail.firstname }} {{ userdetail.middlename }} {{userdetail.lastname }}
+                    </h2>
                     <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
                 </div>
 
+                <!-- sets of buttons -->
                 <div class="grid grid-rows-2 justify-self-end col-end-9">
                     <router-link to="/UserList"
                         class="pt-1 h-8 w-15 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 shadow-md">Back</router-link>
@@ -147,6 +149,7 @@ const confirmDelete = async (userId) => {
                         @click="modaltoggle">Edit</button>
                 </div>
             </div>
+
 
             <!-- second row -->
             <div class="grid grid-cols-2 gap-4">
@@ -357,7 +360,8 @@ const confirmDelete = async (userId) => {
 
                 <div class="mb-6 pl-3 pe-3">
                     <label for="repassword" :class="forlabels">Re-Enter New Password</label>
-                    <input type="password" id="repassword" :class="forinput" placeholder="•••••••••" v-model="uprepassword">
+                    <input type="password" id="repassword" :class="forinput" placeholder="•••••••••"
+                        v-model="uprepassword">
                 </div>
 
                 <div class="grid grid-cols-2 mb-3">
