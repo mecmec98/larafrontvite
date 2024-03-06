@@ -76,7 +76,7 @@ const submitUser = (() => {
     <!-- <input type ="text" id="id" class="" placeholder="idgenerate" v-model="id"> -->
 
     <div class = "flex justify-center">
-    <img class="w-20 h-20 mb-3 rounded-full bg-white border border-blue-500" src="./src/assets/fileupload.png" alt="Upload photo" />
+    <img class="w-20 h-20 mb-3 rounded-full bg-white border border-blue-500" src="" alt="Upload photo" />
         </div>
     <div class ="grid gap-6 mb-6 md:grid-cols-3">
         <div>

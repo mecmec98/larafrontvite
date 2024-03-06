@@ -3,7 +3,7 @@
 
 <template>
 
-<div class = "p-4 sm:ml-64 mt-14">
+<div>
 
 <div class="bg-gradient-to-b from-blue-500 to-cyan-500  p-5 shadow-md rounded-sm ">
     <div class="flex justify-center">

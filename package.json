@@ -2,7 +2,7 @@
   "name": "larafrontvite",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",

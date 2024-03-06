@@ -21,14 +21,27 @@ function loginact(){
 <template>
 
 
-
-  
-<div v-if="loginbol">
+<!-- <div v-if="loginbol">
 <TheHeader @sideclick="sidehider" @loginclick="loginact" />
 <TheSidebar @sideclick="sidehider" :toside="sidebol"/>
 </div>
-  
-<router-view @loginclick="loginact" />
+<router-view @loginclick="loginact" /> -->
+
+<div class="flex">
+    <div v-if="loginbol" class="flex">
+      <!-- Include the header component -->
+      <TheHeader @sideclick="sidehider" @loginclick="loginact" />
+      
+      <!-- Include the sidebar component -->
+      <TheSidebar @sideclick="sidehider" :toside="sidebol"/>
+    </div>
+    
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-4 sm:ml-64 mt-14">
+      <!-- Your router view content -->
+      <router-view @loginclick="loginact" />
+    </main>
+  </div>
 
 </template>
 
