@@ -72,7 +72,7 @@ import { ref, onBeforeMount, onMounted } from 'vue'
                     <a href="#" :class="fordropdown" role="menuitem">Placeholder</a>
                   </li>
                   <li>
-                    <router-link to="/Login" @click="loginclick" :class="fordropdown" role="menuitem">Sign out</router-link>
+                    <text @click="loginclick" :class="fordropdown" role="menuitem">Sign out</text>
                   </li>
                 </ul>
               </div>

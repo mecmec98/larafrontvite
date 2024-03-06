@@ -2,16 +2,17 @@
 import { ref } from 'vue'
 import TheHeader from './components/TheHeader.vue'
 import TheSidebar from './components/TheSidebar.vue'
+import TheLogin from './components/TheLogin.vue'
 
 const sidebol = ref(false)
-function sidehider(){
+function sidehider() {
   sidebol.value = !sidebol.value
   //console.log(sidebol)
 }
 
 const loginbol = ref(true)
 
-function loginact(){
+function loginact() {
   loginbol.value = !loginbol.value
   //console.log(loginbol.value)
 }
@@ -20,33 +21,25 @@ function loginact(){
 
 <template>
 
+  <div v-if="loginbol" class="flex">
+    <!-- Include the header component -->
+    <TheHeader @sideclick="sidehider" @loginclick="loginact" />
 
-<!-- <div v-if="loginbol">
-<TheHeader @sideclick="sidehider" @loginclick="loginact" />
-<TheSidebar @sideclick="sidehider" :toside="sidebol"/>
-</div>
-<router-view @loginclick="loginact" /> -->
+    <!-- Include the sidebar component -->
+    <TheSidebar @sideclick="sidehider" :toside="sidebol" />
 
-<div class="flex">
-    <div v-if="loginbol" class="flex">
-      <!-- Include the header component -->
-      <TheHeader @sideclick="sidehider" @loginclick="loginact" />
-      
-      <!-- Include the sidebar component -->
-      <TheSidebar @sideclick="sidehider" :toside="sidebol"/>
-    </div>
-    
     <!-- Main Content Area -->
     <main class="flex-1 overflow-y-auto p-4 sm:ml-64 mt-14">
       <!-- Your router view content -->
-      <router-view @loginclick="loginact" />
+      <router-view  />
     </main>
+
   </div>
+  <TheLogin v-else @loginclick="loginact"/>
 
 </template>
 
 <style>
-
 .swal-button {
   padding: 7px 19px;
   border: none;
@@ -54,5 +47,4 @@ function loginact(){
   font-size: 14px;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
-
 </style>
