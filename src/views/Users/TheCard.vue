@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
 import { getUserFiles, getUserDetails, patchUserDetails, deletethisUser } from '/composables/Users'
 
+
 import TheNotes from '/src/components/TheNotes.vue'
 
 const route = useRoute()
@@ -124,24 +125,32 @@ const confirmDelete = async (userId) => {
 
         <div :class="{ 'blur': modalviewer, '': modalviewer }"> <!-- blur effect when opening edit card -->
             <!-- first row -->
-            <div class="grid lg:grid-cols-8 mt-1 mb-5 justify-items-stretch">
+            <div class="grid lg:grid-cols-2 mt-2 mb-5 gap-4">
 
-                <div class="pt-2 ps-5 me-1">
-                    <img class="justify-self-center w-24 h-24 mb-1 rounded-full border border-white bg-white shadow-md col-span-2 lg:col-span-1"
-                        src="" alt="user photo" />
+                <!-- first column -->
+                <div>
+              
+                   
+                    <!-- Container for user details -->
+                    <div class="grid grid-cols-2 bg-white pt-3 ps-3 pe-8 pb-2 w-full rounded-md shadow-sm">
+                              <!-- Image -->
+                        <div>
+                        <img class="w-20 h-20 rounded-full border-2 border-white bg-teal-500" src=""
+                            alt="user photo" />
+                        </div>
+
+                        <div class="-ms-56 ps-3">
+                        <p class="text-xs text-gray-400 pb-1">ID: {{ route.params.id }}</p>
+                        <h2 class="md:text-xl text-lg pb-1">
+                            {{ userdetail.firstname }} {{ userdetail.middlename }} {{ userdetail.lastname }}
+                        </h2>
+                        <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- container for user details -->
-                <div class="col-span-8 sm:col-span-4 bg-white pt-4 ps-3 pe-8 pb-2 me-4 rounded-md shadow-md">
-                    <p class="text-xs text-gray-400 pb-1">ID: {{ route.params.id }}</p>
-                    <h2 class="md:text-xl text-lg pb-1">
-                        {{ userdetail.firstname }} {{ userdetail.middlename }} {{userdetail.lastname }}
-                    </h2>
-                    <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
-                </div>
-
+                <!-- second column -->
                 <!-- sets of buttons -->
-                <div class="grid grid-rows-2 justify-self-end col-end-9">
+                <div class="grid grid-rows-2 justify-self-end pt-2">
                     <router-link to="/UserList"
                         class="pt-1 h-8 w-15 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 shadow-md">Back</router-link>
                     <button
@@ -153,7 +162,7 @@ const confirmDelete = async (userId) => {
 
             <!-- second row -->
             <div class="grid grid-cols-2 gap-4">
-                <!-- first row for user details -->
+                <!-- first column for user details -->
                 <div class="rounded-md bg-white shadow-md pt-1 pb-2 px-2">
                     <div class="grid gap-5 mb-4 md:grid-cols-2 mt-3 place-items-center">
                         <div>
@@ -184,8 +193,7 @@ const confirmDelete = async (userId) => {
                     </div>
 
                 </div>
-                <!-- notes on user -->
-
+                <!-- second column -->
                 <div>
                     <TheNotes :tonote="theuserid" />
                 </div>
