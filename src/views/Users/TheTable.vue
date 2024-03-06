@@ -36,10 +36,9 @@ onMounted(() => {
 </script>
 
 <template>
-<div class = "p-2 sm:ml-64 mt-10">
-
-    <div class="flex justify-end mb-1 mt-2">
-            <div class="grid grid-cols-3 bg-white rounded-lg m-2 mt-5 ps-3 pt-2 shadow-lg h-20  w-40">
+<div>
+    <div class="flex justify-end mb-1">
+            <div class="grid grid-cols-3 bg-white rounded-lg m-2 mt-2 ps-3 pt-2 shadow-lg h-20  w-40">
                  <div class="text-xs mt-1 text-gray-700">Number of Users:</div>
                  <div class="col-span-2 text-4xl mt-3 justify-self-end me-4 text-blue-600">{{ userCounter }}</div>
             </div>

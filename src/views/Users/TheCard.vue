@@ -120,7 +120,7 @@ const confirmDelete = async (userId) => {
 </div> -->
 
 
-    <div class="p-4 sm:ml-64 mt-14 relative"> <!-- container for body -->
+    <div> <!-- container for body -->
 
         <div :class="{ 'blur': modalviewer, '': modalviewer }"> <!-- blur effect when opening edit card -->
             <!-- first row -->

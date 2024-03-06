@@ -70,8 +70,8 @@ const submitUser = (() => {
 })
 </script>
 <template>
-<div class = "p-4 sm:ml-64">
-    <div class="p-4 border-1 border-blue-500 border-double rounded-md mt-14 bg-white shadow-lg" >
+<div>
+    <div class="p-4 border-1 border-blue-500 border-double rounded-md bg-white shadow-lg" >
   <form @submit.prevent="submitUser">
     <!-- <input type ="text" id="id" class="" placeholder="idgenerate" v-model="id"> -->
 
