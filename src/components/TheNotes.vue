@@ -57,42 +57,42 @@ const submitnote = (() => {
 //delete note
 
 const deletenote = async (noteId) => {
-  try {
-    await deleteUserNotes(noteId)
-  
-    return true; // Indicate successful deletion
-  } catch (error) {
-    throw new Error("An error occurred while deleting the note")
-  }
+    try {
+        await deleteUserNotes(noteId)
+
+        return true; // Indicate successful deletion
+    } catch (error) {
+        throw new Error("An error occurred while deleting the note")
+    }
 }
 
 const confirmDelete = async (noteId) => {
-  const willDelete = await swal({
-    title: "Are you sure?",
-    text: "Once deleted, you will not be able to recover this Note",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  })
+    const willDelete = await swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this Note",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
 
-  if (willDelete) {
-    try {
-      await deletenote(noteId)
-     
-     
-      swal("Poof! Your Note has been deleted!", {
-        icon: "success",
-      })
-    } catch (error) {
-      swal({
-        title: "Error",
-        text: error.message,
-        icon: "error"
-      })
+    if (willDelete) {
+        try {
+            await deletenote(noteId)
+
+
+            swal("Poof! Your Note has been deleted!", {
+                icon: "success",
+            })
+        } catch (error) {
+            swal({
+                title: "Error",
+                text: error.message,
+                icon: "error"
+            })
+        }
+    } else {
+        swal("Your Note is safe!")
     }
-  } else {
-    swal("Your Note is safe!")
-  }
 }
 
 </script>
@@ -107,8 +107,14 @@ const confirmDelete = async (noteId) => {
         </div>
 
         <div class="justify-self-end">
-            <text class="me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-green-500      "
+            <div v-if="notecreate">
+            <text class="me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-red-500      "
+                @click="notecreatetoggle"> - </text>
+            </div>
+            <div v-else>
+                <text class="me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-green-500      "
                 @click="notecreatetoggle"> + </text>
+            </div>
         </div>
     </div>
 
@@ -132,7 +138,8 @@ const confirmDelete = async (noteId) => {
                                 <!-- Heroicon name: selector -->
                                 <svg class="h-3 w-3 transform rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 15l7-7 7 7">
                                     </path>
                                 </svg>
                             </button>
@@ -175,7 +182,7 @@ const confirmDelete = async (noteId) => {
 
 
         <!-- noteblock -->
-        <div v-for="usernote in usernotes" :key = "usernote.id">
+        <div v-for="usernote in usernotes" :key="usernote.id">
             <div class="hover:bg-blue-50 rounded-sm p-1">
                 <div class="grid grid-cols-2 ">
                     <div class="mt-1">
@@ -189,8 +196,7 @@ const confirmDelete = async (noteId) => {
                     </div>
 
                     <div class="text-end mt-1">
-                        <text
-                            @click = "confirmDelete(usernote.id)"
+                        <text @click="confirmDelete(usernote.id)"
                             class="text-red-500 me-2 cursor-pointer p-1 rounded-md hover:bg-red-500 hover:text-white">Delete</text>
                     </div>
                 </div>
