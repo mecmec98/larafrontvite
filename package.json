@@ -2,17 +2,19 @@
   "name": "larafrontvite",
   "private": true,
   "version": "0.0.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "flatpickr": "^4.6.13",
     "json-server": "^1.0.0-alpha.23",
     "sweetalert": "^2.1.2",
     "vue": "^3.3.11",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue3-datepicker": "^0.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",
