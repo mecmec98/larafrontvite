@@ -129,22 +129,22 @@ const confirmDelete = async (userId) => {
 
                 <!-- first column -->
                 <div>
-              
-                   
+
+
                     <!-- Container for user details -->
                     <div class="grid grid-cols-2 bg-white pt-3 ps-3 pe-8 pb-2 w-full rounded-md shadow-sm">
-                              <!-- Image -->
+                        <!-- Image -->
                         <div>
-                        <img class="w-20 h-20 rounded-full border-2 border-white bg-teal-500" src=""
-                            alt="user photo" />
+                            <img class="w-20 h-20 rounded-full border-2 border-white bg-teal-500" src=""
+                                alt="user photo" />
                         </div>
 
                         <div class="-ms-56 ps-3">
-                        <p class="text-xs text-gray-400 pb-1">ID: {{ route.params.id }}</p>
-                        <h2 class="md:text-xl text-lg pb-1">
-                            {{ userdetail.firstname }} {{ userdetail.middlename }} {{ userdetail.lastname }}
-                        </h2>
-                        <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
+                            <p class="text-xs text-gray-400 pb-1">ID: {{ route.params.id }}</p>
+                            <h2 class="md:text-xl text-lg pb-1">
+                                {{ userdetail.firstname }} {{ userdetail.middlename }} {{ userdetail.lastname }}
+                            </h2>
+                            <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
                         </div>
                     </div>
                 </div>
@@ -163,34 +163,32 @@ const confirmDelete = async (userId) => {
             <!-- second row -->
             <div class="grid grid-cols-2 gap-4">
                 <!-- first column for user details -->
-                <div class="rounded-md bg-white shadow-md pt-1 pb-2 px-2">
-                    <div class="grid gap-5 mb-4 md:grid-cols-2 mt-3 place-items-center">
+                <div class="rounded-md bg-white shadow-sm pt-1 pb-2 px-5">
+                    <div class="grid gap-4 md:grid-cols-2 mt-2 place-items-start">
                         <div>
-                            <h1 class="flex justify-center mt-2 text-xs text-gray-400" @click="testlog">Pay Rate</h1>
+                            <h1 class="flex justify-start mt-3 text-xs text-gray-400" @click="testlog">Pay Rate</h1>
                             <h2 class="text-center  text-xl ">{{ userdetail.pay }}/day</h2>
                         </div>
 
                         <div>
-                            <h1 class="flex justify-center mt-2 text-xs text-gray-400">Phone Number</h1>
-                            <h2 class="text-center  text-xl ">{{ userdetail.phone }}</h2>
+                            <h1 class="flex justify-start mt-3 text-xs text-gray-400">Phone Number</h1>
+                            <h2 class="text-start  text-xl ">{{ userdetail.phone }}</h2>
                         </div>
 
                         <div>
-                            <h1 class="flex justify-center mt-2 text-xs text-gray-400">Gender</h1>
-                            <h2 class="text-center  text-xl ">{{ userdetail.gender }}</h2>
+                            <h1 class="flex justify-start mt-3 text-xs text-gray-400">Gender</h1>
+                            <h2 class="text-start  text-xl ">{{ userdetail.gender }}</h2>
                         </div>
 
                         <div>
-                            <h1 class="flex justify-center mt-2 text-xs text-gray-400">Birthday</h1>
-                            <h2 class="text-center  text-xl ">{{ userdetail.birthday }}</h2>
+                            <h1 class="flex justify-start mt-3 text-xs text-gray-400">Birthday</h1>
+                            <h2 class="text-start  text-xl ">{{ userdetail.birthday }}</h2>
                         </div>
 
                     </div>
 
-                    <div class="mb-5">
-                        <h1 class="flex justify-center mt-1 text-xs text-gray-400">Address</h1>
-                        <h2 class="text-center text-xl mx-2 ">{{ userdetail.address }}</h2>
-                    </div>
+                    <h1 class="flex justify-start mt-6 text-xs text-gray-400">Address</h1>
+                    <h2 class="text-start text-xl ">{{ userdetail.address }}</h2>
 
                 </div>
                 <!-- second column -->
@@ -282,114 +280,113 @@ const confirmDelete = async (userId) => {
         </div>
 
         <!-- edit modal start -->
-        <div v-show="modalviewer"
-            class=" bg-white absolute top-8 h-auto w-5/6 lg:ml-16 ml-6 mb-3 rounded-md shadow-md p-5 ">
+        <div v-show="modalviewer" class="absolute top-20 inset-x-0 flex justify-center pb-10 ms-56">
+            <div class="bg-white shadow-md p-5 rounded-md">
+                <div class="flex justify-end">
+                    <button
+                        class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
+                        @click="modaltoggle">Cancel</button>
+                </div>
 
-            <div class="flex justify-end">
-                <button
-                    class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
-                    @click="modaltoggle">Cancel</button>
+
+                <div class="ps-1 text-gray-500 ms-3">
+                    ID: {{ userdetail.id }}
+                </div>
+
+                <form @submit.prevent="updatedata">
+                    <div class="grid lg:grid-cols-3 mt-3 mb-5 gap-6 me-3 ms-3">
+                        <div>
+                            <label for="first_name" :class="forlabels">First name</label>
+                            <input type="text" id="first_name" :class="forinput" v-model="userdetail.firstname">
+                        </div>
+
+                        <div>
+                            <label for="last_name" :class="forlabels">Last name</label>
+                            <input type="text" id="last_name" :class="forinput" v-model="userdetail.lastname">
+                        </div>
+
+                        <div>
+                            <label for="middlename" :class="forlabels">Middle Name</label>
+                            <input type="text" id="middlename" :class="forinput" v-model="userdetail.middlename">
+                        </div>
+
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-6 pl-3 pe-3">
+                        <div class="md:col-span-2">
+                            <label for="birthday" :class="forlabels">Birthday</label>
+                            <input type="text" id="birthday" :class="forinput" v-model="userdetail.birthday">
+                        </div>
+
+                        <div>
+                            <label for="gender" :class="forlabels">Gender</label>
+                            <select id="gender" :class="forinput" class="bg-gray-50 pe-1" v-model="userdetail.gender">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Others</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-6 mb-5 md:grid-cols-2 pl-3 pe-3 mt-5">
+                        <div>
+                            <label for="position" :class="forlabels">Position</label>
+                            <input type="text" id="position" :class="forinput" v-model="userdetail.position">
+                        </div>
+                        <div>
+                            <label for="pay" :class="forlabels">Pay</label>
+                            <input type="text" id="pay" :class="forinput" v-model="userdetail.pay">
+                        </div>
+                    </div>
+
+                    <div class="mb-6 pl-3 pe-3">
+                        <label for="phonenumber" :class="forlabels">Phone Number</label>
+                        <input type="text" id="phonenumber" :class="forinput" v-model="userdetail.phone">
+                    </div>
+
+                    <div class="mb-6 pl-3 pe-3">
+                        <label for="address" :class="forlabels">Address</label>
+                        <input type="text" id="address" :class="forinput" v-model="userdetail.address">
+                    </div>
+
+                    <hr class="text-grey-600 mb-6 mt-8">
+
+
+                    <div class="mb-6 pl-3 pe-3">
+                        <label for="username" :class="forlabels">Username</label>
+                        <input type="text" id="username" :class="forinput" v-model="userdetail.username">
+                    </div>
+
+                    <div class="mb-6 pl-3 pe-3">
+                        <label for="password" :class="forlabels">New Password</label>
+                        <input type="password" id="password" :class="forinput" placeholder="•••••••••"
+                            v-model="userdetail.password">
+                    </div>
+
+                    <div class="mb-6 pl-3 pe-3">
+                        <label for="repassword" :class="forlabels">Re-Enter New Password</label>
+                        <input type="password" id="repassword" :class="forinput" placeholder="•••••••••"
+                            v-model="uprepassword">
+                    </div>
+
+                    <div class="grid grid-cols-2 mb-3">
+                        <div class="flex justify-start">
+                            <text
+                                class="cursor-pointer pt-1 pb-1 h-8 w-18 ms-3 mt-1 rounded-md bg-white text-red-500 ps-6 pe-6 hover:bg-red-500 hover:text-white hover:shadow-md"
+                                @click="confirmDelete(theuserid)">Delete User!</text>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
+                                @click="updatedata">Save</button>
+                        </div>
+                    </div>
+
+
+
+                </form>
+                <!-- edit card end -->
             </div>
-
-
-            <div class="ps-1 text-gray-500 ms-3">
-                ID: {{ userdetail.id }}
-            </div>
-
-            <form @submit.prevent="updatedata">
-                <div class="grid lg:grid-cols-3 mt-3 mb-5 gap-6 me-3 ms-3">
-                    <div>
-                        <label for="first_name" :class="forlabels">First name</label>
-                        <input type="text" id="first_name" :class="forinput" v-model="userdetail.firstname">
-                    </div>
-
-                    <div>
-                        <label for="last_name" :class="forlabels">Last name</label>
-                        <input type="text" id="last_name" :class="forinput" v-model="userdetail.lastname">
-                    </div>
-
-                    <div>
-                        <label for="middlename" :class="forlabels">Middle Name</label>
-                        <input type="text" id="middlename" :class="forinput" v-model="userdetail.middlename">
-                    </div>
-
-                </div>
-
-                <div class="grid lg:grid-cols-3 gap-6 pl-3 pe-3">
-                    <div class="md:col-span-2">
-                        <label for="birthday" :class="forlabels">Birthday</label>
-                        <input type="text" id="birthday" :class="forinput" v-model="userdetail.birthday">
-                    </div>
-
-                    <div>
-                        <label for="gender" :class="forlabels">Gender</label>
-                        <select id="gender" :class="forinput" class="bg-gray-50 pe-1" v-model="userdetail.gender">
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Others</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid gap-6 mb-5 md:grid-cols-2 pl-3 pe-3 mt-5">
-                    <div>
-                        <label for="position" :class="forlabels">Position</label>
-                        <input type="text" id="position" :class="forinput" v-model="userdetail.position">
-                    </div>
-                    <div>
-                        <label for="pay" :class="forlabels">Pay</label>
-                        <input type="text" id="pay" :class="forinput" v-model="userdetail.pay">
-                    </div>
-                </div>
-
-                <div class="mb-6 pl-3 pe-3">
-                    <label for="phonenumber" :class="forlabels">Phone Number</label>
-                    <input type="text" id="phonenumber" :class="forinput" v-model="userdetail.phone">
-                </div>
-
-                <div class="mb-6 pl-3 pe-3">
-                    <label for="address" :class="forlabels">Address</label>
-                    <input type="text" id="address" :class="forinput" v-model="userdetail.address">
-                </div>
-
-                <hr class="text-grey-600 mb-6 mt-8">
-
-
-                <div class="mb-6 pl-3 pe-3">
-                    <label for="username" :class="forlabels">Username</label>
-                    <input type="text" id="username" :class="forinput" v-model="userdetail.username">
-                </div>
-
-                <div class="mb-6 pl-3 pe-3">
-                    <label for="password" :class="forlabels">New Password</label>
-                    <input type="password" id="password" :class="forinput" placeholder="•••••••••"
-                        v-model="userdetail.password">
-                </div>
-
-                <div class="mb-6 pl-3 pe-3">
-                    <label for="repassword" :class="forlabels">Re-Enter New Password</label>
-                    <input type="password" id="repassword" :class="forinput" placeholder="•••••••••"
-                        v-model="uprepassword">
-                </div>
-
-                <div class="grid grid-cols-2 mb-3">
-                    <div class="flex justify-start">
-                        <text
-                            class="cursor-pointer pt-1 pb-1 h-8 w-18 ms-3 mt-1 rounded-md bg-white text-red-500 ps-6 pe-6 hover:bg-red-500 hover:text-white hover:shadow-md"
-                            @click="confirmDelete(theuserid)">Delete User!</text>
-                    </div>
-                    <div class="flex justify-end">
-                        <button type="submit"
-                            class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
-                            @click="updatedata">Save</button>
-                    </div>
-                </div>
-
-
-
-            </form>
-
-            <!-- edit card end -->
         </div>
 
     </div>

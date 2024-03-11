@@ -100,7 +100,7 @@ const confirmDelete = async (noteId) => {
 <template>
     <!-- notes on user -->
 
-    <div class="grid grid-cols-2 mb-3 p-1 rounded-md shadow-md bg-white">
+    <div class="grid grid-cols-2 mb-3 p-1 rounded-md shadow-sm bg-white">
         <div>
             <text class="ms-1 text-md">Notes </text>
             <text class="text-gray-500">( {{ notecounter }} )</text>
@@ -112,7 +112,7 @@ const confirmDelete = async (noteId) => {
         </div>
     </div>
 
-    <div class="rounded-md bg-white shadow-md pt-1 pb-2 px-3 overflow-y-scroll h-52 text-sm">
+    <div class="rounded-md bg-white shadow-sm pt-1 pb-2 px-3 overflow-y-scroll h-52 text-sm">
 
         <!-- for note create -->
         <div v-if="notecreate">
