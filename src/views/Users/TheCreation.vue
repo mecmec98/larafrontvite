@@ -133,8 +133,11 @@ const submitUser = (() => {
 
 </script>
 <template>
-    <div class="">
-        <div class=" mb-6 mt-1 p-5 rounded-md bg-white shadow-sm h-128">
+    <div class="grid grid-cols-5">
+        <div class = "-me-20 bg-blue-500 mt-1 p-5 rounded-md h-128">
+
+        </div>
+        <div class="-ms-20 mt-1 p-5 rounded-r-md bg-white shadow-sm h-128 col-span-4">
 
             <div :key="currentSlide" class="slides">
                 <div v-if="currentSlide === 1" class="slide">
