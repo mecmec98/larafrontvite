@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       height: {
-        '128': '40rem',
+        '128': '38rem',
       },
       fontFamily: {
         //sans: ['mono', 'sans-serif'],

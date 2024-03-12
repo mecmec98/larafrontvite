@@ -32,18 +32,25 @@ const date = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate(
 const datecreated = date
 
 //for slider
+const titlebool = ref(true)
+const titletoggle = () => {
+    titlebool.value = !titlebool.value;
+}
 
 const nextSlide = () => {
     if (currentSlide.value < 2) {
         currentSlide.value++;
+        titletoggle()
     }
-};
+}
 
 const prevSlide = () => {
     if (currentSlide.value > 1) {
         currentSlide.value--;
+        titletoggle()
     }
-};
+}
+
 
 //datepicker
 // Define the desired date format
@@ -134,7 +141,16 @@ const submitUser = (() => {
 </script>
 <template>
     <div class="grid grid-cols-5">
-        <div class = "-me-20 bg-blue-500 mt-1 p-5 rounded-md h-128">
+        <div class="-me-20 pe-24 bg-gradient-to-b from-blue-600 to-cyan-500 mt-1 p-5 rounded-md h-128">
+            <div v-if = "titlebool">
+                <h2 class="text-white font-bold text-3xl">Employee</h2>
+                <h2 class="mt-1 me-1 flex justify-center text-white font-bold text-2xl">Profile</h2>
+            </div>
+            <div v-else>
+                <h2 class="text-white font-bold text-3xl">Employee</h2>
+                <h2 class="mt-1 me-5 flex justify-center text-white font-bold text-2xl">Account</h2>
+            </div>
+
 
         </div>
         <div class="-ms-20 mt-1 p-5 rounded-r-md bg-white shadow-sm h-128 col-span-4">
@@ -144,7 +160,7 @@ const submitUser = (() => {
                     <!-- Slide 1 content -->
                     <div class="">
                         <div class="flex justify-center">
-                            <img class="w-20 h-20 mb-3 rounded-full bg-white border border-blue-500" src=""
+                            <img class="w-20 h-20 mb-2 rounded-full bg-white border border-blue-500" src=""
                                 alt="Upload photo" />
                         </div>
                         <div class="grid mb-6 gap-6 md:grid-cols-3">
@@ -166,7 +182,7 @@ const submitUser = (() => {
 
 
                         </div>
-                        <div class="grid mb-6 md:grid-cols-2 gap-6">
+                        <div class="grid mb-6 md:grid-cols-3 gap-6">
                             <div>
                                 <label for="birthday" :class="forlabels">Birthday</label>
                                 <datepicker v-model="birthday" :typeable="false" :class="forinput" />
@@ -180,7 +196,11 @@ const submitUser = (() => {
                                     <option>Others</option>
                                 </select>
                             </div>
-
+                            <div>
+                                <label for="phonenumber" :class="forlabels">Phone Number</label>
+                                <input type="text" id="phonenumber" :class="forinput" placeholder="eg.+639123456789"
+                                    v-model="phone" required>
+                            </div>
                         </div>
 
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
@@ -195,18 +215,15 @@ const submitUser = (() => {
                             </div>
 
                         </div>
-                        <div class="mb-6">
-                            <label for="phonenumber" :class="forlabels">Phone Number</label>
-                            <input type="text" id="phonenumber" :class="forinput" placeholder="eg.+639123456789"
-                                v-model="phone" required>
-                        </div>
 
-                        <div class="mb-6">
+
+                        <div>
                             <label for="address" :class="forlabels">Address</label>
                             <input type="text" id="address" :class="forinput" placeholder="Address" v-model="address"
                                 required>
                         </div>
-                        <div class="flex justify-end">
+
+                        <div class="flex justify-end mt-20">
                             <button @click="nextSlide"
                                 class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center">
                                 Next
@@ -238,9 +255,9 @@ const submitUser = (() => {
                             <input type="password" id="confirm_password" :class="forinput" placeholder="•••••••••"
                                 v-model="repassword" required>
                         </div>
-                      
 
-                        <div class="grid grid-cols-2">
+
+                        <div class="grid grid-cols-2 mt-36">
                             <button @click="prevSlide"
                                 class="justify-self-start text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center">
                                 Previous
@@ -262,6 +279,4 @@ const submitUser = (() => {
 
 
 
-<style>
-
-</style>
+<style></style>
