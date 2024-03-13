@@ -63,13 +63,13 @@ import { ref, onBeforeMount, onMounted } from 'vue'
                 </div>
                 <ul class="py-1" role="none">
                   <li>
+                    <router-link to="/Profile" :class="fordropdown" role="menuitem">Profile</router-link>
+                  </li>
+                  <li>
                     <router-link to="/" :class="fordropdown" role="menuitem">Dashboard</router-link>
                   </li>
                   <li>
                     <a href="#" :class="fordropdown" role="menuitem">Settings</a>
-                  </li>
-                  <li>
-                    <a href="#" :class="fordropdown" role="menuitem">Placeholder</a>
                   </li>
                   <li>
                     <text @click="loginclick" :class="fordropdown" role="menuitem">Sign out</text>
