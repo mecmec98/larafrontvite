@@ -1,7 +1,14 @@
 <script setup>
 import { ref } from 'vue'
+//cookies
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
 
+// const tokennow = ref('')
+// const tokencheck = () => {
+//     tokennow.value = cookies.get('access_token')
+// }
 
 
 </script>
@@ -19,8 +26,7 @@ import { ref } from 'vue'
     <div class="grid md:grid-cols-4 gap-6 mt-7">
 
         <div class="col-span-3 p-3 bg-white w-full h-60 rounded-sm shadow-md">
-
-         
+      
         </div>
 
     <div class="grid md:gird-rows-2 gap-6">

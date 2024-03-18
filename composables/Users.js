@@ -1,25 +1,37 @@
 import { ref } from 'vue'
 
-const getUser = () => {
+//add authtoken
+const getUser = (authtoken) => {
     const listofusers = ref([])
+
+    const headers = {
+        "Authorization": `Bearer ${authtoken}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
 
     const loaduser = async () => {
         try {
-            let userdata = await fetch('http://localhost:3000/users')
-            if (!userdata.ok) {
-                throw Error('No Data')
+            const response = await fetch("http://127.0.0.1:8000/api/userprofile", {
+                method: "GET",
+                headers,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                listofusers.value = data;
+            } else {
+                console.error("Error fetching user profile:", response.statusText);
             }
-
-            listofusers.value = await userdata.json()
-
+        } catch (error) {
+            console.error("Unexpected error:", error);
         }
-        catch (err) {
-            console.log(err.message)
-        }
-    }
-    return { listofusers, loaduser }
+    };
 
+    return { listofusers, loaduser };
 }
+
+
 
 const getUserDetails = (theid) => {
     const userdetail = ref([])
@@ -176,34 +188,6 @@ const deletethisUser = (userid) => {
     return deleteuser()
 }
 
-const getAllUserProfiles = async (token) => {
 
-    const headers = {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-    };
-    const loadprofiles = () => {
-        try {
-            fetch("http://127.0.0.1:8000/api/userprofile", {
-                method: "GET",
-                headers,
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("User profile data:", data)
-                })
-                .catch(error => {
-                    // Handle any fetch-related errors
-                    console.error("Error fetching user profile:", error)
-                });
-        } catch (error) {
-            // Handle any other unexpected errors
-            console.error("Unexpected error:", error)
-        }
-    }
-    return loadprofiles
 
-}
-
-export { getUser, getUserDetails, getUserFiles, patchUserDetails, postUserDetails, deletethisUser, getAllUserProfiles }
+export { getUser, getUserDetails, getUserFiles, patchUserDetails, postUserDetails, deletethisUser }

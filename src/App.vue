@@ -21,6 +21,12 @@ const loginact = () => {
   const theuser = cookies.get('user_log')
 
   loginbol.value = !!(thetoken && theuser);
+}
+const logoutact = () => {
+  cookies.remove('access_token')
+  cookies.remove('user_log')
+  console.log('Logged Out')
+  loginbol.value = false
 
 }
 
@@ -30,7 +36,7 @@ const loginact = () => {
 
   <div v-if="loginbol" class="flex">
     <!-- Include the header component -->
-    <TheHeader @sideclick="sidehider" @loginclick="loginact" />
+    <TheHeader @sideclick="sidehider" @logoutClick="logoutact" />
 
     <!-- Include the sidebar component -->
     <TheSidebar @sideclick="sidehider" :toside="sidebol" />
