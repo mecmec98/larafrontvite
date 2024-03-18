@@ -1,24 +1,8 @@
 <script setup>
-import { corstest } from '/composables/Corstest'
 import { ref } from 'vue'
 
 
-const user = ref('')
-const password = ref('')
 
-const submitCorsRequest = async () => {
-    try {
-        const token = await corstest(user.value, password.value);
-        if (token) {
-            console.log('Token:', token);
-            // Handle the token (e.g., store it in a state management system)
-        } else {
-            console.error('Error fetching token.');
-        }
-    } catch (error) {
-        console.error('Error fetching token:', error);
-    }
-}
 
 </script>
 
@@ -36,15 +20,7 @@ const submitCorsRequest = async () => {
 
         <div class="col-span-3 p-3 bg-white w-full h-60 rounded-sm shadow-md">
 
-            <div class="flex justify-center mt-10">
-
-               User <input v-model="user" class="border" type="text">
-               Password <input v-model="password" class="border" type="text">
-           
-               <button @click="submitCorsRequest"> send me</button>
          
-            </div>
-
         </div>
 
     <div class="grid md:gird-rows-2 gap-6">

@@ -4,17 +4,24 @@ import TheHeader from './components/TheHeader.vue'
 import TheSidebar from './components/TheSidebar.vue'
 import TheLogin from './components/TheLogin.vue'
 
+//cookies
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
+
 const sidebol = ref(false)
 function sidehider() {
   sidebol.value = !sidebol.value
   //console.log(sidebol)
 }
 
-const loginbol = ref(true)
+const loginbol = ref(false)
 
-function loginact() {
-  loginbol.value = !loginbol.value
-  //console.log(loginbol.value)
+const loginact = () => {
+  const thetoken = cookies.get('access_token')
+  const theuser = cookies.get('user_log')
+
+  loginbol.value = !!(thetoken && theuser);
+
 }
 
 </script>
