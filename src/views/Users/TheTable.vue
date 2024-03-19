@@ -4,57 +4,52 @@ import { getUser } from '../../../composables/Users'
 //cookies
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
-
+const thetoken = cookies.get('access_token')
 
 const forrow = 'bg-white border-b hover:bg-blue-100'
 const forrowalt = 'bg-gray-100 border-b hover:bg-blue-100'
 const forrowtext = 'px-5 py-4 font-medium text-gray-700 whitespace-nowrap'
 const userCounter = ref('')
 
-//data
-onMounted(() => {
 
-
-})
-
-const thetoken = cookies.get('access_token')
-console.log(thetoken)
-
-const { listofusers, loaduser } = getUser(thetoken)
+const { loaduser, listofusers } = getUser(thetoken)
 loaduser()
-console.log(listofusers)
+console.log("the list of users", listofusers)
+//data
+
+
+
 
 //search
-const forsearch = ref('')
+const forsearch = ref('');
 
 const searchUsers = computed(() => {
-    return listofusers.value.filter(item => {
+    const users = listofusers.value.data || []; // Ensure it's an array
+    return users.filter(item => {
         return item.firstname.toLowerCase().includes(forsearch.value.toLowerCase()) ||
-            item.lastname.toLowerCase().includes(forsearch.value.toLowerCase())
-    })
-})
+            item.lastname.toLowerCase().includes(forsearch.value.toLowerCase());
+    });
+});
 
-
-
-//console.log(fordata)
 
 onUpdated(() => {
     userCounter.value = listofusers.value.length
 })
 
-
+onMounted(() => {
+})
 
 
 </script>
 
 <template>
-    <!-- <div>
+    <div>
         <div class="flex justify-end mb-1">
             <div class="grid grid-cols-3 bg-white rounded-lg m-2 mt-2 ps-3 pt-2 shadow-lg h-20  w-40">
                 <div class="text-xs mt-1 text-gray-700">Number of Users:</div>
                 <div class="col-span-2 text-4xl mt-3 justify-self-end me-4 text-blue-600">{{ userCounter }}</div>
             </div>
-        
+
 
         </div>
 
@@ -118,6 +113,6 @@ onUpdated(() => {
                 </table>
             </div>
         </div>
-    </div> -->
+    </div>
 
 </template>

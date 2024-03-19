@@ -11,6 +11,7 @@
   "dependencies": {
     "flatpickr": "^4.6.13",
     "json-server": "^1.0.0-alpha.23",
+    "pinia": "^2.1.7",
     "sweetalert": "^2.1.2",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5",

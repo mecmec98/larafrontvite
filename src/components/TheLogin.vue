@@ -51,10 +51,10 @@ const thislogin = async () => {
             </div>
             <h2 class="text-md text-white mb-2 mt-2">Username</h2>
             <input type="text" v-model="user"
-                class="border shadow-sm border-blue-500 rounded-sm w-full ps-1 focus:ring-1 focus:outline-none focus:ring-white">
+                class="border shadow-sm border-blue-500 rounded-md w-full ps-1 focus:ring-1 focus:outline-none focus:ring-white">
             <h2 class="text-md text-white mb-2 mt-3">Password</h2>
             <input type="text" v-model="password"
-                class="border shadow-sm border-blue-500 rounded-sm w-full ps-1 focus:ring-1 focus:outline-none focus:ring-white">
+                class="border shadow-sm border-blue-500 rounded-md w-full ps-1 focus:ring-1 focus:outline-none focus:ring-white">
 
             <div class="flex justify-end">
                 <!-- <button @click="thislogin" 

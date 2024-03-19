@@ -3,32 +3,28 @@ import { ref } from 'vue'
 //add authtoken
 const getUser = (authtoken) => {
     const listofusers = ref([])
-
-    const headers = {
-        "Authorization": `Bearer ${authtoken}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
     }
-
     const loaduser = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/userprofile", {
-                method: "GET",
-                headers,
-            });
+            const response = await fetch("http://127.0.0.1:8000/api/userprofile", sendoptions);
 
-            if (response.ok) {
-                const data = await response.json();
-                listofusers.value = data;
-            } else {
-                console.error("Error fetching user profile:", response.statusText);
+            if (!response.ok) {
+                throw new Error(`Network response was not OK: ${response.status}`)
             }
+            const data = await response.json()
+            listofusers.value = data
         } catch (error) {
-            console.error("Unexpected error:", error);
+            console.error("An error occurred:", error);
         }
-    };
-
-    return { listofusers, loaduser };
+    }
+    return { loaduser, listofusers }
 }
 
 
