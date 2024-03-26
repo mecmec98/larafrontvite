@@ -2,8 +2,8 @@
 import { ref, onUpdated, onMounted, computed } from 'vue'
 import { getUser } from '../../../composables/Users'
 //cookies
-import { useCookies } from "vue3-cookies";
-const { cookies } = useCookies();
+import { useCookies } from "vue3-cookies"
+const { cookies } = useCookies()
 const thetoken = cookies.get('access_token')
 
 const forrow = 'bg-white border-b hover:bg-blue-100'
@@ -16,8 +16,6 @@ const { loaduser, listofusers } = getUser(thetoken)
 loaduser()
 console.log("the list of users", listofusers)
 //data
-
-
 
 
 //search

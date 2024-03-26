@@ -13,7 +13,7 @@ const getUser = (authtoken) => {
     }
     const loaduser = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/userprofile", sendoptions);
+            const response = await fetch("http://127.0.0.1:8000/api/userprofile", sendoptions)
 
             if (!response.ok) {
                 throw new Error(`Network response was not OK: ${response.status}`)
@@ -28,25 +28,32 @@ const getUser = (authtoken) => {
 }
 
 
-
-const getUserDetails = (theid) => {
+const getUserDetails = (authtoken, theid) => {
     const userdetail = ref([])
-    const loaduser = async () => {
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const loaduserdetail = async () => {
         try {
-            let userdata =
-                await fetch('http://localhost:3000/users/' + theid)
-            if (!userdata.ok) {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/profile/' + theid, sendoptions)
+            if (!response.ok) {
                 throw Error('No Data')
             }
-
-            userdetail.value = await userdata.json()
+            const data = await response.json()
+            userdetail.value = data
 
         }
         catch (err) {
             console.log(err.message)
         }
     }
-    return { userdetail, loaduser }
+    return { userdetail, loaduserdetail }
 
 }
 

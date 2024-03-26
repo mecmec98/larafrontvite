@@ -15,12 +15,12 @@ export const useAuthStore = defineStore('AuthStore', {
 
       async pinialogin(user, password) {
         try {
-            const token = await login(user, password)
+            const data = await login(user, password)
 
-            if (token !== null) {
+            if (data !== null) {
                 // Set the token and user ID in the store also authentication bol for routes
-                this.accessToken = token.token
-                this.userId = token.userid
+                this.accessToken = data.token
+                this.userId = data.userid
                 this.isAuthenticated = true
             }
         } catch (error) {

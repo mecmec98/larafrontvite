@@ -1,8 +1,12 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
+import { ref } from 'vue'
 import { getUserFiles, getUserDetails, patchUserDetails, deletethisUser } from '/composables/Users'
 
+//cookies
+import { useCookies } from "vue3-cookies"
+const { cookies } = useCookies()
+const thetoken = cookies.get('access_token')
 
 import TheNotes from '/src/components/TheNotes.vue'
 
@@ -14,8 +18,9 @@ const forinput = 'bg-gray-50 border-2 border-blue-500 text-gray-900 text-sm roun
 const forrowtext = 'px-6 py-4 font-medium text-gray-700 whitespace-nowrap'
 const forrow = 'bg-white border-b hover:bg-blue-100'
 
+
 //usercardid
-const theuserid = ref(route.params.id)
+//console.log(route.params.id)
 
 //for date
 const today = new Date()
@@ -28,26 +33,17 @@ function modaltoggle() {
 
 
 // load user data
-const { userdetail, loaduser } = getUserDetails(theuserid.value)
-const { userfiles, loadfile } = getUserFiles(theuserid.value)
+const { userdetail, loaduserdetail } = getUserDetails(thetoken, route.params.id)
 
-loadfile()
-loaduser()
+//const { userfiles, loadfile } = getUserFiles(theuserid.value)
 
+//loadfile()
+loaduserdetail()
 
-
-onBeforeMount(() => {
-});
+console.log(userdetail.value)
 
 
-onMounted(() => {
 
-});
-
-
-onUpdated(() => {
-
-});
 
 //userdetail update
 const msgUpdated = (() => {

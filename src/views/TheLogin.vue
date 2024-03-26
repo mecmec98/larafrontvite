@@ -10,22 +10,17 @@ const { cookies } = useCookies();
 
 const user = ref('')
 const password = ref('')
-const mytoken = ref('')
-const myid = ref('')
-
 
 //login script
 const thislogin = async () => {
     try {
         await authStore.pinialogin(user.value, password.value)
-        mytoken.value = authStore.accessToken
-        myid.value = authStore.userID
 
+        //store token and id in cookies
+        cookies.set('access_token', authStore.accessToken)
+        cookies.set('user_log', authStore.userID)
 
-        cookies.set('access_token', mytoken)
-        cookies.set('user_log', myid)
-
-
+        // redirect to dashboard after
         router.push('./Home')
     }catch{
         console.error('pinia error')
