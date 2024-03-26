@@ -1,5 +1,6 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import { useAuthStore } from '@/store/auth'
+import { createRouter, createWebHistory } from 'vue-router'
+
+import { useAuthStore } from '../stores/auth'
 
 import Home from "../views/Home.vue"
 import The404 from "../views/The404.vue"
@@ -8,62 +9,80 @@ import TheUserTable from "../views/Users/TheTable.vue"
 import TheUserCard from "../views/Users/TheCard.vue"
 import TheAttendance from "../views/Users/TheAttendance.vue"
 import TheProfile from "../views/TheProfile.vue"
+import TheLogin from "../views/TheLogin.vue"
 
-//for authentication
-const authStore = useAuthStore()
-router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-      // Redirect to login page if not authenticated
-      next('/login');
-    } else {
-      next();
-    }
-  })
-  
+
+
 //    meta: { requiresAuth: true },
 const routes = [
-{
-    path:'/',
-    name:'Home',
-    component: Home
-},
-{
-    path:'/CreateUser',
-    name:'CreateUser',
-    component: TheUserCreation
-},
-{
-    path:'/UserList',
-    name:'UserList',
-    component: TheUserTable
-},
-{
-    path:'/UserList/:id',
-    name:'UserListCard',
-    component: TheUserCard,
-    props: true
-},
-{
-    path: '/Attendance',
-    name:'Attendance',
-    component: TheAttendance
-},
-{
-    path: '/Profile',
-    name:'Profile',
-    component: TheProfile
-},
-//404 catcher
-{
-    path:'/:catchAll(.*)',
-    name: '404',
-    component: The404
-}
+    {
+        path: '/',
+        name: 'Login',
+        component: TheLogin,
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/Home',
+        name: 'Home',
+        component: Home,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/CreateUser',
+        name: 'CreateUser',
+        component: TheUserCreation,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/UserList',
+        name: 'UserList',
+        component: TheUserTable,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/UserList/:id',
+        name: 'UserListCard',
+        component: TheUserCard,
+        meta: { requiresAuth: true },
+        props: true
+    },
+    {
+        path: '/Attendance',
+        name: 'Attendance',
+        component: TheAttendance,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/Profile',
+        name: 'Profile',
+        component: TheProfile,
+        meta: { requiresAuth: true },
+    },
+    //404 catcher
+    {
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: The404
+    }
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+//for authentication
+
+router.beforeEach((to, from, next) => {
+
+    const authStore = useAuthStore()
+    
+    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+        // Redirect to login page if not authenticated
+        next('/');
+    } else {
+        next();
+    }
 })
 
 export default router

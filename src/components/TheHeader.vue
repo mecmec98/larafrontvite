@@ -1,16 +1,28 @@
 <script setup>
-import { ref, onBeforeMount, onMounted } from 'vue'
+import { ref } from 'vue'
+import router from '../routes'
+//cookies
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
+//stores
+import { useAuthStore } from '../stores/auth'
+const authStore = useAuthStore()
 
-
-const fordropdown = 'block px-4 py-2 text-sm text-blue-500 hover:bg-blue-600 hover:text-white'
+const fordropdown = 'block cursor-pointer px-4 py-2 text-sm text-blue-500 hover:bg-blue-600 hover:text-white'
 const formenuhider = 'z-50 absolute top-7 right-10 sm:right-5 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow'
 const menubol = ref(false)
 
 
-const emit = defineEmits(['logoutClick'], ['sideclick'])
+const emit = defineEmits(['sideclick'])
 
 const logoutClicker = () => {
-  emit('logoutClick')
+  cookies.remove('access_token')
+  cookies.remove('user_log')
+
+  authStore.pinialogout()
+  router.push('/')
+  console.log('Logged Out')
+
 }
 
 const sideclicker = () => {

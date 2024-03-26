@@ -1,41 +1,34 @@
 <script setup>
-import { login } from '/composables/Login'
 import { ref } from 'vue'
-
+import router from '../routes'
+//stores
+import { useAuthStore } from '../stores/auth'
+const authStore = useAuthStore()
 //cookies
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 
 const user = ref('')
 const password = ref('')
+const mytoken = ref('')
+const myid = ref('')
 
-const emit = defineEmits(['loginclick'])
-const loginclick = () => {
-    emit('loginclick')
-}
 
 //login script
 const thislogin = async () => {
     try {
-        const token = await login(user.value, password.value)
-   
+        await authStore.pinialogin(user.value, password.value)
+        mytoken.value = authStore.accessToken
+        myid.value = authStore.userID
 
-        if (token !== null) {
-            const thetoken = token.token
-            const theuser = token.userid
-            cookies.set('access_token', thetoken)
-            cookies.set('user_log', theuser)
- 
-            loginclick()
 
-            //token.token token value
-            //token.userid logged in user id
-            
-            // Emit the 'loginclick' event (adjust as needed)
-            // Example: emit('loginclick', token);
-        }
-    } catch (error) {
-        console.error('Error during login:', error)
+        cookies.set('access_token', mytoken)
+        cookies.set('user_log', myid)
+
+
+        router.push('./Home')
+    }catch{
+        console.error('pinia error')
     }
 }
 
@@ -43,7 +36,7 @@ const thislogin = async () => {
 </script>
 
 <template>
-    <div class="flex justify-center mt-20 ">
+    <div class="flex justify-center mt-20 sm:-ml-60">
         <div class="bg-gradient-to-b from-blue-600 to-cyan-500 p-7 w-96 h-96 rounded-md shadow-lg ">
             <div class="flex justify-center">
                 <img class="w-20 h-20 mb-5 rounded-full border border-white bg-white shadow-md" src=""
