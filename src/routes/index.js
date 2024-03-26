@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import { useAuthStore } from '@/store/auth'
 
 import Home from "../views/Home.vue"
 import The404 from "../views/The404.vue"
@@ -8,7 +9,18 @@ import TheUserCard from "../views/Users/TheCard.vue"
 import TheAttendance from "../views/Users/TheAttendance.vue"
 import TheProfile from "../views/TheProfile.vue"
 
-
+//for authentication
+const authStore = useAuthStore()
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+      // Redirect to login page if not authenticated
+      next('/login');
+    } else {
+      next();
+    }
+  })
+  
+//    meta: { requiresAuth: true },
 const routes = [
 {
     path:'/',
