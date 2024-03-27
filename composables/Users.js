@@ -45,9 +45,9 @@ const getUserDetails = (authtoken, theid) => {
             if (!response.ok) {
                 throw Error('No Data')
             }
-            const data = await response.json()
-            userdetail.value = data
-
+       
+            userdetail.value = await response.json()
+       
         }
         catch (err) {
             console.log(err.message)

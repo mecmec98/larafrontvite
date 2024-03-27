@@ -33,14 +33,36 @@ function modaltoggle() {
 
 
 // load user data
-const { userdetail, loaduserdetail } = getUserDetails(thetoken, route.params.id)
+const { userdetail, loaduserdetail } = getUserDetails(thetoken, route.params.id);
+
+async function loadUserDetailsAsync() {
+  try {
+    await loaduserdetail()
+
+    console.log(userdetail)
+    console.log(userdetail.value.data.profile.firstname)
+
+    const username = userdetail.value.data.username
+    const email = userdetail.value.data.email
+    //profile data
+    const firstname = userdetail.value.data.profile.firstname
+    const lastname = userdetail.value.data.profile.lastname
+    const middlename = userdetail.value.data.profile.middlename
+    const address = userdetail.value.data.profile.address
+    const birthday = userdetail.value.data.profile.birthday
+    const gender = userdetail.value.data.profile.gender
+    const pay = userdetail.value.data.profile.pay
+    const phone = userdetail.value.data.profile.phone
+
+  } catch (error) {
+    console.error('Error loading user details:', error)
+  }
+}
+
+loadUserDetailsAsync();
 
 //const { userfiles, loadfile } = getUserFiles(theuserid.value)
-
 //loadfile()
-loaduserdetail()
-
-console.log(userdetail.value)
 
 
 
