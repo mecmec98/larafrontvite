@@ -1,25 +1,26 @@
 
 import { ref } from 'vue'
 
-const postUserNotes = (id, user, title, badge, body, datecreated) => {
+const postUserNotes = (user, title, badge, body, datecreated, authtoken) => {
 
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
-            id: id,
-            user: user,
+            userid: user,
             title: title,
             badge: badge,
             body: body,
-            datecreated: datecreated
+            date: datecreated,
 
         }),
         headers: {
-            'Content-type': 'application/json; charset=UTF-8'
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
     }
     const sendthisnote = async () => {
-        fetch('http://localhost:3000/notes/', sendoptions)
+        fetch('http://127.0.0.1:8000/api/note/', sendoptions)
             .then(async response => {
                 const isJson = response.headers.get('content-type')?.includes('application/json');
                 const data = isJson && await response.json();
@@ -37,39 +38,50 @@ const postUserNotes = (id, user, title, badge, body, datecreated) => {
     return (sendthisnote)
 }
 
-const getUserNotes = (userid) => {
+const getUserNotes = (userid,authtoken) => {
 
     const usernotes = ref([])
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
     const loadnote = async () => {
         try {
-            let notedata =
-                await fetch('http://localhost:3000/notes?user=' + userid)
-            if (!notedata.ok) {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/note/' + userid, sendoptions)
+
+            if (!response.ok) {
                 throw Error('No Data')
             }
-
-            usernotes.value = await notedata.json()
+            const data = await response.json()
+            usernotes.value = data
 
         }
-        catch (err) {
-            console.log(err.message)
+        catch (error) {
+            console.error("API error",error)
         }
     }
     return { usernotes, loadnote }
 
 }
 
-const deleteUserNotes = (noteid) => {
+const deleteUserNotes = (noteid, authtoken) => {
     const deleteoptions = {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
     }
 
     const deletenote = async () => {
         try {
-            const response = await fetch('http://localhost:3000/notes/' + noteid, deleteoptions)
+            const response = await fetch('http://127.0.0.1:8000/api/note/' + noteid, deleteoptions)
             const isJson = response.headers.get('content-type')?.includes('application/json')
             const data = isJson && await response.json()
             if (!response.ok) {

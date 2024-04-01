@@ -19,10 +19,10 @@ loaduser()
 
 
 //search
-const forsearch = ref('');
+const forsearch = ref('')
 
 const searchUsers = computed(() => {
-    const users = listofusers.value.data || []; // Ensure it's an array
+    const users = listofusers.value.data || [] // Ensure it's an array
     return users.filter(item => {
         return item.firstname.toLowerCase().includes(forsearch.value.toLowerCase()) ||
             item.lastname.toLowerCase().includes(forsearch.value.toLowerCase());

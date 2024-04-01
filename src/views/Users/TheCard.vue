@@ -1,3 +1,4 @@
+1
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
@@ -33,33 +34,47 @@ function modaltoggle() {
 
 
 // load user data
+//user varaibles
+const username = ref('')
+const email = ref('')
+//user profile varaiables
 const { userdetail, loaduserdetail } = getUserDetails(thetoken, route.params.id);
+const firstname = ref('')
+const lastname = ref('')
+const middlename = ref('')
+const position = ref('')
+const address = ref('')
+const birthday = ref('')
+const gender = ref('')
+const pay = ref('')
+const phone = ref('')
+
 
 async function loadUserDetailsAsync() {
-  try {
-    await loaduserdetail()
+    try {
+        await loaduserdetail()
 
-    console.log(userdetail)
-    console.log(userdetail.value.data.profile.firstname)
 
-    const username = userdetail.value.data.username
-    const email = userdetail.value.data.email
-    //profile data
-    const firstname = userdetail.value.data.profile.firstname
-    const lastname = userdetail.value.data.profile.lastname
-    const middlename = userdetail.value.data.profile.middlename
-    const address = userdetail.value.data.profile.address
-    const birthday = userdetail.value.data.profile.birthday
-    const gender = userdetail.value.data.profile.gender
-    const pay = userdetail.value.data.profile.pay
-    const phone = userdetail.value.data.profile.phone
+        //user data
+        username.value = userdetail.value.data.username
+        email.value = userdetail.value.data.email
+        //profile data
+        firstname.value = userdetail.value.data.profile.firstname
+        lastname.value = userdetail.value.data.profile.lastname
+        middlename.value = userdetail.value.data.profile.middlename
+        position.value = userdetail.value.data.profile.position
+        address.value = userdetail.value.data.profile.address
+        birthday.value = userdetail.value.data.profile.birthday
+        gender.value = userdetail.value.data.profile.gender
+        pay.value = userdetail.value.data.profile.pay
+        phone.value = userdetail.value.data.profile.phone
 
-  } catch (error) {
-    console.error('Error loading user details:', error)
-  }
+    } catch (error) {
+        console.error('Error loading user details:', error)
+    }
 }
 
-loadUserDetailsAsync();
+loadUserDetailsAsync()
 
 //const { userfiles, loadfile } = getUserFiles(theuserid.value)
 //loadfile()
@@ -129,7 +144,21 @@ const confirmDelete = async (userId) => {
     } else {
         swal("Your User is safe!")
     }
+
 }
+
+// Declare reactive data
+const selectedFileName = ref();
+
+// Handle file selection
+const handleFileChange = (e) => {
+    const fileInput = e.target;
+    if (fileInput.files.length > 0) {
+        selectedFileName.value = fileInput.files[0].name;
+    } else {
+        selectedFileName.value = null;
+    }
+};
 
 </script>
 
@@ -140,8 +169,8 @@ const confirmDelete = async (userId) => {
 
 
     <div> <!-- container for body -->
-
-        <div :class="{ 'blur': modalviewer, '': modalviewer }"> <!-- blur effect when opening edit card -->
+        <!-- blur effect when opening edit card -->
+        <div :class="{ 'blur': modalviewer, '': modalviewer }">
             <!-- first row -->
             <div class="grid lg:grid-cols-2 mt-2 mb-5 gap-4">
 
@@ -160,9 +189,9 @@ const confirmDelete = async (userId) => {
                         <div class="-ms-56 ps-3">
                             <p class="text-xs text-gray-400 pb-1">ID: {{ route.params.id }}</p>
                             <h2 class="md:text-xl text-lg pb-1">
-                                {{ userdetail.firstname }} {{ userdetail.middlename }} {{ userdetail.lastname }}
+                                {{ firstname }} {{ middlename }} {{ lastname }}
                             </h2>
-                            <h2 class="text-sm text-blue-500">{{ userdetail.position }}</h2>
+                            <h2 class="text-sm text-blue-500">{{ position }}</h2>
                         </div>
                     </div>
                 </div>
@@ -185,33 +214,33 @@ const confirmDelete = async (userId) => {
                     <div class="grid gap-4 md:grid-cols-2 mt-2 place-items-start">
                         <div>
                             <h1 class="flex justify-start mt-3 text-xs text-gray-400" @click="testlog">Pay Rate</h1>
-                            <h2 class="text-center  text-xl ">{{ userdetail.pay }}/day</h2>
+                            <h2 class="text-center  text-xl ">{{ pay }}/day</h2>
                         </div>
 
                         <div>
                             <h1 class="flex justify-start mt-3 text-xs text-gray-400">Phone Number</h1>
-                            <h2 class="text-start  text-xl ">{{ userdetail.phone }}</h2>
+                            <h2 class="text-start  text-xl ">{{ phone }}</h2>
                         </div>
 
                         <div>
                             <h1 class="flex justify-start mt-3 text-xs text-gray-400">Gender</h1>
-                            <h2 class="text-start  text-xl ">{{ userdetail.gender }}</h2>
+                            <h2 class="text-start  text-xl ">{{ gender }}</h2>
                         </div>
 
                         <div>
                             <h1 class="flex justify-start mt-3 text-xs text-gray-400">Birthday</h1>
-                            <h2 class="text-start  text-xl ">{{ userdetail.birthday }}</h2>
+                            <h2 class="text-start  text-xl ">{{ birthday }}</h2>
                         </div>
 
                     </div>
 
                     <h1 class="flex justify-start mt-6 text-xs text-gray-400">Address</h1>
-                    <h2 class="text-start text-xl ">{{ userdetail.address }}</h2>
+                    <h2 class="text-start text-xl ">{{ address }}</h2>
 
                 </div>
                 <!-- second column -->
                 <div>
-                    <TheNotes :tonote="theuserid" />
+                    <TheNotes :tonote="route.params.id" />
                 </div>
 
             </div>
@@ -222,14 +251,26 @@ const confirmDelete = async (userId) => {
                 <div
                     class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-3 bg-blue-500">
                     <div>
+                        <div class="inline-flex relative">
+                            <!-- Hidden file input -->
+                            <input type="file" id="fileInput"
+                                class="opacity-0 absolute inset-0 w-40 h-8 overflow-x-scroll cursor-pointer"
+                                @change="handleFileChange" />
+
+                            <!-- Custom button or label -->
+                            <label for="fileInput"
+                                class="ms-3 bg-white text-gray-600 px-3 py-1 w-52 h-8 overflow-x-scroll rounded-md cursor-pointer ">
+                                {{ selectedFileName || 'Select a file' }}
+                            </label>
+                        </div>
+
+
                         <button id="uploadbutton"
-                            class="inline-flex items-center text-gray-700 bg-white border border-gray-600 focus:outline-none hover:bg-blue-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md text-sm px-3 py-1.5 mt-3 ms-3"
+                            class="inline-flex items-center text-gray-700 bg-white border border-gray-600 focus:outline-none hover:bg-blue-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md text-sm px-3 py-1.5 mt-3 ms-2"
                             type="button">
                             Upload File
                         </button>
                     </div>
-
-
                     <div class="relative">
                         <div
                             class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">

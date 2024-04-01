@@ -1,7 +1,12 @@
 <script setup>
 
 import { postUserNotes, getUserNotes, deleteUserNotes } from '/composables/Notes'
-import { ref, onBeforeMount, onUnmounted, onMounted, onUpdated } from 'vue'
+import { ref, computed, onUpdated, onMounted } from 'vue'
+
+//cookies
+import { useCookies } from "vue3-cookies"
+const { cookies } = useCookies()
+const thetoken = cookies.get('access_token')
 
 //define userid
 
@@ -12,60 +17,69 @@ const props = defineProps({
 const useridnote = ref(props.tonote)
 //date
 const today = new Date()
-const date = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate()
+const date = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
 const datenote = date
+
 //note UI triggers
 const notecreate = ref(false)
 const notecreatetoggle = (() => {
     notecreate.value = !notecreate.value
 })
-const notebadge = ref(false)
+const notebadgebol = ref(false)
 const notebadgetoggle = (() => {
-    notebadge.value = !notebadge.value
+    notebadgebol.value = !notebadgebol.value
 })
 const selectedBadge = ref('Badge')
 const selectBadge = (event) => {
     if (event.target.tagName === 'SPAN') {
         selectedBadge.value = event.target.innerText
-        notebadge.value = false;
+        notebadgebol.value = false;
     }
 }
+//define note variables
+
 //load notes
-const notecounter = ref()
-const { usernotes, loadnote } = getUserNotes(useridnote.value)
-loadnote()
-onUpdated(() => {
-    loadnote()
-    notecounter.value = usernotes.value.length
-});
+const notecounter = ref('')
+const listofnotes = ref([])
+const { usernotes, loadnote } = getUserNotes(useridnote.value, thetoken)
+
+async function loadNoteAsync() {
+    try{
+        await loadnote()
+        notecounter.value = usernotes.value.data.length
+        listofnotes.value = usernotes.value.data || []
+
+    }catch (error) {
+        console.error('Error loading notes:', error)
+    }
+    
+}
+
+loadNoteAsync()
+
+
 
 //post note
-const nid = ref()
 const nuser = ref(useridnote.value)
 
-const ntitle = ref()
-const nbody = ref()
+const ntitle = ref('')
+const nbody = ref('')
 
-const submitnote = (() => {
-    const sendthisnote = postUserNotes(nid.value, nuser.value, ntitle.value, selectedBadge.value, nbody.value, date)
-    sendthisnote()
+const submitnote = ( async () => {
+    const sendthisnote = postUserNotes(nuser.value, ntitle.value, selectedBadge.value, nbody.value, date, thetoken)
+    await sendthisnote()
+    //reload note list
+    await loadNoteAsync()
     notecreate.value = false
-    loadnote()
-    notecounter.value = usernotes.value.length
+
+})
+
+
+onUpdated(() => {
+    notecounter.value = usernotes.value.data.length
 })
 
 //delete note
-
-const deletenote = async (noteId) => {
-    try {
-        await deleteUserNotes(noteId)
-
-        return true; // Indicate successful deletion
-    } catch (error) {
-        throw new Error("An error occurred while deleting the note")
-    }
-}
-
 const confirmDelete = async (noteId) => {
     const willDelete = await swal({
         title: "Are you sure?",
@@ -77,8 +91,8 @@ const confirmDelete = async (noteId) => {
 
     if (willDelete) {
         try {
-            await deletenote(noteId)
-
+            await deleteUserNotes(noteId,thetoken)
+            await loadNoteAsync()
 
             swal("Poof! Your Note has been deleted!", {
                 icon: "success",
@@ -108,12 +122,12 @@ const confirmDelete = async (noteId) => {
 
         <div class="justify-self-end">
             <div v-if="notecreate">
-            <text class="me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-red-500      "
-                @click="notecreatetoggle"> - </text>
+                <text class="me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-red-500      "
+                    @click="notecreatetoggle"> - </text>
             </div>
             <div v-else>
                 <text class="me-2 text-lg text-gray-400 cursor-pointer p-1 rounded-full hover:text-green-500      "
-                @click="notecreatetoggle"> + </text>
+                    @click="notecreatetoggle"> + </text>
             </div>
         </div>
     </div>
@@ -124,11 +138,13 @@ const confirmDelete = async (noteId) => {
         <div v-if="notecreate">
             <div class=" rounded-sm p-1">
                 <div class="grid grid-cols-2 ">
-                    <div class="mt-1">
+                    <div class="grid grid-rows-2 mt-1">
+                        <!-- note title -->
+                        <div>
                         <input type="text" v-model="ntitle"
                             class="p-1 text-lg focus:outline-none active:outline-none rounded-md border"
                             placeholder="Note Title">
-
+                        </div>    
                         <!-- note badge -->
 
                         <div class="relative inline-block text-left mt-1">
@@ -146,7 +162,7 @@ const confirmDelete = async (noteId) => {
 
                             <!-- Dropdown menu -->
                             <div>
-                                <ul v-if="notebadge" @click="selectBadge"
+                                <ul v-if="notebadgebol" @click="selectBadge"
                                     class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                                     role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                     <!-- Dropdown items -->
@@ -182,7 +198,7 @@ const confirmDelete = async (noteId) => {
 
 
         <!-- noteblock -->
-        <div v-for="usernote in usernotes" :key="usernote.id">
+        <div v-for="(usernote) in listofnotes" :key="usernote.id">
             <div class="hover:bg-blue-50 rounded-sm p-1">
                 <div class="grid grid-cols-2 ">
                     <div class="mt-1">
@@ -202,7 +218,7 @@ const confirmDelete = async (noteId) => {
                 </div>
 
                 <hr class="text-gray-400 w-16 m-1">
-                <text class="text-xs text-blue-400">{{ usernote.datecreated }}</text>
+                <text class="text-xs text-blue-400">{{ usernote.created_at }}</text>
                 <p class="text-justify mt-2">{{ usernote.body }}</p>
                 <hr class="text-gray-800 m-2 shadow-sm">
 
