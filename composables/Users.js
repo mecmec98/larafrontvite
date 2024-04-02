@@ -45,9 +45,9 @@ const getUserDetails = (authtoken, theid) => {
             if (!response.ok) {
                 throw Error('No Data')
             }
-       
+
             userdetail.value = await response.json()
-       
+
         }
         catch (err) {
             console.log(err.message)
@@ -58,35 +58,54 @@ const getUserDetails = (authtoken, theid) => {
 }
 
 
-const getUserFiles = (userid) => {
 
-    const userfiles = ref([])
-    const loadfile = async () => {
-        try {
-            let filedata =
-                await fetch('http://localhost:3000/files?user=' + userid)
-            if (!filedata.ok) {
-                throw Error('No Data')
-            }
+const postUserLogin = (username, email, password, vpassword, authtoken) => {
 
-            userfiles.value = await filedata.json()
+    const myuserid = ref()
+    const sendoptions = {
+        method: 'POST',
+        body: JSON.stringify({
 
-        }
-        catch (err) {
-            console.log(err.message)
+            username: username,
+            email: email,
+            password: password,
+            v_password: vpassword
+        }),
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+
         }
     }
-    return { userfiles, loadfile }
 
+    const registerLogin = async () => {
+        try {
+            const response = 
+            await fetch('http://127.0.0.1:8000/api/user', sendoptions)
+          
+            if (!response.ok) {
+                throw Error('Unable to Register User Login')
+            }
+            const data = await response.json()
+
+            myuserid.value = data.data.user_id
+            
+            
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return { registerLogin , myuserid }
 }
 
-const postUserDetails = (id, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, username, password, datecreated) => {
+const postUserDetails = (userid, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, authtoken) => {
 
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
 
-            id: id,
+            userid: userid,
             firstname: firstname,
             lastname: lastname,
             middlename: middlename,
@@ -96,31 +115,30 @@ const postUserDetails = (id, firstname, lastname, middlename, birthday, gender, 
             pay: pay,
             phone: phone,
             address: address,
-            username: username,
-            password: password,
-            datecreated: datecreated
+            
         }),
         headers: {
-            'Content-type': 'application/json; charset=UTF-8'
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+
         }
     }
-    const sendthis = async () => {
-        fetch('http://localhost:3000/users/', sendoptions)
-            .then(async response => {
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const data = isJson && await response.json();
-                if (!response.ok) {
-                    const error = (data && data.message) || response.status;
-                    return Promise.reject(error)
-                }
-            })
-            .catch(error => {
-                console.error('there was an error ', error)
-            });
+    const registerDetails = async () => {
+        try {
+            const response =
+            await fetch('http://127.0.0.1:8000/api/userprofile', sendoptions)
+
+            if (!response.ok) {
+                throw Error('Unable to register User Detail')
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
 
 
     }
-    return (sendthis)
+    return (registerDetails)
 }
 
 const patchUserDetails = (id, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, username, password) => {
@@ -193,4 +211,4 @@ const deletethisUser = (userid) => {
 
 
 
-export { getUser, getUserDetails, getUserFiles, patchUserDetails, postUserDetails, deletethisUser }
+export { getUser, getUserDetails, patchUserDetails, postUserDetails, postUserLogin, deletethisUser }

@@ -2,7 +2,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { getUserFiles, getUserDetails, patchUserDetails, deletethisUser } from '/composables/Users'
+import { getUserDetails, patchUserDetails, deletethisUser } from '/composables/Users'
 
 //cookies
 import { useCookies } from "vue3-cookies"

@@ -1,9 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue'
 import swal from 'sweetalert'
-import { postUserDetails } from '../../../composables/Users'
+import { postUserDetails, postUserLogin } from '../../../composables/Users'
 import datepicker from 'vue3-datepicker'
 
+//cookies
+import { useCookies } from "vue3-cookies"
+const { cookies } = useCookies()
+const thetoken = cookies.get('access_token')
 
 //styles
 const forlabels = 'block mb-2 text-sm font-medium text-blue-600'
@@ -94,7 +98,8 @@ const clickFail = (() => {
 
 })
 
-const submitUser = (() => {
+//for user registration
+const submitUser = async () => {
     if (
         !firstname.value ||
         !lastname.value ||
@@ -106,7 +111,10 @@ const submitUser = (() => {
         !phone.value ||
         !address.value ||
         !username.value ||
-        !password.value
+        !email.value ||
+        !password.value ||
+        !repassword.value
+
     ) {
 
 
@@ -114,35 +122,51 @@ const submitUser = (() => {
         console.log('Important Fields Empty')
 
     } else {
-        const formattedValue = formattedDate.value;
-        const sendthis = postUserDetails
-            (id.value, firstname.value, lastname.value, middlename.value, formattedValue, gender.value, position.value, pay.value, phone.value, address.value, username.value, password.value, datecreated)
-        sendthis()
+        const registerme = async () => {
+            //register user login creditials first and retrieve its id
+            const { registerLogin, myuserid } = postUserLogin
+                (username.value, email.value, password.value, repassword.value, thetoken)
+            await registerLogin()
 
-        id.value = ''
-        firstname.value = ''
-        lastname.value = ''
-        middlename.value = ''
-        birthday.value = ''
-        gender.value = ''
-        position.value = ''
-        pay.value = ''
-        phone.value = ''
-        address.value = ''
-        username.value = ''
-        email.value = ''
-        password.value = ''
-        repassword.value = ''
+            //the register user details with user id from user id credentials
+
+            const formattedValue = formattedDate.value
+            id.value = myuserid.value
+
+            const registerDetails = postUserDetails
+                (id.value, firstname.value, lastname.value, middlename.value, formattedValue, gender.value, position.value, pay.value, phone.value, address.value, thetoken)
+            await registerDetails()
+
+            id.value = ''
+            firstname.value = ''
+            lastname.value = ''
+            middlename.value = ''
+            birthday.value = ''
+            gender.value = ''
+            position.value = ''
+            pay.value = ''
+            phone.value = ''
+            address.value = ''
+            username.value = ''
+            email.value = ''
+            password.value = ''
+            repassword.value = ''
+        }
+
+       await registerme()
 
         clickSuccess()
     }
-})
+
+
+
+}
 
 </script>
 <template>
     <div class="grid grid-cols-5">
         <div class="-me-20 pe-24 bg-gradient-to-b from-blue-600 to-cyan-500 mt-1 p-5 rounded-md h-128">
-            <div v-if = "titlebool">
+            <div v-if="titlebool">
                 <h2 class="text-white font-bold text-3xl">Employee</h2>
                 <h2 class="mt-1 me-1 flex justify-center text-white font-bold text-2xl">Profile</h2>
             </div>
