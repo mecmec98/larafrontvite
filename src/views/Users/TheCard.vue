@@ -2,7 +2,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { getUserDetails, patchUserDetails, deletethisUser } from '/composables/Users'
+import { getAUserLogin, getAUserDetail, putUserDetails, deletethisUser, putUserLogin } from '/composables/Users'
 
 //cookies
 import { useCookies } from "vue3-cookies"
@@ -13,6 +13,7 @@ import TheNotes from '/src/components/TheNotes.vue'
 
 const route = useRoute()
 const router = useRouter()
+
 const forlabels = 'block mb-2 text-sm font-medium text-blue-600'
 const forinput = 'bg-gray-50 border-2 border-blue-500 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 block w-full p-2.5 shadom-sm'
 
@@ -20,8 +21,22 @@ const forrowtext = 'px-6 py-4 font-medium text-gray-700 whitespace-nowrap'
 const forrow = 'bg-white border-b hover:bg-blue-100'
 
 
-//usercardid
-//console.log(route.params.id)
+//for slider
+
+const currentSlide = ref(1)
+const nextSlide = () => {
+    if (currentSlide.value < 2) {
+        currentSlide.value++;
+
+    }
+}
+
+const prevSlide = () => {
+    if (currentSlide.value > 1) {
+        currentSlide.value--
+
+    }
+}
 
 //for date
 const today = new Date()
@@ -30,6 +45,7 @@ const date = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate(
 const modalviewer = ref(false)
 function modaltoggle() {
     modalviewer.value = !modalviewer.value
+    hideupmessages()
 }
 
 
@@ -37,8 +53,9 @@ function modaltoggle() {
 //user varaibles
 const username = ref('')
 const email = ref('')
+
 //user profile varaiables
-const { userdetail, loaduserdetail } = getUserDetails(thetoken, route.params.id);
+
 const firstname = ref('')
 const lastname = ref('')
 const middlename = ref('')
@@ -49,32 +66,40 @@ const gender = ref('')
 const pay = ref('')
 const phone = ref('')
 
+const { loadauserdetails, myuserdetail } = getAUserDetail(route.params.id, thetoken)
+const { loadauserlogin, userlogin } = getAUserLogin(route.params.id, thetoken)
 
-async function loadUserDetailsAsync() {
+
+async function loadtheUserAsync() {
     try {
-        await loaduserdetail()
 
+        await loadauserlogin()
+        //set user login value
+        username.value = userlogin.value.data.username
+        email.value = userlogin.value.data.email
 
-        //user data
-        username.value = userdetail.value.data.username
-        email.value = userdetail.value.data.email
-        //profile data
-        firstname.value = userdetail.value.data.profile.firstname
-        lastname.value = userdetail.value.data.profile.lastname
-        middlename.value = userdetail.value.data.profile.middlename
-        position.value = userdetail.value.data.profile.position
-        address.value = userdetail.value.data.profile.address
-        birthday.value = userdetail.value.data.profile.birthday
-        gender.value = userdetail.value.data.profile.gender
-        pay.value = userdetail.value.data.profile.pay
-        phone.value = userdetail.value.data.profile.phone
+        await loadauserdetails()
+        //set user detail values
+        firstname.value = myuserdetail.value.firstname
+        lastname.value = myuserdetail.value.lastname
+        middlename.value = myuserdetail.value.middlename
+        position.value = myuserdetail.value.position
+        address.value = myuserdetail.value.address
+        birthday.value = myuserdetail.value.birthday
+        gender.value = myuserdetail.value.gender
+        pay.value = myuserdetail.value.pay
+        phone.value = myuserdetail.value.phone
+
+        //set user login values
+
 
     } catch (error) {
-        console.error('Error loading user details:', error)
+
+        console.error('Cant load User', error)
     }
 }
 
-loadUserDetailsAsync()
+loadtheUserAsync()
 
 //const { userfiles, loadfile } = getUserFiles(theuserid.value)
 //loadfile()
@@ -83,23 +108,41 @@ loadUserDetailsAsync()
 
 
 //userdetail update
-const msgUpdated = (() => {
-    swal('User Updated', {
-        icon: "success",
 
-    })
-
-})
-
+//update message modal
+const updetailbool = ref(false)
+const updatedetailmessage = () => {
+    updetailbool.value = true
+}
+const uploginbool = ref(false)
+const updateloginmessage = () => {
+    uploginbool.value = true
+}
+const hideupmessages = () => {
+    currentSlide.value = 1
+    updetailbool.value = false
+    uploginbool.value = false
+}
 const uprepassword = ref()
 
-const updatedata = (() => {
-    const updatethis = patchUserDetails
-        (theuserid.value, userdetail.value.firstname, userdetail.value.lastname, userdetail.value.middlename, userdetail.value.birthday, userdetail.value.gender, userdetail.value.position, userdetail.value.pay, userdetail.value.phone, userdetail.value.address, userdetail.value.username, userdetail.value.password)
-    console.log("Updating Data", userdetail.value.firstname)
-    updatethis()
-    msgUpdated()
-})
+//update action
+const userDetailUpdateAsync = async () => {
+
+    const updatethis = putUserDetails(route.params.id, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, thetoken)
+    await updatethis()
+    updatedetailmessage()
+
+}
+
+const userLoginUpdateAsync = async () => {
+
+    const updatethislogin = putUserLogin(route.params.id, username, email)
+    await updatethislogin()
+
+}
+
+
+
 
 //userdelete
 
@@ -310,7 +353,7 @@ const handleFileChange = (e) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr :class="forrow" v-for="userfile in userfiles">
+                        <!-- <tr :class="forrow" v-for="userfile in userfiles">
 
                             <th scope="row" :class="forrowtext">
                                 {{ userfile.id }}
@@ -328,7 +371,7 @@ const handleFileChange = (e) => {
                             <td class="px-6 py-4">
                                 Edit
                             </td>
-                        </tr>
+                        </tr> -->
 
 
                     </tbody>
@@ -339,114 +382,179 @@ const handleFileChange = (e) => {
         </div>
 
         <!-- edit modal start -->
-        <div v-show="modalviewer" class="absolute top-20 inset-x-0 flex justify-center pb-10 ms-56">
-            <div class="bg-white shadow-md p-5 rounded-md">
-                <div class="flex justify-end">
-                    <button
-                        class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
-                        @click="modaltoggle">Cancel</button>
+        <div v-show="modalviewer" class="absolute h-128 top-20 inset-x-0 flex justify-center ms-56 ">
+            <div class="bg-white shadow-md px-5 rounded-md ">
+
+                <div :key="currentSlide" class="slides">
+                    <div v-if="currentSlide === 1" class="slide">
+                        <!-- profile slide start -->
+
+
+
+                        <div class="grid grid-cols-2 mt-6 mb-2">
+                            <div class="grid grid-cols-2">
+                                <h1 class="ms-3 text-lg text-gray-600">Edit User Profile</h1>
+                                <div v-show="updetailbool" class="-ms-3 -mt-1">
+                                    <h2 class="bg-green-300 rounded-md px-2 text-gray-400 py-1"> User Profile Updated!
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="flex justify-end ps-1 text-gray-500 me-3">
+                                ID: {{ route.params.id }}
+                            </div>
+                        </div>
+
+
+                        <div class="grid lg:grid-cols-3 mt-3 mb-5 gap-6 me-3 ms-3">
+                            <div>
+                                <label for="first_name" :class="forlabels">First name</label>
+                                <input type="text" id="first_name" :class="forinput" v-model="firstname">
+                            </div>
+
+                            <div>
+                                <label for="last_name" :class="forlabels">Last name</label>
+                                <input type="text" id="last_name" :class="forinput" v-model="lastname">
+                            </div>
+
+                            <div>
+                                <label for="middlename" :class="forlabels">Middle Name</label>
+                                <input type="text" id="middlename" :class="forinput" v-model="middlename">
+                            </div>
+
+                        </div>
+
+                        <div class="grid lg:grid-cols-3 gap-6 pl-3 pe-3">
+                            <div class="md:col-span-2">
+                                <label for="birthday" :class="forlabels">Birthday</label>
+                                <input type="text" id="birthday" :class="forinput" v-model="birthday">
+                            </div>
+
+                            <div>
+                                <label for="gender" :class="forlabels">Gender</label>
+                                <select id="gender" :class="forinput" class="bg-gray-50 pe-1" v-model="gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Others</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid gap-6 mb-5 md:grid-cols-2 pl-3 pe-3 mt-5">
+                            <div>
+                                <label for="position" :class="forlabels">Position</label>
+                                <input type="text" id="position" :class="forinput" v-model="position">
+                            </div>
+                            <div>
+                                <label for="pay" :class="forlabels">Pay</label>
+                                <input type="text" id="pay" :class="forinput" v-model="pay">
+                            </div>
+                        </div>
+
+                        <div class="mb-6 pl-3 pe-3">
+                            <label for="phonenumber" :class="forlabels">Phone Number</label>
+                            <input type="text" id="phonenumber" :class="forinput" v-model="phone">
+                        </div>
+
+                        <div class="mb-8 pl-3 pe-3">
+                            <label for="address" :class="forlabels">Address</label>
+                            <input type="text" id="address" :class="forinput" v-model="address">
+                        </div>
+
+                        <div class="grid grid-cols-2 ">
+                            <div class="flex justify-start ms-2">
+                                <button
+                                    class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center"
+                                    @click="modaltoggle">Cancel</button>
+                            </div>
+
+                            <div class="flex justify-end me-2">
+                                <button type="submit"
+                                    class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center me-3"
+                                    @click="userDetailUpdateAsync">Save</button>
+                                <button @click="nextSlide"
+                                    class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- profile slide end -->
+
+
+                    <!-- login slide start -->
+                    <div v-if="currentSlide === 2" class="slide w-[660px]">
+                        <div class=" grid grid-cols-2 mt-6 ms-3 ">
+                            <div class="grid grid-cols-2">
+
+                                <h1 class="text-lg text-gray-600">Edit User Login</h1>
+                                <div v-show="uploginbool" class="-ms-4 -mt-1">
+                                    <h2 class="bg-green-300 rounded-md px-2 text-gray-400 py-1"> User Login Updated!
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="flex justify-end me-3">
+                                <text
+                                    class="cursor-pointer py-2 px-3 ms-3 rounded-md bg-red-400 text-white hover:bg-red-500 hover:text-white hover:shadow-md"
+                                    @click="confirmDelete(theuserid)">Delete User!</text>
+                            </div>
+                        </div>
+
+                        <div class="mb-7 px-3">
+                            <label for="username" :class="forlabels">Username</label>
+                            <input type="text" id="username" :class="forinput" v-model="username">
+                        </div>
+
+                        <div class="mb-6 pl-3 pe-3">
+                            <label for="email" :class="forlabels">Email</label>
+                            <input type="text" id="email" :class="forinput" v-model="email">
+                        </div>
+
+                        <div class="mb-6 pl-3 pe-3">
+                            <label for="password" :class="forlabels">New Password</label>
+                            <input type="password" id="password" :class="forinput" placeholder="•••••••••"
+                                v-model="password">
+                        </div>
+
+                        <div class="mb-6 pl-3 pe-3">
+                            <label for="repassword" :class="forlabels">Re-Enter New Password</label>
+                            <input type="password" id="repassword" :class="forinput" placeholder="•••••••••"
+                                v-model="repassword">
+                        </div>
+
+                        <div class="grid grid-cols-2 mt-28 ">
+                            <div class="grid grid-cols-2">
+                                <div>
+                                    <button @click="prevSlide"
+                                        class="ms-2 text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center">
+                                        Previous
+                                    </button>
+                                </div>
+                                <div class="flex justify-start -ms-12">
+                                    <button
+                                        class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center"
+                                        @click="modaltoggle">Cancel</button>
+                                </div>
+                            </div>
+                            <div class="flex justify-end me-2">
+                                <button type="submit"
+                                    class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center me-2"
+                                    @click="updateloginmessage">Save</button>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-
-
-                <div class="ps-1 text-gray-500 ms-3">
-                    ID: {{ userdetail.id }}
-                </div>
-
-                <form @submit.prevent="updatedata">
-                    <div class="grid lg:grid-cols-3 mt-3 mb-5 gap-6 me-3 ms-3">
-                        <div>
-                            <label for="first_name" :class="forlabels">First name</label>
-                            <input type="text" id="first_name" :class="forinput" v-model="userdetail.firstname">
-                        </div>
-
-                        <div>
-                            <label for="last_name" :class="forlabels">Last name</label>
-                            <input type="text" id="last_name" :class="forinput" v-model="userdetail.lastname">
-                        </div>
-
-                        <div>
-                            <label for="middlename" :class="forlabels">Middle Name</label>
-                            <input type="text" id="middlename" :class="forinput" v-model="userdetail.middlename">
-                        </div>
-
-                    </div>
-
-                    <div class="grid lg:grid-cols-3 gap-6 pl-3 pe-3">
-                        <div class="md:col-span-2">
-                            <label for="birthday" :class="forlabels">Birthday</label>
-                            <input type="text" id="birthday" :class="forinput" v-model="userdetail.birthday">
-                        </div>
-
-                        <div>
-                            <label for="gender" :class="forlabels">Gender</label>
-                            <select id="gender" :class="forinput" class="bg-gray-50 pe-1" v-model="userdetail.gender">
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Others</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid gap-6 mb-5 md:grid-cols-2 pl-3 pe-3 mt-5">
-                        <div>
-                            <label for="position" :class="forlabels">Position</label>
-                            <input type="text" id="position" :class="forinput" v-model="userdetail.position">
-                        </div>
-                        <div>
-                            <label for="pay" :class="forlabels">Pay</label>
-                            <input type="text" id="pay" :class="forinput" v-model="userdetail.pay">
-                        </div>
-                    </div>
-
-                    <div class="mb-6 pl-3 pe-3">
-                        <label for="phonenumber" :class="forlabels">Phone Number</label>
-                        <input type="text" id="phonenumber" :class="forinput" v-model="userdetail.phone">
-                    </div>
-
-                    <div class="mb-6 pl-3 pe-3">
-                        <label for="address" :class="forlabels">Address</label>
-                        <input type="text" id="address" :class="forinput" v-model="userdetail.address">
-                    </div>
-
-                    <hr class="text-grey-600 mb-6 mt-8">
-
-
-                    <div class="mb-6 pl-3 pe-3">
-                        <label for="username" :class="forlabels">Username</label>
-                        <input type="text" id="username" :class="forinput" v-model="userdetail.username">
-                    </div>
-
-                    <div class="mb-6 pl-3 pe-3">
-                        <label for="password" :class="forlabels">New Password</label>
-                        <input type="password" id="password" :class="forinput" placeholder="•••••••••"
-                            v-model="userdetail.password">
-                    </div>
-
-                    <div class="mb-6 pl-3 pe-3">
-                        <label for="repassword" :class="forlabels">Re-Enter New Password</label>
-                        <input type="password" id="repassword" :class="forinput" placeholder="•••••••••"
-                            v-model="uprepassword">
-                    </div>
-
-                    <div class="grid grid-cols-2 mb-3">
-                        <div class="flex justify-start">
-                            <text
-                                class="cursor-pointer pt-1 pb-1 h-8 w-18 ms-3 mt-1 rounded-md bg-white text-red-500 ps-6 pe-6 hover:bg-red-500 hover:text-white hover:shadow-md"
-                                @click="confirmDelete(theuserid)">Delete User!</text>
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                class="pt-1 pb-1 h-8 w-18 me-3 rounded-md bg-blue-500 text-white ps-6 pe-6 hover:bg-blue-600 mt-1 shadow-md"
-                                @click="updatedata">Save</button>
-                        </div>
-                    </div>
+                <!-- login slide end -->
 
 
 
-                </form>
-                <!-- edit card end -->
             </div>
-        </div>
 
+        </div>
+        <!-- edit modal end -->
     </div>
+
+
+
 </template>

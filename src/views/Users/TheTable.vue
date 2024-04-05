@@ -94,13 +94,13 @@ onMounted(() => {
                                 {{ listofuser.firstname }} {{ listofuser.lastname }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ listofuser.id }}
+                                {{ listofuser.user_id }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ listofuser.position }}
                             </td>
                             <td class="px-6 py-4">
-                                <router-link :to="{ name: 'UserListCard', params: { id: listofuser.id } }"
+                                <router-link :to="{ name: 'UserListCard', params: { id: listofuser.user_id } }"
                                     class="text-blue-500 hover:underline">Edit </router-link>
                             </td>
 

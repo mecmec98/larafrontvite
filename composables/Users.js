@@ -1,6 +1,61 @@
 import { ref } from 'vue'
 
 //add authtoken
+
+const getAUserLogin = (id, authtoken) => {
+    const userlogin = ref([])
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const loadauserlogin = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/' + id, sendoptions)
+            if (!response.ok) {
+                throw Error('Cant get User Login')
+            }
+            
+            const data = await response.json()
+            userlogin.value = data.data
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return { loadauserlogin, userlogin }
+}
+
+const getAUserDetail = (id, authtoken) => {
+    const myuserdetail = ref([])
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const loadauserdetails = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/userprofile/' + id, sendoptions)
+            if (!response.ok) {
+                throw Error('Cant get User Details')
+            }
+
+            const data = await response.json()
+            myuserdetail.value = data.data[0]
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return { loadauserdetails, myuserdetail }
+}
+
 const getUser = (authtoken) => {
     const listofusers = ref([])
     const sendoptions = {
@@ -20,6 +75,7 @@ const getUser = (authtoken) => {
             }
             const data = await response.json()
             listofusers.value = data
+
         } catch (error) {
             console.error("An error occurred:", error);
         }
@@ -81,22 +137,22 @@ const postUserLogin = (username, email, password, vpassword, authtoken) => {
 
     const registerLogin = async () => {
         try {
-            const response = 
-            await fetch('http://127.0.0.1:8000/api/user', sendoptions)
-          
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user', sendoptions)
+
             if (!response.ok) {
                 throw Error('Unable to Register User Login')
             }
             const data = await response.json()
 
             myuserid.value = data.data.user_id
-            
-            
+
+
         } catch (error) {
             console.error(error.message)
         }
     }
-    return { registerLogin , myuserid }
+    return { registerLogin, myuserid }
 }
 
 const postUserDetails = (userid, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, authtoken) => {
@@ -115,7 +171,7 @@ const postUserDetails = (userid, firstname, lastname, middlename, birthday, gend
             pay: pay,
             phone: phone,
             address: address,
-            
+
         }),
         headers: {
             "Authorization": `Bearer ${authtoken}`,
@@ -127,7 +183,7 @@ const postUserDetails = (userid, firstname, lastname, middlename, birthday, gend
     const registerDetails = async () => {
         try {
             const response =
-            await fetch('http://127.0.0.1:8000/api/userprofile', sendoptions)
+                await fetch('http://127.0.0.1:8000/api/userprofile', sendoptions)
 
             if (!response.ok) {
                 throw Error('Unable to register User Detail')
@@ -141,47 +197,71 @@ const postUserDetails = (userid, firstname, lastname, middlename, birthday, gend
     return (registerDetails)
 }
 
-const patchUserDetails = (id, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, username, password) => {
+const putUserLogin = (id, username, email) => {
 
     const updateoptions = {
-        method: 'PATCH',
+        method: 'PUT',
         body: JSON.stringify({
-            firstname: firstname,
-            lastname: lastname,
-            middlename: middlename,
-            birthday: birthday,
-            gender: gender,
-            position: position,
-            pay: pay,
-            phone: phone,
-            address: address,
             username: username,
-            password: password
-
+            email: email
         }),
         headers: {
-            'Content-type': 'application/json; charset=UTF-8'
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const updatethislogin = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/' + id, updateoptions)
+            if (!response.ok) {
+                throw Error('Unable to update User Login')
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (updatethislogin)
+}
+
+
+const putUserDetails = (id, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, authtoken) => {
+
+    const updateoptions = {
+        method: 'PUT',
+        body: JSON.stringify({
+            firstname: firstname.value,
+            lastname: lastname.value,
+            middlename: middlename.value,
+            position: position.value,
+            address: address.value,
+            birthday: birthday.value,
+            gender: gender.value,
+            pay: pay.value,
+            phone: phone.value
+        }),
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
     }
     const updatethis = async () => {
-        fetch('http://localhost:3000/users/' + id, updateoptions)
-            .then(async response => {
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const data = isJson && await response.json();
-                if (!response.ok) {
-
-                    const error = (data && data.message) || response.status;
-                    return Promise.reject(error)
-                }
-            })
-            .catch(error => {
-                console.error('there was an error ', error)
-            });
-
-
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/userprofile/' + id, updateoptions)
+            if (!response.ok) {
+                throw Error('Unable to update User Details')
+            }
+            console.log('User Details Updated')
+        } catch (error) {
+            console.error(error.message)
+        }
     }
     return (updatethis)
 }
+
 
 const deletethisUser = (userid) => {
     const deleteoptions = {
@@ -211,4 +291,4 @@ const deletethisUser = (userid) => {
 
 
 
-export { getUser, getUserDetails, patchUserDetails, postUserDetails, postUserLogin, deletethisUser }
+export { getAUserDetail, getAUserLogin, getUser, getUserDetails, putUserDetails, putUserLogin, postUserDetails, postUserLogin, deletethisUser }

@@ -50,7 +50,7 @@ const nextSlide = () => {
 
 const prevSlide = () => {
     if (currentSlide.value > 1) {
-        currentSlide.value--;
+        currentSlide.value--
         titletoggle()
     }
 }
@@ -61,22 +61,22 @@ const prevSlide = () => {
 const formattedDate = computed(() => {
     if (birthday.value) {
         // Parse the string date to a Date object
-        const dateObj = new Date(birthday.value);
+        const dateObj = new Date(birthday.value)
 
         // Check if the parsed date is valid
         if (!isNaN(dateObj.getTime())) {
             // Format the date using the desired format
-            const year = dateObj.getFullYear();
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            const year = dateObj.getFullYear()
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0')
+            const day = String(dateObj.getDate()).padStart(2, '0')
+            return `${year}-${month}-${day}`
         } else {
             // Handle invalid date format
-            console.error('Invalid date format');
-            return ''; // Return an empty string or handle the error accordingly
+            console.error('Invalid date format')
+            return ''// Return an empty string or handle the error accordingly
         }
     } else {
-        return ''; // Return empty string if birthday.value is empty
+        return '' // Return empty string if birthday.value is empty
     }
 })
 

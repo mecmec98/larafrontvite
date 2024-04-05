@@ -9,6 +9,9 @@ export default {
       height: {
         '128': '38rem',
       },
+      width: {
+        '128': '38rem',
+      },
       fontFamily: {
         //sans: ['mono', 'sans-serif'],
       },
