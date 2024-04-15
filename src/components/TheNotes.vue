@@ -2,6 +2,8 @@
 
 import { postUserNotes, getUserNotes, deleteUserNotes } from '/composables/Notes'
 import { ref, computed, onUpdated, onMounted } from 'vue'
+//import loading svg
+import svgloading from '/src/assets/dualloadring.svg'
 
 //cookies
 import { useCookies } from "vue3-cookies"
@@ -9,11 +11,9 @@ const { cookies } = useCookies()
 const thetoken = cookies.get('access_token')
 
 //define userid
-
 const props = defineProps({
     tonote: String
 })
-
 const useridnote = ref(props.tonote)
 //date
 const today = new Date()
@@ -38,6 +38,8 @@ const selectBadge = (event) => {
 }
 //define note variables
 
+//for loading
+const isNoteLoading = ref(true)
 //load notes
 const notecounter = ref('')
 const listofnotes = ref([])
@@ -48,6 +50,7 @@ async function loadNoteAsync() {
         await loadnote()
         notecounter.value = usernotes.value.data.length
         listofnotes.value = usernotes.value.data || []
+        isNoteLoading.value = false
 
     }catch (error) {
         console.error('Error loading notes:', error)
@@ -198,7 +201,19 @@ const confirmDelete = async (noteId) => {
 
 
         <!-- noteblock -->
-        <div v-for="(usernote) in listofnotes" :key="usernote.id">
+        <!-- loading effect -->
+        <div v-if="isNoteLoading">
+            <h2 class="bg-gray-300 animate-pulse rounded-lg mt-2 h-4 w-2/3 text-gray-300">.. </h2>
+            <h2 class="bg-gray-300 animate-pulse rounded-lg mt-3 h-4 w-1/4 text-gray-300">.. </h2>
+
+            <h2 class="bg-gray-300 animate-pulse rounded-lg mt-5 h-4 w-full text-gray-300">.. </h2>
+            <h2 class="bg-gray-300 animate-pulse rounded-lg mt-3 h-4 w-2/3 text-gray-300">.. </h2>
+            <h2 class="bg-gray-300 animate-pulse rounded-lg mt-3 h-4 w-1/3 text-gray-300">.. </h2>
+            
+            
+        </div>
+        <!-- the content -->
+        <div v-for="(usernote) in listofnotes" :key="usernote.id" v-else>
             <div class="hover:bg-blue-50 rounded-sm p-1">
                 <div class="grid grid-cols-2 ">
                     <div class="mt-1">

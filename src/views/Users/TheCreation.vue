@@ -151,10 +151,11 @@ const submitUser = async () => {
             email.value = ''
             password.value = ''
             repassword.value = ''
+            
         }
 
        await registerme()
-
+        currentSlide.value = 1
         clickSuccess()
     }
 

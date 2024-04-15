@@ -1,25 +1,22 @@
 // src/store/auth.js
 
 import { defineStore } from 'pinia'
-import { getUserDetails } from '/composables/Users'
+import { getUserAndDetails } from '/composables/Users'
 
 export const useUserdetailsStore = defineStore('UserdetailStore', {
   state: () => ({
-    userdetail: []
+    myuserdetail: []
   }),
 
   actions: {
-    // get the user detail as authenticated
+    // get the current logged in user's detail 
 
-      async piniaUserDetails (id, token) {
+      async piniaMyUserDetails (id, token) {
         try {
-            const token = await getUserDetails(id, token)
+            const token = await getUserAndDetails(id, token)
 
             if (token !== null) {
                 // Set the token and user ID in the store also authentication bol for routes
-                this.accessToken = token.token
-                this.userId = token.userid
-                this.isAuthenticated = true
             }
         } catch (error) {
             console.error('Error during login:', error)

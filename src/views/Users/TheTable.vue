@@ -9,12 +9,12 @@ const thetoken = cookies.get('access_token')
 const forrow = 'bg-white border-b hover:bg-blue-100'
 const forrowalt = 'bg-gray-100 border-b hover:bg-blue-100'
 const forrowtext = 'px-5 py-4 font-medium text-gray-700 whitespace-nowrap'
-const userCounter = ref('')
+const userCounter = ref()
 
 
 const { loaduser, listofusers } = getUser(thetoken)
 loaduser()
-//console.log("the list of users", listofusers)
+
 //data
 
 
@@ -31,7 +31,7 @@ const searchUsers = computed(() => {
 
 
 onUpdated(() => {
-    userCounter.value = listofusers.value.length
+    userCounter.value = listofusers.value.data.length
 })
 
 onMounted(() => {
@@ -88,6 +88,63 @@ onMounted(() => {
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- loading svg -->
+                        <!-- <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"
+                            style="shape-rendering: auto; display: block; background: rgb(255, 255, 255);" width="200"
+                            height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g>
+                                <circle cx="84" cy="50" r="10" fill="#14b8a6">
+                                    <animate attributeName="r" repeatCount="indefinite" dur="0.78125s" calcMode="spline"
+                                        keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+                                    <animate attributeName="fill" repeatCount="indefinite" dur="3.125s"
+                                        calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1"
+                                        values="#14b8a6;#f0f05c;#ef4444;#2563eb;#14b8a6" begin="0s"></animate>
+                                </circle>
+                                <circle cx="16" cy="50" r="10" fill="#14b8a6">
+                                    <animate attributeName="r" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s">
+                                    </animate>
+                                    <animate attributeName="cx" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s">
+                                    </animate>
+                                </circle>
+                                <circle cx="50" cy="50" r="10" fill="#2563eb">
+                                    <animate attributeName="r" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.78125s">
+                                    </animate>
+                                    <animate attributeName="cx" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.78125s">
+                                    </animate>
+                                </circle>
+                                <circle cx="84" cy="50" r="10" fill="#ef4444">
+                                    <animate attributeName="r" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.5625s">
+                                    </animate>
+                                    <animate attributeName="cx" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.5625s">
+                                    </animate>
+                                </circle>
+                                <circle cx="16" cy="50" r="10" fill="#f0f05c">
+                                    <animate attributeName="r" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-2.34375s">
+                                    </animate>
+                                    <animate attributeName="cx" repeatCount="indefinite" dur="3.125s" calcMode="spline"
+                                        keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84"
+                                        keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-2.34375s">
+                                    </animate>
+                                </circle>
+                                <g></g>
+                            </g>
+                        </svg>
+                        </div> -->
                         <tr :class="forrow" v-for="(listofuser) in searchUsers" :key="listofuser.id">
 
                             <th scope="row" :class="forrowtext">

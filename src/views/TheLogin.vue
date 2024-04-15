@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 import router from '../routes'
+//import logo
+import logopng from '/src/assets/logo.png'
 //stores
 import { useAuthStore } from '../stores/auth'
 const authStore = useAuthStore()
@@ -34,7 +36,7 @@ const thislogin = async () => {
     <div class="flex justify-center mt-20 sm:-ml-60">
         <div class="bg-gradient-to-b from-blue-600 to-cyan-500 p-7 w-96 h-96 rounded-md shadow-lg ">
             <div class="flex justify-center">
-                <img class="w-20 h-20 mb-5 rounded-full border border-white bg-white shadow-md" src=""
+                <img class="w-20 h-20 mb-5 rounded-full border border-white bg-white shadow-md" :src="logopng"
                     alt="company logo" />
             </div>
             <h2 class="text-md text-white mb-2 mt-2">Username</h2>

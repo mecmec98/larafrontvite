@@ -2,7 +2,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { getAUserLogin, getAUserDetail, putUserDetails, deletethisUser, putUserLogin } from '/composables/Users'
+import { getAUserLogin, getAUserDetail, putUserDetails, putUserLogin } from '/composables/Users'
 
 //cookies
 import { useCookies } from "vue3-cookies"
@@ -69,7 +69,9 @@ const phone = ref('')
 const { loadauserdetails, myuserdetail } = getAUserDetail(route.params.id, thetoken)
 const { loadauserlogin, userlogin } = getAUserLogin(route.params.id, thetoken)
 
-
+//for loading
+const isFieldLoading = ref(true)
+//get the data
 async function loadtheUserAsync() {
     try {
 
@@ -79,6 +81,7 @@ async function loadtheUserAsync() {
         email.value = userlogin.value.data.email
 
         await loadauserdetails()
+        console.log(myuserdetail.value.firstname)
         //set user detail values
         firstname.value = myuserdetail.value.firstname
         lastname.value = myuserdetail.value.lastname
@@ -90,6 +93,7 @@ async function loadtheUserAsync() {
         pay.value = myuserdetail.value.pay
         phone.value = myuserdetail.value.phone
 
+        isFieldLoading.value = false
         //set user login values
 
 
@@ -125,7 +129,7 @@ const hideupmessages = () => {
 }
 const uprepassword = ref()
 
-//update action
+//update detail action
 const userDetailUpdateAsync = async () => {
 
     const updatethis = putUserDetails(route.params.id, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, thetoken)
@@ -231,10 +235,11 @@ const handleFileChange = (e) => {
 
                         <div class="-ms-56 ps-3">
                             <p class="text-xs text-gray-400 pb-1">ID: {{ route.params.id }}</p>
-                            <h2 class="md:text-xl text-lg pb-1">
+                            <h2 class="md:text-xl text-lg pb-1"  :class="{ 'animate-pulse bg-gray-300 rounded-lg mt-2 h-3': isFieldLoading }">
                                 {{ firstname }} {{ middlename }} {{ lastname }}
                             </h2>
-                            <h2 class="text-sm text-blue-500">{{ position }}</h2>
+
+                            <h2 class="text-sm text-blue-500" :class="{ 'animate-pulse bg-gray-300 rounded-lg mt-4 h-3 w-1/2': isFieldLoading }">{{ position }}</h2>
                         </div>
                     </div>
                 </div>
@@ -256,29 +261,29 @@ const handleFileChange = (e) => {
                 <div class="rounded-md bg-white shadow-sm pt-1 pb-2 px-5">
                     <div class="grid gap-4 md:grid-cols-2 mt-2 place-items-start">
                         <div>
-                            <h1 class="flex justify-start mt-3 text-xs text-gray-400" @click="testlog">Pay Rate</h1>
-                            <h2 class="text-center  text-xl ">{{ pay }}/day</h2>
+                            <h1 class="flex justify-start mt-3 text-xs text-gray-400">Pay Rate</h1>
+                            <h2 class="text-start  text-xl" :class="{ 'animate-pulse bg-gray-300 rounded-lg mt-2 h-4': isFieldLoading }">{{ pay }}</h2>
                         </div>
 
                         <div>
                             <h1 class="flex justify-start mt-3 text-xs text-gray-400">Phone Number</h1>
-                            <h2 class="text-start  text-xl ">{{ phone }}</h2>
+                            <h2 class="text-start  text-xl " :class="{ 'animate-pulse bg-gray-300 rounded-lg mt-2 h-4': isFieldLoading }">{{ phone }}</h2>
                         </div>
 
                         <div>
                             <h1 class="flex justify-start mt-3 text-xs text-gray-400">Gender</h1>
-                            <h2 class="text-start  text-xl ">{{ gender }}</h2>
+                            <h2 class="text-start  text-xl " :class="{ 'animate-pulse bg-gray-300 rounded-lg mt-2 h-4': isFieldLoading }">{{ gender }}</h2>
                         </div>
 
                         <div>
                             <h1 class="flex justify-start mt-3 text-xs text-gray-400">Birthday</h1>
-                            <h2 class="text-start  text-xl ">{{ birthday }}</h2>
+                            <h2 class="text-start  text-xl " :class="{ 'animate-pulse bg-gray-300 rounded-lg mt-2 h-4': isFieldLoading }">{{ birthday }}</h2>
                         </div>
 
                     </div>
 
                     <h1 class="flex justify-start mt-6 text-xs text-gray-400">Address</h1>
-                    <h2 class="text-start text-xl ">{{ address }}</h2>
+                    <h2 class="text-start text-xl " :class="{ 'animate-pulse bg-gray-300 rounded-lg mt-2 h-4': isFieldLoading }">{{ address }}</h2>
 
                 </div>
                 <!-- second column -->
@@ -462,15 +467,17 @@ const handleFileChange = (e) => {
 
                         <div class="grid grid-cols-2 ">
                             <div class="flex justify-start ms-2">
-                                <button
-                                    class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center"
-                                    @click="modaltoggle">Cancel</button>
+                                <button type="submit"
+                                    class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center"
+                                    @click="userDetailUpdateAsync">Save</button>
                             </div>
 
                             <div class="flex justify-end me-2">
-                                <button type="submit"
-                                    class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center me-3"
-                                    @click="userDetailUpdateAsync">Save</button>
+                                
+                                <button
+                                    class="text-white  me-3 bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center"
+                                    @click="modaltoggle">Back</button>
+
                                 <button @click="nextSlide"
                                     class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center">
                                     Next
@@ -500,7 +507,7 @@ const handleFileChange = (e) => {
                             </div>
                         </div>
 
-                        <div class="mb-7 px-3">
+                        <div class="mb-6 px-3">
                             <label for="username" :class="forlabels">Username</label>
                             <input type="text" id="username" :class="forinput" v-model="username">
                         </div>
@@ -509,6 +516,11 @@ const handleFileChange = (e) => {
                             <label for="email" :class="forlabels">Email</label>
                             <input type="text" id="email" :class="forinput" v-model="email">
                         </div>
+                        <div class="flex justify-start ms-2 mb-7">
+                                <button type="submit"
+                                    class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center me-2"
+                                    @click="updateloginmessage">Save</button>
+                            </div>
 
                         <div class="mb-6 pl-3 pe-3">
                             <label for="password" :class="forlabels">New Password</label>
@@ -516,31 +528,36 @@ const handleFileChange = (e) => {
                                 v-model="password">
                         </div>
 
-                        <div class="mb-6 pl-3 pe-3">
+                        <div class="mb-4 pl-3 pe-3">
                             <label for="repassword" :class="forlabels">Re-Enter New Password</label>
                             <input type="password" id="repassword" :class="forinput" placeholder="•••••••••"
                                 v-model="repassword">
                         </div>
 
-                        <div class="grid grid-cols-2 mt-28 ">
-                            <div class="grid grid-cols-2">
-                                <div>
-                                    <button @click="prevSlide"
-                                        class="ms-2 text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center">
-                                        Previous
-                                    </button>
-                                </div>
-                                <div class="flex justify-start -ms-12">
-                                    <button
-                                        class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center"
-                                        @click="modaltoggle">Cancel</button>
-                                </div>
-                            </div>
-                            <div class="flex justify-end me-2">
+                        <div class="grid grid-cols-2 mt-12">
+
+                            <div class="flex justify-start ms-2">
                                 <button type="submit"
                                     class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center me-2"
                                     @click="updateloginmessage">Save</button>
                             </div>
+
+                            <div class="flex justify-end me-2">
+                                <div>
+                              
+                                    <button @click="prevSlide"
+                                        class="me-3 text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center">
+                                        Previous
+                                    </button>
+                                
+                                </div>
+                                <div class="flex justify-end">
+                                    <button
+                                        class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center"
+                                        @click="modaltoggle">Back</button>
+                                </div>
+                            </div>
+                           
                         </div>
 
                     </div>
@@ -554,7 +571,8 @@ const handleFileChange = (e) => {
         </div>
         <!-- edit modal end -->
     </div>
-
-
-
 </template>
+
+<style>
+
+</style>

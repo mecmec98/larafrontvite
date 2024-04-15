@@ -48,7 +48,7 @@ const getAUserDetail = (id, authtoken) => {
             }
 
             const data = await response.json()
-            myuserdetail.value = data.data[0]
+            myuserdetail.value = data.data
         } catch (error) {
             console.error(error.message)
         }
@@ -84,7 +84,7 @@ const getUser = (authtoken) => {
 }
 
 
-const getUserDetails = (authtoken, theid) => {
+const getUserAndDetails = (authtoken, theid) => {
     const userdetail = ref([])
     const sendoptions = {
         method: 'GET',
@@ -264,31 +264,11 @@ const putUserDetails = (id, firstname, lastname, middlename, birthday, gender, p
 
 
 const deletethisUser = (userid) => {
-    const deleteoptions = {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }
+    
 
-    const deleteuser = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/users/' + userid, deleteoptions)
-            const isJson = response.headers.get('content-type')?.includes('application/json')
-            const data = isJson && await response.json()
-            if (!response.ok) {
-                const error = (data && data.message) || response.status;
-                return Promise.reject(error)
-            }
-        } catch (error) {
-            console.error('there was an error ', error)
-            throw error
-        }
-    }
-
-    return deleteuser()
+    //return deleteuser()
 }
 
 
 
-export { getAUserDetail, getAUserLogin, getUser, getUserDetails, putUserDetails, putUserLogin, postUserDetails, postUserLogin, deletethisUser }
+export { getAUserDetail, getAUserLogin, getUser, getUserAndDetails, putUserDetails, putUserLogin, postUserDetails, postUserLogin }
