@@ -19,7 +19,7 @@ const getAUserLogin = (id, authtoken) => {
             if (!response.ok) {
                 throw Error('Cant get User Login')
             }
-            
+
             const data = await response.json()
             userlogin.value = data.data
         } catch (error) {
@@ -197,7 +197,7 @@ const postUserDetails = (userid, firstname, lastname, middlename, birthday, gend
     return (registerDetails)
 }
 
-const putUserLogin = (id, username, email) => {
+const putUserLogin = (id, username, email, authtoken) => {
 
     const updateoptions = {
         method: 'PUT',
@@ -218,6 +218,7 @@ const putUserLogin = (id, username, email) => {
             if (!response.ok) {
                 throw Error('Unable to update User Login')
             }
+            console.log('User Login Updated')
         } catch (error) {
             console.error(error.message)
         }
@@ -263,12 +264,30 @@ const putUserDetails = (id, firstname, lastname, middlename, birthday, gender, p
 }
 
 
-const deletethisUser = (userid) => {
-    
-
-    //return deleteuser()
+const deleteThisUser = (userid, authtoken) => {
+    const deleteoptions = {
+        method: 'DELETE',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const deleteme = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/' + userid, deleteoptions)
+            if (!response.ok) {
+                throw Error('Unable to delete User')
+            }
+            console.log('User Deleted')
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (deleteme)
 }
 
 
 
-export { getAUserDetail, getAUserLogin, getUser, getUserAndDetails, putUserDetails, putUserLogin, postUserDetails, postUserLogin }
+export { getAUserDetail, getAUserLogin, getUser, getUserAndDetails, putUserDetails, putUserLogin, postUserDetails, postUserLogin, deleteThisUser }

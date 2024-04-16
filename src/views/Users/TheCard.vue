@@ -2,7 +2,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { getAUserLogin, getAUserDetail, putUserDetails, putUserLogin } from '/composables/Users'
+import { getAUserLogin, getAUserDetail, putUserDetails, putUserLogin, deleteThisUser } from '/composables/Users'
 
 //cookies
 import { useCookies } from "vue3-cookies"
@@ -50,6 +50,8 @@ function modaltoggle() {
 
 
 // load user data
+const theuserid = route.params.id
+
 //user varaibles
 const username = ref('')
 const email = ref('')
@@ -81,7 +83,6 @@ async function loadtheUserAsync() {
         email.value = userlogin.value.data.email
 
         await loadauserdetails()
-        console.log(myuserdetail.value.firstname)
         //set user detail values
         firstname.value = myuserdetail.value.firstname
         lastname.value = myuserdetail.value.lastname
@@ -140,8 +141,9 @@ const userDetailUpdateAsync = async () => {
 
 const userLoginUpdateAsync = async () => {
 
-    const updatethislogin = putUserLogin(route.params.id, username, email)
+    const updatethislogin = putUserLogin(route.params.id, username, email, thetoken)
     await updatethislogin()
+    updateloginmessage()
 
 }
 
@@ -152,7 +154,8 @@ const userLoginUpdateAsync = async () => {
 
 const deleteuser = async (userId) => {
     try {
-        await deletethisUser(userId)
+        const deleteme = deleteThisUser(userId, thetoken)
+        await deleteme()
         return true; // Indicate successful deletion
     } catch (error) {
         throw new Error("An error occurred while deleting the User")
@@ -519,7 +522,7 @@ const handleFileChange = (e) => {
                         <div class="flex justify-start ms-2 mb-7">
                                 <button type="submit"
                                     class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center me-2"
-                                    @click="updateloginmessage">Save</button>
+                                    @click="userLoginUpdateAsync">Save</button>
                             </div>
 
                         <div class="mb-6 pl-3 pe-3">
