@@ -7,9 +7,12 @@ export default {
   theme: {
     extend: {
       height: {
+        '100': '26rem', 
         '128': '38rem',
+        
       },
       width: {
+        '100': '26rem', 
         '128': '38rem',
       },
       fontFamily: {
