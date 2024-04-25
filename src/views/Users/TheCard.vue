@@ -55,6 +55,8 @@ const theuserid = route.params.id
 //user varaibles
 const username = ref('')
 const email = ref('')
+const password = ref('')
+const repassword = ref('')
 
 //user profile varaiables
 
@@ -141,7 +143,7 @@ const userDetailUpdateAsync = async () => {
 
 const userLoginUpdateAsync = async () => {
 
-    const updatethislogin = putUserLogin(route.params.id, username, email, thetoken)
+    const updatethislogin = putUserLogin(route.params.id, username.value, email.value, thetoken)
     await updatethislogin()
     updateloginmessage()
 
@@ -198,18 +200,21 @@ const confirmDelete = async (userId) => {
 }
 
 // Declare reactive data
-const selectedFileName = ref();
+const selectedFileName = ref()
 
 // Handle file selection
 const handleFileChange = (e) => {
-    const fileInput = e.target;
+    const fileInput = e.target
     if (fileInput.files.length > 0) {
-        selectedFileName.value = fileInput.files[0].name;
+        selectedFileName.value = fileInput.files[0].name
     } else {
-        selectedFileName.value = null;
+        selectedFileName.value = null
     }
-};
+}
 
+const testemail = () => {
+    console.log(email.value)
+}
 </script>
 
 <template>
@@ -542,7 +547,7 @@ const handleFileChange = (e) => {
                             <div class="flex justify-start ms-2">
                                 <button type="submit"
                                     class="text-white bg-green-500 hover:bg-green-600 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-24 px-3 py-2.5 text-center me-2"
-                                    @click="updateloginmessage">Save</button>
+                                    @click="testemail">Save</button>
                             </div>
 
                             <div class="flex justify-end me-2">
