@@ -12,30 +12,28 @@ const forrowtext = 'px-5 py-4 font-medium text-gray-700 whitespace-nowrap'
 const userCounter = ref()
 
 
+const userlist = ref()
 const { loaduser, listofusers } = getUser(thetoken)
-loaduser()
+const userasync = async () => {
+    await loaduser()
+    userlist.value = listofusers.value.data || [] // Ensure it's an array
+    userCounter.value = listofusers.value.data.length
+
+}
 
 //data
-
+userasync()
 
 //search
 const forsearch = ref('')
 
 const searchUsers = computed(() => {
-    const users = listofusers.value.data || [] // Ensure it's an array
+    const users = userlist.value || []
     return users.filter(item => {
         return item.firstname.toLowerCase().includes(forsearch.value.toLowerCase()) ||
             item.lastname.toLowerCase().includes(forsearch.value.toLowerCase());
     });
 });
-
-
-onUpdated(() => {
-    userCounter.value = listofusers.value.data.length
-})
-
-onMounted(() => {
-})
 
 
 </script>

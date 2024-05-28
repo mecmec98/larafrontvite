@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { useAuthStore } from '../stores/auth'
 
+//User Imports
+
 import Home from "../views/Home.vue"
 import The404 from "../views/The404.vue"
 import TheUserCreation from "../views/Users/TheCreation.vue"
@@ -11,6 +13,9 @@ import TheAttendance from "../views/Users/TheAttendance.vue"
 import TheProfile from "../views/TheProfile.vue"
 import TheLogin from "../views/TheLogin.vue"
 
+//Billing Imports
+import Test from "../views/Billing/Billtest.vue"
+import Consumer from "../views/Billing/Consumer.vue"
 
 
 //    meta: { requiresAuth: true },
@@ -58,6 +63,20 @@ const routes = [
         component: TheProfile,
         meta: { requiresAuth: true },
     },
+    //Billing Routes
+    {
+        path: '/BillingTest',
+        name: 'BillingTest',
+        component: Test,
+        meta: { requiresAuth: true },
+    }, 
+    {
+        path: '/Consumers',
+        name: 'Consumer',
+        component: Consumer,
+        meta: { requiresAuth: true },
+    },
+
     //404 catcher
     {
         path: '/:catchAll(.*)',
@@ -76,7 +95,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 
     const authStore = useAuthStore()
-    
+
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         // Redirect to login page if not authenticated
         next('/');
