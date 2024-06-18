@@ -4,6 +4,8 @@ import router from '../routes'
 //cookies
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
+//import logo
+import logopng from '/src/assets/logo.png'
 //stores
 import { useAuthStore } from '../stores/auth'
 const authStore = useAuthStore()
@@ -58,7 +60,7 @@ const menuhider = () => {
 
 
           <a href="" class="flex ms-2 md:me-24">
-            <img src="" class="h-8 me-3" alt="Logo" />
+            <img :src="logopng" class="h-8 me-3" alt="Logo" />
             <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">Admin</span>
           </a>
         </div>
