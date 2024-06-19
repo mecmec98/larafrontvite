@@ -13,7 +13,7 @@ const getAllMiscfees = (authtoken) => {
     const loadAllMiscFees = async () => {
         try {
             const response =
-                await fetch('', sendoptions)
+                await fetch('http://127.0.0.1:8000/api/miscfees', sendoptions)
             if (!response.ok) {
                 throw Error('Cant get Misc Fees')
             }
@@ -41,7 +41,7 @@ const getAMiscfees = (id, authtoken) => {
     const loadMiscFee = async () => {
         try {
             const response =
-                await fetch('' + id, sendoptions)
+                await fetch('http://127.0.0.1:8000/api/miscfees/' + id, sendoptions)
             if (!response.ok) {
                 throw Error('Cant get Misc Fees Detail')
             }
@@ -75,7 +75,7 @@ const postMiscfee = (miscname, miscvalue, description, activate, authtoken) => {
     const registerMiscfee = async () => {
         try {
             const response =
-                await fetch('', sendoptions)
+                await fetch('http://127.0.0.1:8000/api/miscfees', sendoptions)
             if (!response.ok) {
                 throw Error('Cant Register Misc Fee')
             }
@@ -99,7 +99,7 @@ const getAllActivatedMiscFees = (authtoken) => {
     const loadActivatedMiscFees = async () => {
         try {
             const response =
-                await fetch('', sendoptions)
+                await fetch('http://127.0.0.1:8000/api/miscfees/activate', sendoptions)
             if (!response.ok) {
                 throw Error('Connection Error')
             }
@@ -110,7 +110,7 @@ const getAllActivatedMiscFees = (authtoken) => {
     return (loadActivatedMiscFees)
 }
 
-const putMiscFee = (miscname, miscvalue, description, authtoken) => {
+const putMiscFee = (id, miscname, miscvalue, description, authtoken) => {
     const sendoptions = {
         method: 'PUT',
         body: JSON.stringify({
@@ -128,7 +128,7 @@ const putMiscFee = (miscname, miscvalue, description, authtoken) => {
     const updateMiscFees = async () => {
         try {
             const response =
-                await fetch('', sendoptions)
+                await fetch('http://127.0.0.1:8000/api/miscfees/' + id, sendoptions)
             if (!response.ok) {
                 throw Error('Connection Error')
             }
@@ -140,5 +140,51 @@ const putMiscFee = (miscname, miscvalue, description, authtoken) => {
 }
 
 
+const toggleMiscfee = (id, authtoken) => {
+    const sendoptions = {
+        method: 'PATCH',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const toggleActivate = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/miscfees/' + id, sendoptions)
+            if (!response.ok) {
+                throw Error('Connection Error')
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (toggleActivate)
+}
 
-export { getAllMiscfees, getAMiscfees, postMiscfee, getAllActivatedMiscFees, putMiscFee }
+
+const deleteMiscfee = (id, authtoken) => {
+    const deleteoptions = {
+        method: 'DELETE',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const deletethisMiscfee = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/miscfees/' + id, deleteoptions)
+            if (!response.ok) {
+                throw Error('Connection Error')
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (deletethisMiscfee)
+}
+
+export { getAllMiscfees, getAMiscfees, postMiscfee, getAllActivatedMiscFees, putMiscFee, toggleMiscfee, deleteMiscfee }
