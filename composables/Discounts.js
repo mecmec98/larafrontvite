@@ -13,7 +13,7 @@ const getAllDiscounts = (authtoken) => {
     const loaddiscounts = async () => {
         try {
             const response =
-                await fetch('', sendoptions)
+                await fetch('http://127.0.0.1:8000/api/discounts', sendoptions)
             if (!response.ok) {
                 throw Error('Cant get Discounts')
             }
@@ -40,7 +40,7 @@ const getADiscount = (id, authtoken) => {
     const loadAdiscount = async () => {
         try {
             const response =
-                await fetch('' + id, sendoptions)
+                await fetch('http://127.0.0.1:8000/api/discounts/' + id, sendoptions)
             if (!response.ok) {
                 throw Error('Cant get a Discount')
             }
@@ -55,4 +55,93 @@ const getADiscount = (id, authtoken) => {
 }
 
 
-export { getAllDiscounts, getADiscount }
+const postDiscount = (discname, discvalue, authtoken) => {
+    const sendoptions = {
+        method: 'POST',
+        body: JSON.stringify({
+
+            disccountname: discname,
+            discountvalue: discvalue
+        }),
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+
+        }
+    }
+
+    const registerDiscount = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/discounts', sendoptions)
+            if (!response.ok) {
+                throw Error('Cant register Discount')
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (registerDiscount)
+}
+
+
+const putDiscount = (id, discname, discvalue, authtoken) => {
+    const sendoptions = {
+        method: 'PUT',
+        body: JSON.stringify({
+
+            disccountname: discname,
+            discountvalue: discvalue
+        }),
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+
+        }
+    }
+
+    const updateDiscount = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/discounts/' + id, sendoptions)
+            if (!response.ok) {
+                throw Error('Cant Update Discount')
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (updateDiscount)
+}
+
+
+const deleteDiscount = (id,authtoken) => {
+    const deleteoptions = {
+        method: 'DELETE',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const deletethisDiscount = async () => {
+        try{
+            const response = 
+                await fetch('http://127.0.0.1:8000/api/discounts/' +id, deleteoptions)
+            if (!response.ok) {
+                throw Error('Unable to delete Discount')
+            }
+            console.log('Discount Deleted')
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (deletethisDiscount)
+}
+
+
+
+
+export { getAllDiscounts, getADiscount, postDiscount, putDiscount, deleteDiscount }
