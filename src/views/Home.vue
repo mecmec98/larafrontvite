@@ -1,9 +1,21 @@
 <script setup>
+import { ref } from 'vue'
+//cookies
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
+
+
+// const tokennow = ref('')
+// const tokencheck = () => {
+//     tokennow.value = cookies.get('access_token')
+// }
+
+
 </script>
 
 <template>
 
-<div class = "p-4 sm:ml-64 mt-14">
+<div>
 
 <div class="bg-gradient-to-b from-blue-500 to-cyan-500  p-5 shadow-md rounded-sm ">
     <div class="flex justify-center">
@@ -14,11 +26,7 @@
     <div class="grid md:grid-cols-4 gap-6 mt-7">
 
         <div class="col-span-3 p-3 bg-white w-full h-60 rounded-sm shadow-md">
-
-            <div class="flex justify-center mt-10">
-                Graph useractivity.logs to Months
-            </div>
-
+      
         </div>
 
     <div class="grid md:gird-rows-2 gap-6">

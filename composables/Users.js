@@ -1,181 +1,293 @@
-import {ref} from 'vue'
+import { ref } from 'vue'
 
-const getUser = () => {
+//add authtoken
+
+const getAUserLogin = (id, authtoken) => {
+    const userlogin = ref([])
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const loadauserlogin = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/' + id, sendoptions)
+            if (!response.ok) {
+                throw Error('Cant get User Login')
+            }
+
+            const data = await response.json()
+            userlogin.value = data.data
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return { loadauserlogin, userlogin }
+}
+
+const getAUserDetail = (id, authtoken) => {
+    const myuserdetail = ref([])
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const loadauserdetails = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/userprofile/' + id, sendoptions)
+            if (!response.ok) {
+                throw Error('Cant get User Details')
+            }
+
+            const data = await response.json()
+            myuserdetail.value = data.data
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return { loadauserdetails, myuserdetail }
+}
+
+const getUser = (authtoken) => {
     const listofusers = ref([])
-  
-    const loaduser = async () => {
-        try {
-            let userdata = await fetch('http://localhost:3000/users')
-            if(!userdata.ok){
-                throw Error('No Data')
-            }
-
-            listofusers.value = await userdata.json()
-           
-        }
-        catch(err){
-            console.log(err.message)
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
     }
-        return{ listofusers, loaduser}
-    
+    const loaduser = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/userprofile", sendoptions)
+
+            if (!response.ok) {
+                throw new Error(`Network response was not OK: ${response.status}`)
+            }
+            const data = await response.json()
+            listofusers.value = data
+
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    }
+    return { loaduser, listofusers }
 }
 
-const getUserDetails = (theid) => {
+
+const getUserAndDetails = (authtoken, theid) => {
     const userdetail = ref([])
-    const loaduser = async () => {
+    const sendoptions = {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const loaduserdetail = async () => {
         try {
-            let userdata = 
-            await fetch('http://localhost:3000/users/' + theid)
-            if(!userdata.ok){
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/profile/' + theid, sendoptions)
+            if (!response.ok) {
                 throw Error('No Data')
             }
 
-            userdetail.value = await userdata.json()
-           
+            userdetail.value = await response.json()
+
         }
-        catch(err){
+        catch (err) {
             console.log(err.message)
         }
     }
-        return{ userdetail, loaduser}
-    
+    return { userdetail, loaduserdetail }
+
 }
 
 
-const getUserFiles = (userid) => {
 
-    const userfiles = ref([])
-    const loadfile = async () => {
-        try {
-            let filedata = 
-            await fetch('http://localhost:3000/files?user=' + userid)
-            if(!filedata.ok){
-                throw Error('No Data')
-            }
+const postUserLogin = (username, email, password, vpassword, authtoken) => {
 
-            userfiles.value = await filedata.json()
-           
-        }
-        catch(err){
-            console.log(err.message)
-        }
-    }
-        return{ userfiles, loadfile}
-    
-}
-
-const postUserDetails = (id,firstname,lastname,middlename,birthday,gender,position,pay,phone,address,username,password,datecreated) => {
-    
+    const myuserid = ref()
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
-           
-            id:id,
-            firstname:firstname,
-            lastname:lastname,
-            middlename:middlename,
-            birthday:birthday,
-            gender:gender,
-            position:position,
-            pay:pay,
-            phone:phone,
-            address:address,
-            username:username,
-            password:password,
-            datecreated:datecreated
+
+            username: username,
+            email: email,
+            password: password,
+            v_password: vpassword
         }),
-        headers:{
-            'Content-type': 'application/json; charset=UTF-8'
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+
         }
     }
-    const sendthis = async () => {
-            fetch('http://localhost:3000/users/',sendoptions)
-            .then(async response => {
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const data = isJson && await response.json();
-                if (!response.ok){
-                    const error = (data && data.message) || response.status;
-                    return Promise.reject(error)
-                }               
-            })
-            .catch(error => {
-                console.error('there was an error ',error)
-            });
-                
-        
-    } 
-        return(sendthis)
+
+    const registerLogin = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user', sendoptions)
+
+            if (!response.ok) {
+                throw Error('Unable to Register User Login')
+            }
+            const data = await response.json()
+
+            myuserid.value = data.data.user_id
+
+
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return { registerLogin, myuserid }
 }
 
-const patchUserDetails = (id,firstname,lastname,middlename,birthday,gender,position,pay,phone,address,username,password) => {      
-    
-    const updateoptions = {
-        method: 'PATCH',
+const postUserDetails = (userid, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, authtoken) => {
+
+    const sendoptions = {
+        method: 'POST',
         body: JSON.stringify({
-            firstname:firstname,
-            lastname:lastname,
-            middlename:middlename,
-            birthday:birthday,
-            gender:gender,
-            position:position,
-            pay:pay,
-            phone:phone,
-            address:address,
-            username:username,
-            password:password 
+
+            userid: userid,
+            firstname: firstname,
+            lastname: lastname,
+            middlename: middlename,
+            birthday: birthday,
+            gender: gender,
+            position: position,
+            pay: pay,
+            phone: phone,
+            address: address,
 
         }),
-        headers:{
-            'Content-type': 'application/json; charset=UTF-8'
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+
+        }
+    }
+    const registerDetails = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/userprofile', sendoptions)
+
+            if (!response.ok) {
+                throw Error('Unable to register User Detail')
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+
+
+    }
+    return (registerDetails)
+}
+
+const putUserLogin = (id, username, email, authtoken) => {
+
+    const updateoptions = {
+        method: 'PUT',
+        body: JSON.stringify({
+            username: username,
+            email: email
+        }),
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    }
+    const updatethislogin = async () => {
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/' + id, updateoptions)
+            if (!response.ok) {
+                throw Error('Unable to update User Login')
+            }
+            console.log('User Login Updated')
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (updatethislogin)
+}
+
+
+const putUserDetails = (id, firstname, lastname, middlename, birthday, gender, position, pay, phone, address, authtoken) => {
+
+    const updateoptions = {
+        method: 'PUT',
+        body: JSON.stringify({
+            firstname: firstname.value,
+            lastname: lastname.value,
+            middlename: middlename.value,
+            position: position.value,
+            address: address.value,
+            birthday: birthday.value,
+            gender: gender.value,
+            pay: pay.value,
+            phone: phone.value
+        }),
+        headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
     }
     const updatethis = async () => {
-            fetch('http://localhost:3000/users/'+id, updateoptions)
-            .then(async response => {
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const data = isJson && await response.json();
-                if (!response.ok){
-                    
-                    const error = (data && data.message) || response.status;
-                    return Promise.reject(error)
-                }               
-            })
-            .catch(error => {
-                console.error('there was an error ',error)
-            });
-                
-        
-    } 
-        return(updatethis)
+        try {
+            const response =
+                await fetch('http://127.0.0.1:8000/api/userprofile/' + id, updateoptions)
+            if (!response.ok) {
+                throw Error('Unable to update User Details')
+            }
+            console.log('User Details Updated')
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    return (updatethis)
 }
 
-const deletethisUser = (userid) => {
+
+const deleteThisUser = (userid, authtoken) => {
     const deleteoptions = {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${authtoken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
     }
-
-    const deleteuser = async () => {
+    const deleteme = async () => {
         try {
-            const response = await fetch('http://localhost:3000/users/' + userid, deleteoptions)
-            const isJson = response.headers.get('content-type')?.includes('application/json')
-            const data = isJson && await response.json()
+            const response =
+                await fetch('http://127.0.0.1:8000/api/user/' + userid, deleteoptions)
             if (!response.ok) {
-                const error = (data && data.message) || response.status;
-                return Promise.reject(error)
+                throw Error('Unable to delete User')
             }
+            console.log('User Deleted')
         } catch (error) {
-            console.error('there was an error ', error)
-            throw error
+            console.error(error.message)
         }
     }
-
-    return deleteuser()
+    return (deleteme)
 }
 
 
 
-export {getUser, getUserDetails, getUserFiles, patchUserDetails, postUserDetails, deletethisUser}
+export { getAUserDetail, getAUserLogin, getUser, getUserAndDetails, putUserDetails, putUserLogin, postUserDetails, postUserLogin, deleteThisUser }

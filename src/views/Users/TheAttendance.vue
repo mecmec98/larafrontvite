@@ -4,7 +4,9 @@ const forrowtext = 'px-3 py-2 font-medium text-gray-700 whitespace-nowrap border
 
 <template>
 
-<div class = "p-2 sm:ml-64 mt-10">
+<div>
+
+    
     <div class="grid grid-cols-2 p-4 border border-black mt-5">
     <table class="shadow-lg w-full bg-white">
         <thead>
