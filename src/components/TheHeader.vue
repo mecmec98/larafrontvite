@@ -10,6 +10,18 @@ import logopng from '/src/assets/logo.png'
 import { useAuthStore } from '../stores/auth'
 const authStore = useAuthStore()
 
+import { useToggleStore } from '../stores/toggles'
+const toggleStore = useToggleStore()
+
+const toggforsidemenu = () => {
+  
+  toggleStore.toggleHeader()
+  console.log(toggleStore.sidemenutoggle)
+
+}
+
+
+
 const fordropdown = 'block cursor-pointer px-4 py-2 text-sm text-blue-500 hover:bg-blue-600 hover:text-white'
 const formenuhider = 'z-50 absolute top-7 right-10 sm:right-5 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow'
 const menubol = ref(false)
@@ -17,13 +29,21 @@ const menubol = ref(false)
 
 const emit = defineEmits(['sideclick'])
 
-const logoutClicker = () => {
+const toggleonlogout = () => {
+  toggleStore.toggletotrue()
+  authStore.pinialogout()
+}
+
+const logoutClicker = async () => {
+  try{
+  toggleonlogout()
   cookies.remove('access_token')
   cookies.remove('user_log')
-
-  authStore.pinialogout()
   router.push('/')
   console.log('Logged Out')
+}catch (error) {
+  console.error('Error in logout')
+}
 
 }
 
@@ -59,10 +79,10 @@ const menuhider = () => {
           </button>
 
 
-          <a href="" class="flex ms-2 md:me-24">
+          <div @click="toggforsidemenu" class="flex ms-2 md:me-24 hover:cursor-pointer">
             <img :src="logopng" class="h-8 me-3" alt="Logo" />
             <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">Admin</span>
-          </a>
+          </div>
         </div>
         <div class="flex items-center">
           <div class="flex items-center ms-3">

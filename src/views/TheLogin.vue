@@ -6,6 +6,8 @@ import logopng from '/src/assets/logo.png'
 //stores
 import { useAuthStore } from '../stores/auth'
 const authStore = useAuthStore()
+import { useToggleStore } from '../stores/toggles';
+const toggleStore = useToggleStore()
 //cookies
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
@@ -24,6 +26,7 @@ const thislogin = async () => {
         //store token and id in cookies
         cookies.set('access_token', authStore.accessToken)
         cookies.set('user_log', authStore.userID)
+        toggleStore.toggletofalse()
 
         // redirect to dashboard after
         router.push('./Home')

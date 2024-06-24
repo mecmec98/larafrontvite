@@ -6,6 +6,10 @@ import TheSidebar from './components/TheSidebar.vue'
 //stores
 import { useAuthStore } from './stores/auth'
 const authStore = useAuthStore()
+import { useToggleStore } from './stores/toggles'
+const toggleStore = useToggleStore()
+console.log(toggleStore.sidemenutoggle)
+
 //cookies
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
@@ -27,13 +31,14 @@ const loginbol = computed(() => authStore.isAuthenticated)
     <TheHeader v-if="loginbol" />
 
     <!-- Include the sidebar component -->
-    <TheSidebar v-if="loginbol" />
+    <TheSidebar v-if="!toggleStore.sidemenutoggle" />
 
     <!-- Main Content Area -->
-    <main class="flex-1 overflow-y-auto p-4 sm:ml-60 mt-14">
+    <main class='flex-1 p-4 mt-14'>
+    <div :class="{ 'sm:ml-60 ': !toggleStore.sidemenutoggle }">
       <!-- Your router view content -->
       <router-view />
-
+    </div>
     </main>
 
   </div>
