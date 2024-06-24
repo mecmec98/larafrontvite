@@ -11,27 +11,48 @@ const toggleStore = useToggleStore()
 //cookies
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
+//for login
+import { login } from '/composables/Login'
+
 
 const user = ref('')
 const password = ref('')
 const isLoggingin = ref(false)
+const iserror = ref(false)
+
 
 //login script
 const thislogin = async () => {
     try {
+        const mylogin = await login(user.value, password.value)
+        if (!mylogin) {
+            throw Error('Cant Log in')
+        } else {
 
-        isLoggingin.value = true
-        await authStore.pinialogin(user.value, password.value)
+            //store token and id in cookies
+            cookies.set('access_token', mylogin.token)
+            cookies.set('user_log', mylogin.userid)
+            toggleStore.toggletofalse()
+            isLoggingin.value = true
+            //store pinia isAuhenticated for routes
+            authStore.pinialogin()
+            // redirect to dashboard after
+            router.push('./Home')
+        }
 
-        //store token and id in cookies
-        cookies.set('access_token', authStore.accessToken)
-        cookies.set('user_log', authStore.userID)
-        toggleStore.toggletofalse()
 
-        // redirect to dashboard after
-        router.push('./Home')
-    } catch {
-        console.error('pinia error')
+      
+
+        //     //store token and id in cookies
+        //     cookies.set('access_token', authStore.accessToken)
+        //     cookies.set('user_log', authStore.userID)
+        //     toggleStore.toggletofalse()
+        //     isLoggingin.value = true
+        //     // redirect to dashboard after
+        //     router.push('./Home')
+        //     }
+    } catch (error) {
+        console.error(error.message)
     }
 }
 

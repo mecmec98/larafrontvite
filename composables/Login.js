@@ -25,11 +25,11 @@ const login = async (username, password) => {
             return {token , userid}
         } else {
             console.error('Error fetching token:', data.error)
-            return null
+            return false
         }
     } catch (error) {
         console.error('Error fetching token:', error)
-        return null
+        return false
     }
 };
 
