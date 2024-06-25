@@ -21,6 +21,7 @@ const getAllConsumers = (authtoken) => {
             listofconsumers.value = data
         } catch (error) {
             console.error("An error occured:", error)
+            return false
         }
     }
     return { loadconsumers, listofconsumers }
@@ -48,6 +49,7 @@ const getConsumer = (consumerid, authtoken) => {
             consumerdetails.value = data
         } catch (error) {
             console.error("An error occured:", error)
+            return false
         }
     }
     return { loadconsumer, consumerdetails }
@@ -55,13 +57,14 @@ const getConsumer = (consumerid, authtoken) => {
 }
 
 
-const postConsumer = (firstname, middlename, lastname, address, phonenumber, authtoken) => {
+const postConsumer = (firstname, middlename, lastname, gender, address, phonenumber, authtoken) => {
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
             firstname: firstname,
             middlename: middlename,
             lastname: lastname,
+            gender: gender,
             address: address,
             phonenumber: phonenumber,
         }),
@@ -87,13 +90,14 @@ const postConsumer = (firstname, middlename, lastname, address, phonenumber, aut
 }
 
 
-const putConsumer = (id, firstname, middlename, lastname, address, phonenumber, authtoken) => {
+const putConsumer = (id, firstname, middlename, lastname, gender, address, phonenumber, authtoken) => {
     const sendoptions = {
         method: 'PUT',
         body: JSON.stringify({
             firstname: firstname,
             middlename: middlename,
             lastname: lastname,
+            gender: gender,
             address: address,
             phonenumber: phonenumber,
         }),

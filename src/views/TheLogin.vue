@@ -19,21 +19,29 @@ const user = ref('')
 const password = ref('')
 const isLoggingin = ref(false)
 const iserror = ref(false)
+const animationkey = ref(0)
 
 
 //login script
 const thislogin = async () => {
     try {
         const mylogin = await login(user.value, password.value)
+
         if (!mylogin) {
+            //for animation
+            animationkey.value++
+            iserror.value = true
+
             throw Error('Cant Log in')
         } else {
 
+            isLoggingin.value = true
+            iserror.value = true
+            
             //store token and id in cookies
             cookies.set('access_token', mylogin.token)
             cookies.set('user_log', mylogin.userid)
             toggleStore.toggletofalse()
-            isLoggingin.value = true
             //store pinia isAuhenticated for routes
             authStore.pinialogin()
             // redirect to dashboard after
@@ -41,26 +49,18 @@ const thislogin = async () => {
         }
 
 
-      
 
-        //     //store token and id in cookies
-        //     cookies.set('access_token', authStore.accessToken)
-        //     cookies.set('user_log', authStore.userID)
-        //     toggleStore.toggletofalse()
-        //     isLoggingin.value = true
-        //     // redirect to dashboard after
-        //     router.push('./Home')
-        //     }
     } catch (error) {
         console.error(error.message)
     }
 }
 
 
+
 </script>
 
 <template>
-    <div class="flex justify-center mt-20 sm:-ml-60">
+    <div class="flex justify-center mt-20">
         <div class="bg-gradient-to-b from-blue-600 to-cyan-500 p-8 w-80 h-100 rounded-md shadow-lg ">
             <div class="flex justify-center">
                 <img class="w-20 h-20 rounded-full border border-white bg-white shadow-md" :src="logopng"
@@ -96,8 +96,12 @@ const thislogin = async () => {
                 </div>
             </div>
             <div class="relative flex justify-center mt-10">
-                <router-link to="/" @click="thislogin"
-                    class="w-20 ps-5 p-1 border-2 border-white text-white bg-transparent rounded-full shadow-md hover:border-2 hover:border-white hover:bg-white hover:text-blue-600 focus:ring-1 focus:outline-none focus:ring-white">
+                <router-link :key="animationkey" to="/" @click="thislogin"
+                    class="w-20 ps-5 p-1 border-2  bg-transparent rounded-full shadow-sm hover:border-2  focus:ring-1 focus:outline-none "
+                    :class="{
+                    'border-red-400 text-red-400 hover:border-red-400 hover:bg-red-400 hover:text-white animate-shake ': iserror,
+                    'boorder-white text-white hover:border-white hover:bg-white hover:text-blue-600': !iserror
+                }">
                     <h1 v-if="!isLoggingin">Login</h1>
                     <h1 class="text-transparent" v-else>Loading</h1>
                 </router-link>

@@ -1,4 +1,3 @@
-1
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
