@@ -57,7 +57,8 @@ const getConsumer = (consumerid, authtoken) => {
 }
 
 
-const postConsumer = (firstname, middlename, lastname, gender, address, phonenumber, authtoken) => {
+const postConsumer = (firstname, middlename, lastname, gender, building, street, barangay, city, region, zipcode, phonenumber, authtoken) => {
+
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
@@ -65,32 +66,40 @@ const postConsumer = (firstname, middlename, lastname, gender, address, phonenum
             middlename: middlename,
             lastname: lastname,
             gender: gender,
-            address: address,
+            building: building,
+            street: street,
+            barangay: barangay,
+            city: city,
+            region: region,
+            zipcode: zipcode,
             phonenumber: phonenumber,
         }),
-        header: {
+        headers: {
             "Authorization": `Bearer ${authtoken}`,
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
     }
-    const registerConsumer = async () => {
+    const registerMyConsumer = async () => {
         try {
+
             const response =
                 await fetch("http://127.0.0.1:8000/api/consumers", sendoptions)
 
             if (!response.ok) {
                 throw new Error(`Network response was not Ok: ${response.status}`)
+
             }
         } catch (error) {
             console.error("An error occured:", error)
+            return false
         }
     }
-    return (registerConsumer)
+    return { registerMyConsumer }
 }
 
 
-const putConsumer = (id, firstname, middlename, lastname, gender, address, phonenumber, authtoken) => {
+const putConsumer = (id, firstname, middlename, lastname, gender, building, street, barangay, city, region, zipcode, phonenumber, authtoken) => {
     const sendoptions = {
         method: 'PUT',
         body: JSON.stringify({
@@ -98,10 +107,15 @@ const putConsumer = (id, firstname, middlename, lastname, gender, address, phone
             middlename: middlename,
             lastname: lastname,
             gender: gender,
-            address: address,
+            building: building,
+            street: street,
+            barangay: barangay,
+            city: city,
+            region: region,
+            zipcode: zipcode,
             phonenumber: phonenumber,
         }),
-        header: {
+        headers: {
             "Authorization": `Bearer ${authtoken}`,
             "Content-Type": "application/json",
             "Accept": "application/json",

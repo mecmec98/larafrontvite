@@ -128,7 +128,7 @@ function drophiderbill() {
                </button>
                <ul id="dropdown" class="py-2 space-y-2 px-1" v-show="dropbolbill">
                   <li>
-                     <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Test</router-link>
+                     <router-link to="/BillingTest" v-if="false" :class="fordropmenu" @click="sideclicker">Test</router-link>
                   </li>
                   <li>
                      <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Bills</router-link>
@@ -140,11 +140,12 @@ function drophiderbill() {
                      <router-link to="/Consumers" :class="fordropmenu" @click="sideclicker">Consumers</router-link>
                   </li>
                   <li>
-                     <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Rates</router-link>
-                  </li>
-                  <li>
                      <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Discounts</router-link>
                   </li>
+                  <li>
+                     <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Rates</router-link>
+                  </li>
+                  
                </ul>
             </li>
 
