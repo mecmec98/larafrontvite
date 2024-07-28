@@ -74,8 +74,7 @@ function drophiderbill() {
                <button type="button" class="flex items-center p-2 rounded-lg w-full" :class="{
          'rounded-lg bg-white text-blue-600 group': dropbol,
          ' text-white rounded-lg hover:bg-white hover:text-blue-600 group': !dropbol
-      }"
-                  @click="drophider">
+      }" @click="drophider">
 
                   <svg class="w-5 h-5"
                      :class="{ 'group-text-blue-600': dropbol, 'text-white group-hover:text-blue-600': !dropbol }"
@@ -109,8 +108,7 @@ function drophiderbill() {
                <button type="button" class="flex items-center p-2 rounded-lg w-full" :class="{
          'rounded-lg bg-white text-blue-600 group': dropbolbill,
          ' text-white rounded-lg hover:bg-white hover:text-blue-600 group': !dropbolbill
-      }"
-                  @click="drophiderbill">
+      }" @click="drophiderbill">
 
                   <svg class="w-5 h-5"
                      :class="{ 'group-text-blue-600': dropbolbill, 'text-white group-hover:text-blue-600': !dropbolbill }"
@@ -128,10 +126,8 @@ function drophiderbill() {
                </button>
                <ul id="dropdown" class="py-2 space-y-2 px-1" v-show="dropbolbill">
                   <li>
-                     <router-link to="/BillingTest" v-if="false" :class="fordropmenu" @click="sideclicker">Test</router-link>
-                  </li>
-                  <li>
-                     <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Bills</router-link>
+                     <router-link to="/BillingTest" v-if="false" :class="fordropmenu"
+                        @click="sideclicker">Test</router-link>
                   </li>
                   <li>
                      <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Cashier</router-link>
@@ -140,12 +136,8 @@ function drophiderbill() {
                      <router-link to="/Consumers" :class="fordropmenu" @click="sideclicker">Consumers</router-link>
                   </li>
                   <li>
-                     <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Discounts</router-link>
+                     <router-link to="/Settings" :class="fordropmenu" @click="sideclicker">Settings</router-link>
                   </li>
-                  <li>
-                     <router-link to="/BillingTest" :class="fordropmenu" @click="sideclicker">Rates</router-link>
-                  </li>
-                  
                </ul>
             </li>
 

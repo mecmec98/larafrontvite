@@ -16,6 +16,7 @@ import TheLogin from "../views/TheLogin.vue"
 //Billing Imports
 import Test from "../views/Billing/Billtest.vue"
 import Consumer from "../views/Billing/Consumer.vue"
+import Discount from "../views/Billing/Setting.vue"
 
 
 //    meta: { requiresAuth: true },
@@ -74,6 +75,12 @@ const routes = [
         path: '/Consumers',
         name: 'Consumer',
         component: Consumer,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/Settings',
+        name: 'Setting',
+        component: Discount,
         meta: { requiresAuth: true },
     },
 

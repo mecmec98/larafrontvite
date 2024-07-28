@@ -7,6 +7,8 @@ const { cookies } = useCookies()
 const thetoken = cookies.get('access_token')
 //consumer api
 import { getAllConsumers, getConsumer, postConsumer, putConsumer, deleteConsumer } from '/composables/Consumer'
+//barangay api
+import { getAllAddresses } from '/composables/Barangay'
 
 //success modal
 const clickSuccess = (() => {
@@ -24,9 +26,10 @@ const emptyFail = (() => {
 })
 
 const nothingSelected = (() => {
-    swal('Select a Consumer first', {
-        icon: "error",
-
+    swal({
+        title: "No User",
+        text: "Please select a user to delete first!",
+        icon: "error"
     })
 })
 
@@ -141,8 +144,8 @@ const confirmConsumerDelete = async () => {
                 await deletetheConsumer()
                 theid.value = ""
                 firstname.value = "--"
-                middlename.value = "--"
-                lastname.value = "--"
+                middlename.value = ""
+                lastname.value = ""
                 gender.value = ""
                 address.value = "--"
                 phonenumber.value = "--"
@@ -162,33 +165,20 @@ const confirmConsumerDelete = async () => {
     }
 }
 
-//creation/display/update toggle
-//temp dont forget to check
-const createbol = ref(false)
-const updatebol = ref(false)
-const displaybol = ref(true)
-
-const createmode = () => {
-    displaybol.value = false
-    createbol.value = true
-    updatebol.value = false
-
-}
-const displaymode = () => {
-    displaybol.value = true
-    createbol.value = false
-    updatebol.value = false
-
-}
-
-const updatemode = () => {
-    displaybol.value = false
-    createbol.value = false
-    updatebol.value = true
-
-}
 
 //creation script
+//address list
+const addlist = ref('')
+const fromdapitan = ref(false)
+const loadAddressesAsync = async () => {
+    const { loadaddresses, listofaddresses } = getAllAddresses()
+    await loadaddresses()
+    addlist.value = listofaddresses.value.data
+    fromdapitan.value = true
+}
+loadAddressesAsync()
+
+
 //styles
 const forinput = 'bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-500 block mt-1 ps-2 py-2 shadom-sm'
 
@@ -200,10 +190,18 @@ const cgender = ref('')
 //for address
 const cstreet = ref('')
 const cbuilding = ref('')
+
 const cbarangay = ref('')
 const ccity = ref('')
 const cregion = ref('')
 const czipcode = ref('')
+
+const addressfill = () => {
+    if (fromdapitan) {
+        ccity.value = "Dapitan"
+        cregion.value = "Region IX"
+    }
+}
 
 const cphonenumber = ref('')
 //to be added
@@ -213,6 +211,7 @@ const registerConsumer = async () => {
 
     const { registerMyConsumer } = postConsumer(cfirstname.value, cmiddlename.value, clastname.value, cgender.value, cbuilding.value, cstreet.value, cbarangay.value, ccity.value, cregion.value, czipcode.value, cphonenumber.value, thetoken)
     await registerMyConsumer()
+    createmode()
 
 }
 
@@ -239,16 +238,94 @@ const registerAsync = async () => {
 }
 
 //update script
+const updateConsumer = async () => {
+    //check update inputs
 
+    if (!firstname.value ||
+        !middlename.value ||
+        !lastname.value ||
+        !gender.value ||
+        !street.value ||
+        !barangay.value ||
+        !city.value ||
+        !region.value ||
+        !zipcode.value ||
+        !phonenumber.value) {
+        emptyFail()
+    } else {
+        const updatethis = putConsumer()
+        await updatethis()
+    }
 
-//tester
-const testme = (id) => {
-    console.log("Hi I work" + id)
+  
 }
 
-const testbol = ref(false)
-const toggletest = () => {
-    testbol.value = !testbol.value
+
+
+//creation/display/update toggle
+//temp dont forget to check
+const createbol = ref(false)
+const updatebol = ref(false)
+const displaybol = ref(true)
+
+const clearcreate = () => {
+    cfirstname.value = ''
+    cmiddlename.value = ''
+    clastname.value = ''
+    cgender.value = ''
+    cstreet.value = ''
+    cbarangay.value = ''
+    ccity.value = ''
+    cregion.value = ''
+    czipcode.value = ''
+    cphonenumber.value = ''
+
+}
+
+const cleardisplay = () => {
+    theid.value = ""
+    firstname.value = "--"
+    middlename.value = ""
+    lastname.value = ""
+    gender.value = "--"
+
+    building.value = "--"
+    street.value = "--"
+    barangay.value = "--"
+    city.value = "--"
+    region.value = "--"
+    zipcode.value = '--'
+    phonenumber.value = '--'
+}
+
+const createmode = () => {
+    displaybol.value = false
+    createbol.value = true
+    updatebol.value = false
+    cleardisplay()
+
+}
+const displaymode = () => {
+    displaybol.value = true
+    createbol.value = false
+    updatebol.value = false
+
+}
+
+const updatemode = () => {
+    if (!theid.value) {
+        swal({
+            title: "No User",
+            text: "Please select a user to edit first!",
+            icon: "error"
+        })
+    } else {
+        displaybol.value = false
+        createbol.value = false
+        updatebol.value = true
+
+    }
+
 }
 
 </script>
@@ -357,7 +434,7 @@ const toggletest = () => {
                             <h1 class="ps-1 text-xl mt-1">{{ barangay }}, {{ city }}</h1>
                             <h1 class="ps-1 text-xl mt-1">{{ region }}, {{ zipcode }}</h1>
                         </div>
-                       </div>
+                    </div>
                     <div>
                         <h1 class="text-sm text-gray-500 mb-1">Phone Number</h1>
                         <h1 class="ps-1 text-xl">{{ phonenumber }}</h1>
@@ -383,8 +460,8 @@ const toggletest = () => {
                     <div class="w-3/4">
                         <h1 class="text-sm text-gray-500">Gender</h1>
                         <select v-model="cgender"
-                            class="border rounded px-4 py-2  mt-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-800">
-                            <option class="text-gray-300" value="">-- Select Gender --</option>
+                            class="border rounded px-4 py-2  mt-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-800 bg-gray-50 border-gray-400" required>
+                            <option value="" disabled selected>Select Gender *</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
@@ -393,6 +470,7 @@ const toggletest = () => {
                     <div>
                         <h1 class="text-sm text-gray-500">Birthday</h1>
                         <h1 class="ps-1 text-xl">{{ birthday }}</h1>
+
                     </div>
                 </div>
                 <div class="grid grid-cols-2 mt-3 ms-2">
@@ -407,9 +485,15 @@ const toggletest = () => {
                                 placeholder="Street *" v-model="cstreet">
                         </div>
                         <div class="flex items-center space-x-3 mt-3">
-                            <input type="text" id="address"
-                                class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-500 block p-2 mt-1 shadom-sm w-full"
-                                placeholder="Barangay *" v-model="cbarangay">
+                            <select class=" bg-gray-50 border border-gray-400
+                                text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-400 focus:ring-1
+                                focus:ring-blue-500 block p-2 mt-1 shadom-sm w-full" v-model="cbarangay" required>
+                                <option value="" disabled selected hidden>Select Barangay *</option>
+                                <option v-for="(addlist) in addlist" :key="addlist.id" @click="addressfill">{{
+                addlist.Barangay }} </option>
+
+                            </select>
+
                             <input type="text" id="address"
                                 class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-500 block p-2 mt-1 shadom-sm w-full"
                                 placeholder="City *" v-model="ccity">
@@ -425,7 +509,7 @@ const toggletest = () => {
                     </div>
                     <div class="pe-4">
                         <h1 class="text-sm text-gray-500">Phone Number</h1>
-                        <input type="text" id="address"
+                        <input type="text" id="phonenumber"
                             class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-500 block p-2 mt-1 shadom-sm w-full"
                             placeholder="Phonenumber" v-model="cphonenumber">
 
@@ -497,7 +581,7 @@ const toggletest = () => {
                             class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-500 block p-2 mt-1 shadom-sm w-full"
                             placeholder="Phonenumber" v-model="phonenumber">
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -522,11 +606,10 @@ const toggletest = () => {
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white rounded-sm">
                 <thead class="bg-blue-200 text-gray-600">
-                    <tr>
-                        <th class="py-2 px-4 w-4/8">Name</th>
-                        <th class="py-2 px-4 w-2/8">Column 2</th>
-                        <th class="py-2 px-4 w-1/8">Column 3</th>
-                        <th class="py-2 px-4 w-1/8">Column 4</th>
+                    <tr class="">
+                        <th class="ps-4 px-6 w-4/8 text-start">Name</th>
+                        <th class="py-2 px-4 w-2/8 text-start">Barangay</th>
+
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
@@ -534,9 +617,7 @@ const toggletest = () => {
                         class="hover:bg-blue-400 cursor-pointer" @click="getconsumeronclick(listofconsumers.id)">
                         <td class="border-t px-4 py-2">{{ listofconsumers.firstname }} {{ listofconsumers.lastname }}
                         </td>
-                        <td class="border-t px-4 py-2">Data 2</td>
-                        <td class="border-t px-4 py-2">Data 3</td>
-                        <td class="border-t px-4 py-2">Data 4</td>
+                        <td class="border-t px-4 py-2">{{ listofconsumers.barangay }}</td>
                     </tr>
                     <!-- More rows as needed -->
                 </tbody>
@@ -545,3 +626,15 @@ const toggletest = () => {
     </div>
 
 </template>
+
+<style>
+select:required:invalid {
+  color: #9ca3af;
+}
+option[value=""][disabled] {
+  display: none;
+}
+option {
+  color: #000;
+}
+</style>
