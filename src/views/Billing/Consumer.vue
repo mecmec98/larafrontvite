@@ -107,6 +107,7 @@ const getconsumeronclick = async (id) => {
             phonenumber.value = consumerdetails.value.data.phonenumber
             birthday.value = consumerdetails.value.data.birthday
             createbol.value = false
+            displaymode()
 
         }
     } catch (error) {

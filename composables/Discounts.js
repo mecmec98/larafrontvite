@@ -55,13 +55,14 @@ const getADiscount = (id, authtoken) => {
 }
 
 
-const postDiscount = (discname, discvalue, authtoken) => {
+const postDiscount = (discname, discvalue, discdesc, authtoken) => {
     const sendoptions = {
         method: 'POST',
         body: JSON.stringify({
 
             disccountname: discname,
-            discountvalue: discvalue
+            discountvalue: discvalue,
+            discountdesc: discdesc
         }),
         headers: {
             "Authorization": `Bearer ${authtoken}`,
@@ -86,13 +87,14 @@ const postDiscount = (discname, discvalue, authtoken) => {
 }
 
 
-const putDiscount = (id, discname, discvalue, authtoken) => {
+const putDiscount = (id, discname, discvalue, discdesc, authtoken) => {
     const sendoptions = {
         method: 'PUT',
         body: JSON.stringify({
 
             disccountname: discname,
-            discountvalue: discvalue
+            discountvalue: discvalue,
+            discountdesc: discdesc
         }),
         headers: {
             "Authorization": `Bearer ${authtoken}`,
